@@ -1,8 +1,8 @@
-# 📘 SimpleBook
+# Socialobby
 
-Welcome to SimpleBook - your simple social platform!
+Welcome to Socialobby - your comprehensive social media platform!
 
-This is a clean, easy-to-use social media platform built with React and Vite. Connect with friends, share your thoughts, and stay updated with what matters to you.
+This is a full-featured social media platform built with React and Vite. Connect with friends, share your thoughts, engage with content through likes and comments, and build meaningful relationships online.
 
 ## Project Overview
 
@@ -10,26 +10,29 @@ Tech Stack Chosen:
 - Frontend: React + Vite (for lightning-fast development)
 - Backend: Node.js + Express + MongoDB
 - Database: MongoDB with Mongoose ODM
-- Authentication: JWT tokens
+- Authentication: JWT tokens with secure password hashing
 - Deployment: Ready for Vercel/Netlify (frontend) and Railway/Render (backend)
 
 ## What's This All About?
 
-SimpleBook is designed to be simple, fast, and enjoyable to use. No complicated setup, no overwhelming features - just you and your connections.
+Socialobby is designed to be comprehensive yet user-friendly, providing all the essential features of modern social media platforms. From secure user authentication to interactive content engagement, it offers everything you need to connect and share with others.
 
 ### Features
 
-- Lightning Fast - Built with Vite for instant updates
-- Clean & Simple - Facebook-inspired interface that's easy to use
-- Easy to Use - Start sharing in seconds, no tech degree required
-- Connect with Friends - See what your friends are up to
-- Like & Comment - Engage with posts from your network
-- Real-time Updates - Stay connected with your social circle
-- Responsive Design - Looks great on all devices
+- Lightning Fast - Built with Vite for instant updates and smooth user experience
+- Comprehensive Social Features - Full user authentication, profile management, and content creation
+- Interactive Engagement - Like posts, leave detailed comments, and participate in discussions
+- Secure Authentication - JWT-based login system with encrypted passwords
+- User Profiles - Create and customize your profile with bio and avatar
+- Content Management - Create, edit, and manage your posts with rich text support
+- Real-time Updates - Stay connected with your social circle through dynamic feeds
+- Responsive Design - Optimized for desktop, tablet, and mobile devices
+- Nested Comments - Engage in threaded conversations with replies
+- Content Categories - Organize posts by topics for better discovery
 
 ## Getting Started
 
-Ready to start your blogging journey? It's super easy!
+Ready to start your social media journey? It's straightforward to get up and running!
 
 ### Frontend Setup
 
@@ -41,7 +44,7 @@ npm install
 npm run dev
 ```
 
-Visit http://localhost:5173 to see your blogging space!
+Visit http://localhost:5173 to see your social media platform!
 
 ### Backend Setup
 
@@ -54,7 +57,7 @@ npm install
 
 # Set up environment variables
 cp .env.example .env
-# Edit .env with your MongoDB connection and other settings
+# Edit .env with your MongoDB connection and JWT secret
 
 # Start the backend server
 npm run dev
@@ -69,39 +72,39 @@ Make sure you have MongoDB running locally or use a cloud service like MongoDB A
 ## Project Structure
 
 ```
-blogging-platform/
-├── frontend/                 # React frontend
-│   ├── src/
-│   │   ├── components/       # Reusable UI components
-│   │   ├── pages/           # Page components
-│   │   ├── hooks/           # Custom React hooks
-│   │   ├── utils/           # Utility functions
-│   │   └── styles/          # CSS styles
-│   ├── public/              # Static assets
-│   └── package.json
-├── backend/                 # Node.js backend
-│   ├── models/              # Mongoose models
-│   ├── routes/              # API routes
-│   ├── middleware/          # Express middleware
-│   ├── controllers/         # Route controllers
-│   ├── config/              # Configuration files
-│   └── package.json
-├── docs/                    # Documentation
-│   ├── database-schema.md   # Database design
-│   └── wireframes.md        # UI wireframes
-└── README.md               # This file
+socialobby/
+├── src/                     # React frontend source
+│   ├── components/          # Reusable UI components
+│   ├── pages/              # Page components (Home, Profile, Login, etc.)
+│   ├── hooks/              # Custom React hooks
+│   ├── utils/              # Utility functions
+│   ├── assets/             # Images and static assets
+│   └── styles/             # CSS styles and themes
+├── backend/                # Node.js backend
+│   ├── models/             # Mongoose data models (User, Post, Comment)
+│   ├── routes/             # API routes (auth, posts, comments, users)
+│   ├── middleware/         # Express middleware (auth, validation)
+│   ├── controllers/        # Route controllers
+│   ├── config/             # Configuration files
+│   └── server.js           # Main server file
+├── docs/                   # Documentation
+│   ├── database-schema.md  # Database design and relationships
+│   └── wireframes.md       # UI wireframes and design concepts
+├── public/                 # Static assets for frontend
+├── index.html              # Main HTML file
+└── README.md              # This file
 ```
 
 ## Database Schema
 
 Our MongoDB database includes these main collections:
 
-- Users: User accounts with authentication
-- Posts: Blog posts with rich content
-- Comments: Nested comment system
-- Categories: Content organization (future feature)
+- Users: User accounts with secure authentication, profiles, and social connections
+- Posts: Social media posts with rich content, media support, and engagement metrics
+- Comments: Nested comment system for threaded discussions and replies
+- Categories: Content organization and discovery features
 
-See docs/database-schema.md for detailed schema information.
+See docs/database-schema.md for detailed schema information and relationships.
 
 ## Wireframes
 
@@ -117,10 +120,14 @@ See docs/wireframes.md for all wireframe designs.
 
 ## Tips for Your Social Journey
 
-- Share from the heart - Authenticity resonates with friends
-- Be consistent - Regular posts help you stay connected
-- Have fun - If you're not enjoying it, your friends won't either!
-- Experiment - Try different types of posts to find your voice
+- Build meaningful connections - Use the platform to engage with others through thoughtful comments and replies
+- Secure your account - Always use strong passwords and enable two-factor authentication when available
+- Respect others - Be mindful of your comments and interactions to maintain a positive community
+- Share authentically - Post content that reflects your true interests and experiences
+- Engage actively - Like and comment on posts that resonate with you to build relationships
+- Manage your privacy - Review your profile settings and post visibility options regularly
+- Report issues - Use the platform's reporting features for inappropriate content
+- Stay safe online - Never share personal information that could compromise your security
 
 ## Development
 
@@ -184,4 +191,4 @@ This submission includes all Week 1 requirements:
 
 ---
 
-Happy Socializing! Remember, your voice matters and your connections are worth nurturing. Now go create something amazing!
+Happy socializing on Socialobby! Remember, meaningful connections start with authentic interactions. Build your online community thoughtfully and enjoy connecting with others.

@@ -1,7 +1,7 @@
-# Database Schema - Blogging Platform
+# Database Schema - Socialobby
 
 ## Overview
-This document outlines the database schema for our blogging platform using MongoDB with Mongoose ODM.
+This document outlines the database schema for Socialobby, a comprehensive social media platform using MongoDB with Mongoose ODM.
 
 ## Collections
 

@@ -1,7 +1,7 @@
 {
-  "name": "blogging-platform-backend",
+  "name": "socialobby-backend",
   "version": "1.0.0",
-  "description": "Backend API for the blogging platform using Node.js, Express, and MongoDB",
+  "description": "Backend API for Socialobby, a comprehensive social media platform using Node.js, Express, and MongoDB",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -25,7 +25,7 @@
     "jest": "^29.7.0",
     "supertest": "^6.3.3"
   },
-  "keywords": ["blogging", "api", "nodejs", "express", "mongodb"],
+  "keywords": ["social", "media", "api", "nodejs", "express", "mongodb"],
   "author": "Your Name",
   "license": "MIT"
 }

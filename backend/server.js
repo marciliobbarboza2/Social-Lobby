@@ -1,4 +1,4 @@
-// Backend Server Setup for Blogging Platform
+// Backend Server Setup for Socialobby
 // Using Node.js + Express + MongoDB
 
 const express = require('express');
@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 // MongoDB Connection
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/blogging-platform', {
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/socialobby', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -47,9 +47,9 @@ app.use('/api/users', userRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
-    message: 'Blogging Platform API is running! 🚀',
+  res.json({
+    status: 'OK',
+    message: 'Socialobby API is running!',
     timestamp: new Date().toISOString()
   });
 });

@@ -1,9 +1,9 @@
 {
-  "name": "simplebook",
+  "name": "socialobby",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "A simple social media platform inspired by Facebook",
+  "description": "A comprehensive social media platform for connecting people and sharing experiences",
   "author": "Your Name",
   "scripts": {
     "dev": "vite",
