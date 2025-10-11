@@ -4,17 +4,39 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const dotenv = require('dotenv');
+const logger = require('./utils/logger');
+const errorHandler = require('./middleware/errorHandler');
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
 
+// Security middleware
+app.use(helmet());
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.'
+});
+app.use(limiter);
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Logging middleware
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.url}`, {
+    ip: req.ip,
+    userAgent: req.get('User-Agent')
+  });
+  next();
+});
 
 // MongoDB Connection
 const connectDB = async () => {
@@ -23,9 +45,9 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log('✅ MongoDB connected successfully!');
+    logger.info('✅ MongoDB connected successfully!');
   } catch (error) {
-    console.error('❌ MongoDB connection error:', error.message);
+    logger.error('❌ MongoDB connection error:', error);
     process.exit(1);
   }
 };
@@ -55,13 +77,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ 
-    error: 'Something went wrong!', 
-    message: err.message 
-  });
-});
+app.use(errorHandler);
 
 // 404 handler
 app.use((req, res) => {
@@ -74,8 +90,8 @@ app.use((req, res) => {
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
-  console.log(`📝 API available at http://localhost:${PORT}/api`);
+  logger.info(`🚀 Server is running on port ${PORT}`);
+  logger.info(`📝 API available at http://localhost:${PORT}/api`);
 });
 
 module.exports = app;

@@ -66,7 +66,7 @@ commentSchema.pre('save', async function(next) {
   if (this.isNew && this.parentComment) {
     try {
       const parent = await this.constructor.findById(this.parentComment);
-      if (parent && !parent.replies.includes(this._id)) {
+      if (parent && !parent.replies.some(replyId => replyId.equals(this._id))) {
         parent.replies.push(this._id);
         await parent.save();
       }

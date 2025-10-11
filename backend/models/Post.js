@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const postSchema = new mongoose.Schema({
   title: {
@@ -82,6 +83,9 @@ const postSchema = new mongoose.Schema({
   toObject: { virtuals: true }
 });
 
+// Add pagination plugin
+postSchema.plugin(mongoosePaginate);
+
 // Indexes for better query performance
 postSchema.index({ slug: 1 });
 postSchema.index({ author: 1 });
@@ -155,20 +159,24 @@ postSchema.methods.incrementViews = function() {
 };
 
 // Instance method to toggle like
-postSchema.methods.toggleLike = function(userId) {
-  const userIndex = this.likedBy.indexOf(userId);
+postSchema.methods.toggleLike = async function(userId) {
+  const post = this;
+  const userIndex = post.likedBy.findIndex(id => id.equals(userId));
 
   if (userIndex > -1) {
     // User already liked, remove like
-    this.likedBy.splice(userIndex, 1);
-    this.likes = Math.max(0, this.likes - 1);
+    post.likedBy.pull(userId);
+    post.likes = Math.max(0, post.likes - 1);
   } else {
     // User hasn't liked, add like
-    this.likedBy.push(userId);
-    this.likes += 1;
+    post.likedBy.push(userId);
+    post.likes += 1;
   }
 
-  return this.save();
+  // We save the document here to ensure the local state is updated before
+  // the controller sends the response. The controller will then have the
+  // most up-to-date `likes` count and `likedBy` array.
+  return post.save();
 };
 
 module.exports = mongoose.model('Post', postSchema);
