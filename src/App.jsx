@@ -77,12 +77,43 @@ function App() {
     }
   ])
 
+  const [stories, setStories] = useState([
+    {
+      id: 1,
+      author: 'Emma Rodriguez',
+      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
+      image: 'https://picsum.photos/600/400?random=story1',
+      time: '2 hours ago'
+    },
+    {
+      id: 2,
+      author: 'David Kim',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
+      image: 'https://picsum.photos/600/400?random=story2',
+      time: '4 hours ago'
+    },
+    {
+      id: 3,
+      author: 'Sophie Anderson',
+      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
+      image: 'https://picsum.photos/600/400?random=story3',
+      time: '6 hours ago'
+    },
+    {
+      id: 4,
+      author: 'Carlos Mendoza',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
+      image: 'https://picsum.photos/600/400?random=story4',
+      time: '8 hours ago'
+    }
+  ])
+
   const [users, setUsers] = useState([
     {
       username: 'emma',
       name: 'Emma Rodriguez',
       email: 'emma.rodriguez@example.com',
-      avatar: 'https://picsum.photos/seed/emma/50',
+      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
       coverPhoto: 'https://picsum.photos/800/300?random=emma',
       bio: 'Software developer passionate about creating user-friendly applications',
       address: '123 Tech St, San Francisco, CA',
@@ -102,7 +133,7 @@ function App() {
       username: 'david',
       name: 'David Kim',
       email: 'david.kim@example.com',
-      avatar: 'https://picsum.photos/seed/david/50',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
       bio: 'Chef and food blogger sharing culinary adventures',
       address: '456 Culinary Ave, New York, NY',
       phone: '+1 (555) 333-4444',
@@ -114,7 +145,7 @@ function App() {
       username: 'sophie',
       name: 'Sophie Anderson',
       email: 'sophie.anderson@example.com',
-      avatar: 'https://picsum.photos/seed/sophie/50',
+      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
       bio: 'Nature photographer and environmental advocate',
       address: '789 Green Ln, Portland, OR',
       phone: '+1 (555) 555-6666',
@@ -126,7 +157,7 @@ function App() {
       username: 'carlos',
       name: 'Carlos Mendoza',
       email: 'carlos.mendoza@example.com',
-      avatar: 'https://picsum.photos/seed/carlos/50',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
       bio: 'Healthcare professional dedicated to patient care',
       address: '101 Care Blvd, Chicago, IL',
       phone: '+1 (555) 777-8888',
@@ -236,7 +267,7 @@ function App() {
     {
       id: 1,
       author: "Emma Rodriguez",
-      avatar: "https://picsum.photos/seed/emma/50",
+      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80",
       time: "2 hours ago",
       content: "Just launched my first React app! 🚀 The journey from idea to deployment is incredible. Grateful for the amazing developer community that helped me along the way. What's your biggest coding achievement this year?",
       likes: 47,
@@ -251,7 +282,7 @@ function App() {
     {
       id: 2,
       author: "David Kim",
-      avatar: "https://picsum.photos/seed/david/50",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80",
       time: "4 hours ago",
       content: "Made homemade pizza from scratch tonight! 🍕 Nothing beats the smell of fresh dough baking. The secret is using high-quality olive oil and fresh basil. Recipe in the comments if anyone wants it!",
       likes: 89,
@@ -262,12 +293,12 @@ function App() {
         { id: 11, author: "Anna Smith", avatar: "https://picsum.photos/seed/anna/30", content: "I need to try this recipe!", time: "1h ago" }
       ],
       liked: true,
-      image: "https://picsum.photos/600/400?random=1"
+      image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
     },
     {
       id: 3,
       author: "Sophie Anderson",
-      avatar: "https://picsum.photos/seed/sophie/50",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80",
       time: "6 hours ago",
       content: "Morning walk in the park was exactly what I needed today. 🌳 Sometimes you just need to disconnect from screens and reconnect with nature. The birds were singing, flowers are blooming, and the air smelled fresh. How do you recharge?",
       likes: 156,
@@ -277,12 +308,12 @@ function App() {
         { id: 12, author: "Mike Johnson", avatar: "https://picsum.photos/seed/mike/30", content: "Nature is the best medicine!", time: "3h ago" }
       ],
       liked: false,
-      image: "https://picsum.photos/600/400?random=2"
+      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
     },
     {
       id: 4,
       author: "Carlos Mendoza",
-      avatar: "https://picsum.photos/seed/carlos/50",
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80",
       time: "8 hours ago",
       content: "Proud of my nursing team today. We had a challenging shift but everyone showed up with compassion and skill. Healthcare workers are the real heroes. 💙 To all the nurses, doctors, and staff out there - you're appreciated more than you know.",
       likes: 234,
@@ -306,7 +337,7 @@ function App() {
         { id: 15, author: "Carlos Mendoza", avatar: "https://picsum.photos/seed/carlos/30", content: "Love seeing successful campaigns! What's the conversion rate?", time: "8h ago" }
       ],
       liked: false,
-      image: "https://picsum.photos/600/400?random=3"
+      image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
     },
     {
       id: 6,
@@ -320,7 +351,7 @@ function App() {
         { id: 17, author: "David Kim", avatar: "https://picsum.photos/seed/david/30", content: "Respect! What's your protein source after workouts?", time: "10h ago" }
       ],
       liked: true,
-      image: "https://picsum.photos/600/400?random=4"
+      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
     },
     {
       id: 7,
@@ -348,7 +379,7 @@ function App() {
         { id: 21, author: "Mike Johnson", avatar: "https://picsum.photos/seed/mike/30", content: "Incredible shot! The colors are perfect 🌅", time: "14h ago" }
       ],
       liked: true,
-      image: "https://picsum.photos/600/400?random=5"
+      image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
     }
   ])
 
@@ -635,6 +666,27 @@ function App() {
 
         {/* Main Content */}
         <main className="socialobby-content">
+          {/* Stories */}
+          <div className="stories-section">
+            <div className="stories-container">
+              <div className="story-item add-story">
+                <div className="story-avatar">
+                  <img src="https://picsum.photos/seed/you/50" alt="You" />
+                  <div className="add-icon">+</div>
+                </div>
+                <span>Add Story</span>
+              </div>
+              {stories.map(story => (
+                <div key={story.id} className="story-item">
+                  <div className="story-avatar">
+                    <img src={story.avatar} alt={story.author} />
+                  </div>
+                  <span>{story.author.split(' ')[0]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Create Post */}
           <div className="create-post">
             <div className="post-composer">

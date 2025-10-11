@@ -1,0 +1,9 @@
+- [x] Modify App.jsx to show login screen by default if not logged in
+- [x] Add conditional rendering for main app only after login
+- [x] Add state and functionality for viewing other user profiles
+- [x] Make author names/avatars clickable in posts to view profiles
+- [x] Create hardcoded profile data for other users
+- [x] Add distinct background colors for "Online Friends" and "Your Shortcuts" sections in App.css
+- [x] Test login flow and fix any issues
+- [x] Test profile viewing
+- [x] Test visual styling
