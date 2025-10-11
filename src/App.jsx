@@ -5,7 +5,7 @@ function App() {
   const [posts] = useState([
     {
       id: 1,
-      title: "Welcome to Your Blogging Journey! 🌟",
+      title: "Welcome to Your Blogging Journey!",
       date: "Today",
       excerpt: "Every great story starts with a single word. This is your space to share your thoughts, dreams, and experiences with the world.",
       readTime: "2 min read"
@@ -23,25 +23,25 @@ function App() {
     <div className="blog-container">
       {/* Header */}
       <header className="blog-header">
-        <h1 className="blog-title">✨ My Blogging Space</h1>
+        <h1 className="blog-title">My Blogging Space</h1>
         <p className="blog-tagline">Where your stories come to life</p>
       </header>
 
       {/* Welcome Section */}
       <section className="welcome-section">
         <div className="welcome-card">
-          <h2>Hey there, storyteller! 👋</h2>
+          <h2>Hey there, storyteller!</h2>
           <p>
-            Welcome to your personal corner of the internet. This is where your ideas take flight, 
+            Welcome to your personal corner of the internet. This is where your ideas take flight,
             your experiences find meaning, and your voice reaches those who need to hear it.
           </p>
-          <button className="cta-button">Start Writing ✍️</button>
+          <button className="cta-button">Start Writing</button>
         </div>
       </section>
 
       {/* Blog Posts */}
       <section className="posts-section">
-        <h2 className="section-title">Recent Stories 📚</h2>
+        <h2 className="section-title">Recent Stories</h2>
         <div className="posts-grid">
           {posts.map(post => (
             <article key={post.id} className="post-card">
@@ -51,7 +51,7 @@ function App() {
               </div>
               <h3 className="post-title">{post.title}</h3>
               <p className="post-excerpt">{post.excerpt}</p>
-              <button className="read-more">Read More →</button>
+              <button className="read-more">Read More</button>
             </article>
           ))}
         </div>
@@ -60,12 +60,12 @@ function App() {
       {/* Inspiration Section */}
       <section className="inspiration-section">
         <div className="inspiration-card">
-          <h3>💡 Writing Tip of the Day</h3>
+          <h3>Writing Tip of the Day</h3>
           <p>
             "Write what should not be forgotten." - Isabel Allende
           </p>
           <p className="tip-description">
-            Don't worry about perfection. Just start writing. Your authentic voice is what makes 
+            Don't worry about perfection. Just start writing. Your authentic voice is what makes
             your blog special. Every word you write is a step forward on your creative journey.
           </p>
         </div>
@@ -73,8 +73,8 @@ function App() {
 
       {/* Footer */}
       <footer className="blog-footer">
-        <p>Made with 💖 and lots of ☕</p>
-        <p className="footer-note">Keep writing, keep sharing, keep inspiring! 🌈</p>
+        <p>Made with love and lots of coffee</p>
+        <p className="footer-note">Keep writing, keep sharing, keep inspiring!</p>
       </footer>
     </div>
   )

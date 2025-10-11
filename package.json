@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "A warm and friendly blogging platform where your stories come to life ✨",
+  "description": "A blogging platform where your stories come to life",
   "author": "Your Name",
   "scripts": {
     "dev": "vite",
