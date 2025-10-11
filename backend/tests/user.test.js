@@ -3,7 +3,7 @@ const User = require('../models/User');
 
 describe('User Model', () => {
   beforeAll(async () => {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/socialobby-test');
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/socialobby-test-user');
   });
 
   afterAll(async () => {

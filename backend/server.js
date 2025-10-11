@@ -41,10 +41,7 @@ app.use((req, res, next) => {
 // MongoDB Connection
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/socialobby', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/socialobby');
     logger.info('✅ MongoDB connected successfully!');
   } catch (error) {
     logger.error('❌ MongoDB connection error:', error);
@@ -60,12 +57,14 @@ const authRoutes = require('./routes/auth');
 const postRoutes = require('./routes/posts');
 const commentRoutes = require('./routes/comments');
 const userRoutes = require('./routes/users');
+const paymentRoutes = require('./routes/payment');
 
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -89,9 +88,11 @@ app.use((req, res) => {
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  logger.info(`🚀 Server is running on port ${PORT}`);
-  logger.info(`📝 API available at http://localhost:${PORT}/api`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    logger.info(`🚀 Server is running on port ${PORT}`);
+    logger.info(`📝 API available at http://localhost:${PORT}/api`);
+  });
+}
 
 module.exports = app;

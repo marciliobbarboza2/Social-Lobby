@@ -6,7 +6,7 @@ describe('Post Model', () => {
   let testUser;
 
   beforeAll(async () => {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/socialobby-test');
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/socialobby-test-post');
   });
 
   afterAll(async () => {
@@ -47,7 +47,7 @@ describe('Post Model', () => {
   it('should generate excerpt from content', async () => {
     const postData = {
       title: 'Test Post',
-      content: 'This is a very long content that should be truncated to create an excerpt automatically. We need enough text to exceed the 300 character limit for excerpts.',
+      content: 'This is a very long content that should be truncated to create an excerpt automatically. We need enough text to exceed the 300 character limit for excerpts. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       author: testUser._id
     };
 
@@ -121,7 +121,7 @@ describe('Post Model', () => {
     // Create draft post
     const draftPost = new Post({
       title: 'Draft Post',
-      content: 'This is a draft post.',
+      content: 'This is a draft post with enough content to pass validation requirements.',
       author: testUser._id,
       status: 'draft'
     });
@@ -130,7 +130,7 @@ describe('Post Model', () => {
     // Create published post
     const publishedPost = new Post({
       title: 'Published Post',
-      content: 'This is a published post.',
+      content: 'This is a published post with enough content to pass validation.',
       author: testUser._id,
       status: 'published'
     });

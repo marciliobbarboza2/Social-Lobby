@@ -12,7 +12,7 @@ const users = [
     firstName: 'John',
     lastName: 'Doe',
     bio: 'Tech enthusiast and blogger',
-    avatar: 'https://picsum.photos/seed/john/100',
+    avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
     city: 'San Francisco',
     groups: ['Tech Innovators', 'Bloggers'],
     maritalStatus: 'Single'
@@ -24,7 +24,7 @@ const users = [
     firstName: 'Jane',
     lastName: 'Smith',
     bio: 'Travel blogger and photographer',
-    avatar: 'https://picsum.photos/seed/jane/100',
+    avatar: 'https://randomuser.me/api/portraits/women/2.jpg',
     city: 'New York',
     groups: ['Travel Enthusiasts', 'Photographers'],
     maritalStatus: 'Married'
@@ -36,7 +36,7 @@ const users = [
     firstName: 'Mike',
     lastName: 'Johnson',
     bio: 'Food critic and chef',
-    avatar: 'https://picsum.photos/seed/mike/100',
+    avatar: 'https://randomuser.me/api/portraits/men/3.jpg',
     city: 'Los Angeles',
     groups: ['Food Lovers', 'Chefs'],
     maritalStatus: 'Single'
@@ -48,7 +48,7 @@ const users = [
     firstName: 'Sarah',
     lastName: 'Wilson',
     bio: 'Fitness instructor and health coach',
-    avatar: 'https://picsum.photos/seed/sarah/100',
+    avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
     city: 'Miami',
     groups: ['Fitness Enthusiasts', 'Health Coaches'],
     maritalStatus: 'In a relationship'
@@ -60,7 +60,7 @@ const users = [
     firstName: 'David',
     lastName: 'Brown',
     bio: 'Business consultant and entrepreneur',
-    avatar: 'https://picsum.photos/seed/david/100',
+    avatar: 'https://randomuser.me/api/portraits/men/5.jpg',
     city: 'Chicago',
     groups: ['Business Professionals', 'Entrepreneurs'],
     maritalStatus: 'Married'

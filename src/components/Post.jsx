@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Comment from './Comment';
 
 const Post = ({
@@ -13,6 +13,7 @@ const Post = ({
   handleSavePost,
   handleCancelEdit,
   handleLike,
+  handleReaction,
   toggleComments,
   showComments,
   newComment,
@@ -24,8 +25,9 @@ const Post = ({
   editingComment,
   handleSaveComment,
 }) => {
+  const [showReactions, setShowReactions] = useState(false);
   return (
-    <article key={post.id} className="post">
+    <article className="post">
       <div className="post-header">
         <div className="post-author">
           <img src={post.avatar} alt={post.author} className="author-avatar" onClick={() => handleViewProfile(post.author)} style={{cursor: 'pointer'}} />
@@ -41,7 +43,6 @@ const Post = ({
               <button className="delete-btn" onClick={() => handleDeletePost(post.id)}>🗑️ Delete</button>
             </>
           )}
-          <button>⋯</button>
         </div>
       </div>
 
@@ -80,9 +81,9 @@ const Post = ({
       <div className="post-actions">
         <button
           className={`action-btn ${post.liked ? 'liked' : ''}`}
-          onClick={() => handleLike(post.id)}
+          onClick={() => setShowReactions(!showReactions)}
         >
-          👍 Like
+          {post.reaction || '👍'} Like
         </button>
         <button
           className="action-btn"
@@ -92,6 +93,16 @@ const Post = ({
         </button>
         <button className="action-btn">📤 Share</button>
       </div>
+      {showReactions && (
+        <div className="reactions">
+          <button onClick={() => { handleReaction(post.id, '👍'); setShowReactions(false); }}>👍</button>
+          <button onClick={() => { handleReaction(post.id, '❤️'); setShowReactions(false); }}>❤️</button>
+          <button onClick={() => { handleReaction(post.id, '😂'); setShowReactions(false); }}>😂</button>
+          <button onClick={() => { handleReaction(post.id, '😮'); setShowReactions(false); }}>😮</button>
+          <button onClick={() => { handleReaction(post.id, '😢'); setShowReactions(false); }}>😢</button>
+          <button onClick={() => { handleReaction(post.id, '😡'); setShowReactions(false); }}>😡</button>
+        </div>
+      )}
 
       {showComments[post.id] && (
         <div className="comments-section">

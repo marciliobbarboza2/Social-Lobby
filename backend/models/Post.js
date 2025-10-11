@@ -87,7 +87,6 @@ const postSchema = new mongoose.Schema({
 postSchema.plugin(mongoosePaginate);
 
 // Indexes for better query performance
-postSchema.index({ slug: 1 });
 postSchema.index({ author: 1 });
 postSchema.index({ status: 1 });
 postSchema.index({ publishedAt: -1 });
@@ -123,6 +122,7 @@ postSchema.pre('save', function(next) {
 
 // Virtual for reading time estimate (assuming 200 words per minute)
 postSchema.virtual('readingTime').get(function() {
+  if (!this.content) return 0;
   const wordsPerMinute = 200;
   const words = this.content.replace(/<[^>]*>/g, '').split(/\s+/).length;
   const minutes = Math.ceil(words / wordsPerMinute);

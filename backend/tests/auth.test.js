@@ -4,12 +4,16 @@ const app = require('../server');
 const User = require('../models/User');
 
 describe('Auth Routes', () => {
+  let server;
+
   beforeAll(async () => {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/socialobby-test');
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/socialobby-test-auth');
+    server = app.listen(5001); // Use a different port for testing
   });
 
   afterAll(async () => {
     await mongoose.connection.close();
+    server.close();
   });
 
   beforeEach(async () => {

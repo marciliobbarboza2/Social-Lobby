@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Post from './components/Post';
 import Header from './components/Header';
@@ -6,7 +6,7 @@ import { notifications as initialNotifications } from './data/notifications.js';
 import { groups as initialGroups } from './data/groups.js';
 import { stories as initialStories } from './data/stories.js';
 import { users as initialUsers } from './data/users.js';
-import { posts as initialPosts } from './data/posts.js';
+import { events as initialEvents } from './data/events.js';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,7 +16,7 @@ function App() {
   const [loginPassword, setLoginPassword] = useState('');
   const [showProfile, setShowProfile] = useState(false);
   const [showOtherProfile, setShowOtherProfile] = useState(false);
-  const [otherUser, setOtherUser] = useState(null);
+  const [otherUser, _setOtherUser] = useState(null);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showGroups, setShowGroups] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -29,18 +29,55 @@ function App() {
   const [editingComment, setEditingComment] = useState(null);
   const [editContent, setEditContent] = useState('');
 
-  const [notifications, setNotifications] = useState(initialNotifications);
+  const [notifications, _setNotificationsState] = useState(initialNotifications);
   const [groups, setGroups] = useState(initialGroups);
-  const [stories, setStories] = useState(initialStories);
+  const [stories, _setStories] = useState(initialStories);
   const [users, setUsers] = useState(initialUsers);
-  const [posts, setPosts] = useState(initialPosts);
+  const [events, _setEvents] = useState(initialEvents);
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/posts');
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const data = await response.json();
+        const postsWithId = data.data.map(post => ({
+          ...post,
+          id: post._id,
+          avatar: post.author.avatar,
+          author: post.author.fullName,
+          time: post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'now',
+          content: post.content,
+          likes: post.likes,
+          reaction: null,
+          comments: [], // Comments not fetched in this endpoint
+          liked: false,
+          image: post.featuredImage
+        })).sort((a, b) => new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0));
+        setPosts(postsWithId);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const [newPost, setNewPost] = useState('');
   const [showComments, setShowComments] = useState({});
   const [newComment, setNewComment] = useState('');
+  const [showStoryModal, setShowStoryModal] = useState(false);
+  const [selectedStory, setSelectedStory] = useState(null);
 
   const handleLogin = () => {
-    if (loginEmail.toLowerCase().includes('marciliobbarboza') && loginPassword.toLowerCase().includes('marciliobbarboza')) {
+    if (loginEmail === 'marciliobbarboza' && loginPassword === 'marciliobbarboza') {
       setIsLoggedIn(true);
       setCurrentUser({
         username: 'marciliobbarboza',
@@ -108,7 +145,7 @@ function App() {
     setEditContent('');
   };
 
-  const handleLike = (postId) => {
+  const _handleLike = (postId) => {
     setPosts(posts.map(post =>
       post.id === postId
         ? {
@@ -118,6 +155,10 @@ function App() {
           }
         : post
     ));
+  };
+
+  const handleReaction = (postId, reaction) => {
+    setPosts(posts.map(p => p.id === postId ? {...p, reaction, liked: true, likes: p.liked ? p.likes : p.likes + 1} : p));
   };
 
   const handlePost = () => {
@@ -229,6 +270,44 @@ function App() {
     }
   };
 
+  const getTodaysBirthdays = () => {
+    const today = new Date();
+    const todayMonth = today.getMonth() + 1;
+    const todayDay = today.getDate();
+    return users.filter(user => {
+      if (!user.birthday) return false;
+      const [monthName, day] = user.birthday.split(' ');
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      const monthIndex = monthNames.indexOf(monthName) + 1;
+      return monthIndex === todayMonth && parseInt(day) === todayDay;
+    });
+  };
+
+  const getUpcomingEvents = () => {
+    const today = new Date();
+    return events
+      .filter(event => new Date(event.date) >= today)
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .slice(0, 3);
+  };
+
+  const groupPostsByDate = (posts) => {
+    const grouped = {};
+    posts.forEach(post => {
+      const date = post.time; // since time is date string
+      if (!grouped[date]) {
+        grouped[date] = [];
+      }
+      grouped[date].push(post);
+    });
+    return grouped;
+  };
+
+  const handleStoryClick = (story) => {
+    setSelectedStory(story);
+    setShowStoryModal(true);
+  };
+
   if (!isLoggedIn) {
     return (
       <div className="login-screen">
@@ -268,6 +347,7 @@ function App() {
         setSelectedUser={setSelectedUser}
         isLoggedIn={isLoggedIn}
         currentView={currentView}
+        onLogoClick={() => setCurrentView('feed')}
       />
 
       {currentView === 'feed' ? (
@@ -307,7 +387,7 @@ function App() {
                   <span>Add Story</span>
                 </div>
                 {stories.map(story => (
-                  <div key={story.id} className="story-item">
+                  <div key={story.id} className="story-item" onClick={() => handleStoryClick(story)}>
                     <div className="story-avatar">
                       <img src={story.avatar} alt={story.author} />
                     </div>
@@ -344,38 +424,81 @@ function App() {
               </div>
             </div>
 
+            {getTodaysBirthdays().length > 0 && (
+              <div className="birthdays-section">
+                <h3>🎂 Birthdays Today</h3>
+                <div className="birthdays-list">
+                  {getTodaysBirthdays().map(user => (
+                    <div key={user.username} className="birthday-item">
+                      <img src={user.avatar} alt={user.name} className="birthday-avatar" />
+                      <span>{user.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {getUpcomingEvents().length > 0 && (
+              <div className="events-section">
+                <h3>📅 Upcoming Events</h3>
+                <div className="events-list">
+                  {getUpcomingEvents().map(event => (
+                    <div key={event.id} className="event-item">
+                      <img src={event.image} alt={event.title} className="event-image" />
+                      <div className="event-info">
+                        <h4>{event.title}</h4>
+                        <p>{event.date} • {event.location}</p>
+                        <p>{event.attendees} attending</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="posts-feed">
-              {posts.map(post => (
-                <Post
-                  key={post.id}
-                  post={post}
-                  isLoggedIn={isLoggedIn}
-                  handleEditPost={handleEditPost}
-                  handleDeletePost={handleDeletePost}
-                  editingPost={editingPost}
-                  editContent={editContent}
-                  setEditContent={setEditContent}
-                  handleSavePost={handleSavePost}
-                  handleCancelEdit={handleCancelEdit}
-                  handleLike={handleLike}
-                  toggleComments={toggleComments}
-                  showComments={showComments}
-                  newComment={newComment}
-                  setNewComment={setNewComment}
-                  handleComment={handleComment}
-                  handleViewProfile={handleViewProfile}
-                  handleEditComment={handleEditComment}
-                  handleDeleteComment={handleDeleteComment}
-                  editingComment={editingComment}
-                  handleSaveComment={handleSaveComment}
-                />
-              ))}
+              {isLoading ? (
+                <p>Loading posts...</p>
+              ) : error ? (
+                <p>{error}</p>
+              ) : (
+                Object.entries(groupPostsByDate(posts)).map(([date, datePosts]) => (
+                  <div key={date} className="date-group">
+                    <h4 className="date-header">{date}</h4>
+                    {datePosts.map(post => (
+                      <Post
+                        key={post._id}
+                        post={post}
+                        isLoggedIn={isLoggedIn}
+                        handleEditPost={handleEditPost}
+                        handleDeletePost={handleDeletePost}
+                        editingPost={editingPost}
+                        editContent={editContent}
+                        setEditContent={setEditContent}
+                        handleSavePost={handleSavePost}
+                        handleCancelEdit={handleCancelEdit}
+                        handleReaction={handleReaction}
+                        toggleComments={toggleComments}
+                        showComments={showComments}
+                        newComment={newComment}
+                        setNewComment={setNewComment}
+                        handleComment={handleComment}
+                        handleViewProfile={handleViewProfile}
+                        handleEditComment={handleEditComment}
+                        handleDeleteComment={handleDeleteComment}
+                        editingComment={editingComment}
+                        handleSaveComment={handleSaveComment}
+                      />
+                    ))}
+                  </div>
+                ))
+              )}
             </div>
           </main>
 
           <aside className="socialobby-right-sidebar">
             <div className="sidebar-section online-friends">
-              <h3>Online Friends</h3>
+              <h3>Messenger</h3>
               <div className="contacts-list">
                 <div className="contact online" onClick={() => handleOpenChat('Emma Rodriguez')}>🟢 Emma Rodriguez</div>
                 <div className="contact online" onClick={() => handleOpenChat('David Kim')}>🟢 David Kim</div>
@@ -694,6 +817,7 @@ function App() {
               <img src={selectedFriend.avatar} alt={selectedFriend.name} className="chat-avatar" />
               <h3>{selectedFriend.name}</h3>
               <span className="online-status">🟢 Online</span>
+              <button className="close-btn" onClick={() => setShowChat(false)}>×</button>
             </div>
             <div className="chat-messages">
               {chatMessages.map(message => (
@@ -717,6 +841,27 @@ function App() {
           </div>
         </div>
       )}
+
+      {showStoryModal && selectedStory && (
+        <div className="modal-overlay" onClick={() => setShowStoryModal(false)}>
+          <div className="modal story-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="story-view">
+              <img src={selectedStory.image} alt="Story" className="story-image" />
+              <div className="story-info">
+                <img src={selectedStory.avatar} alt={selectedStory.author} className="story-author-avatar" />
+                <span>{selectedStory.author}</span>
+                <span>{selectedStory.time}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="chat-bar">
+        {users.slice(0,5).map(user => (
+          <img key={user.username} src={user.avatar} alt={user.name} className="chat-icon" onClick={() => {setSelectedFriend(user); setShowChat(true);}} />
+        ))}
+      </div>
     </div>
   );
 }
