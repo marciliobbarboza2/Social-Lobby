@@ -1,0 +1,27 @@
+{
+  "name": "blogging-platform",
+  "version": "1.0.0",
+  "description": "",
+  "main": "postcss.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marciliobbarboza2/Final-Project-CCTB.git#main"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/marciliobbarboza2/Final-Project-CCTB/issues"
+  },
+  "homepage": "https://github.com/marciliobbarboza2/Final-Project-CCTB/tree/main#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongodb": "^6.20.0",
+    "mongoose": "^8.19.1"
+  }
+}
