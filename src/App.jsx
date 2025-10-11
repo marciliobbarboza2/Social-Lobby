@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import './App.css'
+import Post from './components/Post'
+import Header from './components/Header'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -718,132 +720,29 @@ function App() {
           {/* Posts Feed */}
           <div className="posts-feed">
             {posts.map(post => (
-              <article key={post.id} className="post">
-                <div className="post-header">
-                  <div className="post-author">
-                    <img src={post.avatar} alt={post.author} className="author-avatar" onClick={() => handleViewProfile(post.author)} style={{cursor: 'pointer'}} />
-                    <div className="author-info">
-                      <h4 className="author-name" onClick={() => handleViewProfile(post.author)} style={{cursor: 'pointer'}}>{post.author}</h4>
-                      <span className="post-time">{post.time}</span>
-                    </div>
-                  </div>
-                  <div className="post-options">
-                    {isLoggedIn && post.author === "You" && (
-                      <>
-                        <button className="edit-btn" onClick={() => handleEditPost(post.id, post.content)}>✏️ Edit</button>
-                        <button className="delete-btn" onClick={() => handleDeletePost(post.id)}>🗑️ Delete</button>
-                      </>
-                    )}
-                    <button>⋯</button>
-                  </div>
-                </div>
-
-                <div className="post-content">
-                  {editingPost === post.id ? (
-                    <div className="edit-section">
-                      <textarea
-                        value={editContent}
-                        onChange={(e) => setEditContent(e.target.value)}
-                        className="edit-input"
-                      />
-                      <div className="edit-actions">
-                        <button className="save-btn" onClick={() => handleSavePost(post.id)}>Save</button>
-                        <button className="cancel-btn" onClick={handleCancelEdit}>Cancel</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <p>{post.content}</p>
-                  )}
-                  {post.image && (
-                    <div className="post-image">
-                      <img src={post.image} alt="Post image" className="post-image-img" />
-                    </div>
-                  )}
-                </div>
-
-                <div className="post-stats">
-                  <span className="likes-count">
-                    {post.likes > 0 && `👍 ${post.likes} likes`}
-                  </span>
-                  <span className="comments-count">
-                    {post.comments.length > 0 && `${post.comments.length} comments`}
-                  </span>
-                </div>
-
-                <div className="post-actions">
-                  <button
-                    className={`action-btn ${post.liked ? 'liked' : ''}`}
-                    onClick={() => handleLike(post.id)}
-                  >
-                    👍 Like
-                  </button>
-                  <button
-                    className="action-btn"
-                    onClick={() => toggleComments(post.id)}
-                  >
-                    💬 Comment
-                  </button>
-                  <button className="action-btn">📤 Share</button>
-                </div>
-
-                {/* Comments Section */}
-                {showComments[post.id] && (
-                  <div className="comments-section">
-                    <div className="add-comment">
-                      <img src="https://picsum.photos/seed/you/30" alt="You" className="user-avatar-small" />
-                      <input
-                        type="text"
-                        placeholder="Write a comment..."
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleComment(post.id)}
-                        className="comment-input"
-                      />
-                      <button
-                        className="comment-btn"
-                        onClick={() => handleComment(post.id)}
-                        disabled={!newComment.trim()}
-                      >
-                        Post
-                      </button>
-                    </div>
-                    <div className="comments-list">
-                      {post.comments.map(comment => (
-                        <div key={comment.id} className="comment">
-                          <img src={comment.avatar} alt={comment.author} className="comment-avatar" />
-                          <div className="comment-content">
-                            <div className="comment-header">
-                              <span className="comment-author">{comment.author}</span>
-                              <span className="comment-time">{comment.time}</span>
-                              {isLoggedIn && comment.author === "You" && (
-                                <>
-                                  <button className="edit-comment-btn" onClick={() => handleEditComment(post.id, comment.id, comment.content)}>✏️</button>
-                                  <button className="delete-comment-btn" onClick={() => handleDeleteComment(post.id, comment.id)}>🗑️</button>
-                                </>
-                              )}
-                            </div>
-                            {editingComment && editingComment.postId === post.id && editingComment.commentId === comment.id ? (
-                              <div className="edit-section">
-                                <textarea
-                                  value={editContent}
-                                  onChange={(e) => setEditContent(e.target.value)}
-                                  className="edit-input"
-                                />
-                                <div className="edit-actions">
-                                  <button className="save-btn" onClick={() => handleSaveComment(post.id, comment.id)}>Save</button>
-                                  <button className="cancel-btn" onClick={handleCancelEdit}>Cancel</button>
-                                </div>
-                              </div>
-                            ) : (
-                              <p className="comment-text">{comment.content}</p>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </article>
+              <Post
+                key={post.id}
+                post={post}
+                isLoggedIn={isLoggedIn}
+                handleEditPost={handleEditPost}
+                handleDeletePost={handleDeletePost}
+                editingPost={editingPost}
+                editContent={editContent}
+                setEditContent={setEditContent}
+                handleSavePost={handleSavePost}
+                handleCancelEdit={handleCancelEdit}
+                handleLike={handleLike}
+                toggleComments={toggleComments}
+                showComments={showComments}
+                newComment={newComment}
+                setNewComment={setNewComment}
+                handleComment={handleComment}
+                handleViewProfile={handleViewProfile}
+                handleEditComment={handleEditComment}
+                handleDeleteComment={handleDeleteComment}
+                editingComment={editingComment}
+                handleSaveComment={handleSaveComment}
+              />
             ))}
           </div>
         </main>
