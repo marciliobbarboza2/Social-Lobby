@@ -1,22 +1,21 @@
 /* Socialobby Layout */
 .socialobby-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   background-attachment: fixed;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Header */
 .socialobby-header {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  color: #333;
+  background: #ffffff;
+  color: #1a1a1a;
   padding: 12px 16px;
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid #667eea;
 }
 
 .header-content {
@@ -78,20 +77,19 @@
 }
 
 .sidebar-section {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  background: #ffffff;
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #e1e5e9;
 }
 
 .sidebar-section h3 {
   margin: 0 0 12px 0;
   font-size: 16px;
   font-weight: 600;
-  color: #333;
+  color: #1a1a1a;
   border-bottom: 2px solid #667eea;
   padding-bottom: 8px;
 }
@@ -178,12 +176,11 @@
 
 /* Create Post */
 .create-post {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  background: #ffffff;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #e1e5e9;
 }
 
 .post-composer {
@@ -280,12 +277,11 @@
 }
 
 .post {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #e1e5e9;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -458,9 +454,9 @@
 
 /* Comments Section */
 .comments-section {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid #e1e5e9;
   padding: 16px;
-  background: rgba(248, 249, 250, 0.8);
+  background: #f8f9fa;
 }
 
 .add-comment {
@@ -545,10 +541,10 @@
 
 .comment-content {
   flex: 1;
-  background: rgba(255, 255, 255, 0.8);
+  background: #ffffff;
   border-radius: 12px;
   padding: 12px 16px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e5e9;
 }
 
 .comment-header {
