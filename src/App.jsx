@@ -4,7 +4,7 @@ import './App.css'
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
-  const [showLogin, setShowLogin] = useState(true) // Changed to true to show login by default
+  const [showLogin, setShowLogin] = useState(true)
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
   const [showProfile, setShowProfile] = useState(false)
