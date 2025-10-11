@@ -1,9 +1,9 @@
 {
-  "name": "my-blogging-space",
+  "name": "simplebook",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "A blogging platform where your stories come to life",
+  "description": "A simple social media platform inspired by Facebook",
   "author": "Your Name",
   "scripts": {
     "dev": "vite",

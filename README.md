@@ -1,8 +1,8 @@
-# My Blogging Space
+# 📘 SimpleBook
 
-Welcome to your personal corner of the internet!
+Welcome to SimpleBook - your simple social platform!
 
-This is a blogging platform built using React and Vite. Whether you're sharing your thoughts, stories, or creative ideas, this is your space to express yourself freely.
+This is a clean, easy-to-use social media platform built with React and Vite. Connect with friends, share your thoughts, and stay updated with what matters to you.
 
 ## Project Overview
 
@@ -15,18 +15,16 @@ Tech Stack Chosen:
 
 ## What's This All About?
 
-This blogging platform is designed to be simple, fast, and enjoyable to use. No complicated setup, no overwhelming features - just you and your words.
+SimpleBook is designed to be simple, fast, and enjoyable to use. No complicated setup, no overwhelming features - just you and your connections.
 
 ### Features
 
-- Lightning Fast - Built with Vite for instant updates while you write
-- Beautiful & Clean - A distraction-free writing experience
-- Easy to Use - Start writing in seconds, no tech degree required
-- Fully Yours - Customize it however you like!
-- User Authentication - Secure login and registration
-- Rich Blog Posts - Full-featured post creation and management
-- Comments System - Engage with your readers
-- Categories & Tags - Organize your content
+- Lightning Fast - Built with Vite for instant updates
+- Clean & Simple - Facebook-inspired interface that's easy to use
+- Easy to Use - Start sharing in seconds, no tech degree required
+- Connect with Friends - See what your friends are up to
+- Like & Comment - Engage with posts from your network
+- Real-time Updates - Stay connected with your social circle
 - Responsive Design - Looks great on all devices
 
 ## Getting Started
@@ -117,12 +115,12 @@ Check out our hand-drawn wireframes for the core user interface:
 
 See docs/wireframes.md for all wireframe designs.
 
-## Tips for Your Blogging Journey
+## Tips for Your Social Journey
 
-- Write from the heart - Authenticity resonates with readers
-- Be consistent - Regular posts help build your audience
-- Have fun - If you're not enjoying it, your readers won't either!
-- Experiment - Try different styles and topics to find your voice
+- Share from the heart - Authenticity resonates with friends
+- Be consistent - Regular posts help you stay connected
+- Have fun - If you're not enjoying it, your friends won't either!
+- Experiment - Try different types of posts to find your voice
 
 ## Development
 
@@ -186,4 +184,4 @@ This submission includes all Week 1 requirements:
 
 ---
 
-Happy Blogging! Remember, your voice matters and your stories are worth sharing. Now go create something amazing!
+Happy Socializing! Remember, your voice matters and your connections are worth nurturing. Now go create something amazing!

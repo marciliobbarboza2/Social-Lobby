@@ -2,80 +2,184 @@ import { useState } from 'react'
 import './App.css'
 
 function App() {
-  const [posts] = useState([
+  const [posts, setPosts] = useState([
     {
       id: 1,
-      title: "Welcome to Your Blogging Journey!",
-      date: "Today",
-      excerpt: "Every great story starts with a single word. This is your space to share your thoughts, dreams, and experiences with the world.",
-      readTime: "2 min read"
+      author: "John Doe",
+      avatar: "👤",
+      time: "2 hours ago",
+      content: "Just finished an amazing book! 📚 Sometimes the best stories are the ones that make you think about your own life. What's everyone reading these days?",
+      likes: 12,
+      comments: 3,
+      liked: false
     },
     {
       id: 2,
-      title: "Why Blogging Matters",
-      date: "Yesterday",
-      excerpt: "Your voice is unique, and your perspective matters. Blogging isn't just about writing—it's about connecting with others who resonate with your story.",
-      readTime: "3 min read"
+      author: "Sarah Wilson",
+      avatar: "👩",
+      time: "4 hours ago",
+      content: "Beautiful sunset today! 🌅 Nature has a way of reminding us to slow down and appreciate the little things.",
+      likes: 24,
+      comments: 7,
+      liked: true
+    },
+    {
+      id: 3,
+      author: "Mike Johnson",
+      avatar: "👨",
+      time: "6 hours ago",
+      content: "Coffee and coding ☕💻 Perfect way to start the day. What's your morning routine?",
+      likes: 8,
+      comments: 2,
+      liked: false
     }
   ])
 
+  const [newPost, setNewPost] = useState('')
+
+  const handleLike = (postId) => {
+    setPosts(posts.map(post =>
+      post.id === postId
+        ? {
+            ...post,
+            liked: !post.liked,
+            likes: post.liked ? post.likes - 1 : post.likes + 1
+          }
+        : post
+    ))
+  }
+
+  const handlePost = () => {
+    if (newPost.trim()) {
+      const post = {
+        id: posts.length + 1,
+        author: "You",
+        avatar: "😊",
+        time: "now",
+        content: newPost,
+        likes: 0,
+        comments: 0,
+        liked: false
+      }
+      setPosts([post, ...posts])
+      setNewPost('')
+    }
+  }
+
   return (
-    <div className="blog-container">
+    <div className="facebook-container">
       {/* Header */}
-      <header className="blog-header">
-        <h1 className="blog-title">My Blogging Space</h1>
-        <p className="blog-tagline">Where your stories come to life</p>
+      <header className="facebook-header">
+        <div className="header-content">
+          <h1 className="facebook-logo">facebook</h1>
+          <div className="header-actions">
+            <button className="header-btn">👤 Profile</button>
+            <button className="header-btn">⚙️ Settings</button>
+          </div>
+        </div>
       </header>
 
-      {/* Welcome Section */}
-      <section className="welcome-section">
-        <div className="welcome-card">
-          <h2>Hey there, storyteller!</h2>
-          <p>
-            Welcome to your personal corner of the internet. This is where your ideas take flight,
-            your experiences find meaning, and your voice reaches those who need to hear it.
-          </p>
-          <button className="cta-button">Start Writing</button>
-        </div>
-      </section>
+      <div className="facebook-main">
+        {/* Sidebar */}
+        <aside className="facebook-sidebar">
+          <div className="sidebar-section">
+            <h3>Menu</h3>
+            <ul>
+              <li>🏠 News Feed</li>
+              <li>👥 Friends</li>
+              <li>💬 Messages</li>
+              <li>📷 Photos</li>
+              <li>📅 Events</li>
+            </ul>
+          </div>
+        </aside>
 
-      {/* Blog Posts */}
-      <section className="posts-section">
-        <h2 className="section-title">Recent Stories</h2>
-        <div className="posts-grid">
-          {posts.map(post => (
-            <article key={post.id} className="post-card">
-              <div className="post-header">
-                <span className="post-date">{post.date}</span>
-                <span className="post-read-time">{post.readTime}</span>
+        {/* Main Content */}
+        <main className="facebook-content">
+          {/* Create Post */}
+          <div className="create-post">
+            <div className="post-composer">
+              <div className="composer-input">
+                <span className="user-avatar">😊</span>
+                <textarea
+                  placeholder="What's on your mind?"
+                  value={newPost}
+                  onChange={(e) => setNewPost(e.target.value)}
+                  className="post-input"
+                />
               </div>
-              <h3 className="post-title">{post.title}</h3>
-              <p className="post-excerpt">{post.excerpt}</p>
-              <button className="read-more">Read More</button>
-            </article>
-          ))}
-        </div>
-      </section>
+              <div className="composer-actions">
+                <button className="media-btn">📷 Photo</button>
+                <button className="media-btn">📹 Video</button>
+                <button className="media-btn">😊 Feeling</button>
+                <button
+                  className="post-btn"
+                  onClick={handlePost}
+                  disabled={!newPost.trim()}
+                >
+                  Post
+                </button>
+              </div>
+            </div>
+          </div>
 
-      {/* Inspiration Section */}
-      <section className="inspiration-section">
-        <div className="inspiration-card">
-          <h3>Writing Tip of the Day</h3>
-          <p>
-            "Write what should not be forgotten." - Isabel Allende
-          </p>
-          <p className="tip-description">
-            Don't worry about perfection. Just start writing. Your authentic voice is what makes
-            your blog special. Every word you write is a step forward on your creative journey.
-          </p>
-        </div>
-      </section>
+          {/* Posts Feed */}
+          <div className="posts-feed">
+            {posts.map(post => (
+              <article key={post.id} className="post">
+                <div className="post-header">
+                  <div className="post-author">
+                    <span className="author-avatar">{post.avatar}</span>
+                    <div className="author-info">
+                      <h4 className="author-name">{post.author}</h4>
+                      <span className="post-time">{post.time}</span>
+                    </div>
+                  </div>
+                  <button className="post-options">⋯</button>
+                </div>
 
-      {/* Footer */}
-      <footer className="blog-footer">
-        <p>Made with love and lots of coffee</p>
-        <p className="footer-note">Keep writing, keep sharing, keep inspiring!</p>
-      </footer>
+                <div className="post-content">
+                  <p>{post.content}</p>
+                </div>
+
+                <div className="post-stats">
+                  <span className="likes-count">
+                    {post.likes > 0 && `👍 ${post.likes}`}
+                  </span>
+                  <span className="comments-count">
+                    {post.comments > 0 && `${post.comments} comments`}
+                  </span>
+                </div>
+
+                <div className="post-actions">
+                  <button
+                    className={`action-btn ${post.liked ? 'liked' : ''}`}
+                    onClick={() => handleLike(post.id)}
+                  >
+                    👍 Like
+                  </button>
+                  <button className="action-btn">💬 Comment</button>
+                  <button className="action-btn">📤 Share</button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </main>
+
+        {/* Right Sidebar */}
+        <aside className="facebook-right-sidebar">
+          <div className="sidebar-section">
+            <h3>Contacts</h3>
+            <div className="contacts-list">
+              <div className="contact">👤 John Doe</div>
+              <div className="contact">👩 Sarah Wilson</div>
+              <div className="contact">👨 Mike Johnson</div>
+              <div className="contact">👧 Emma Davis</div>
+              <div className="contact">👦 Alex Brown</div>
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   )
 }
