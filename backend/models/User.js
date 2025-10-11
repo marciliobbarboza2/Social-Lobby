@@ -48,6 +48,27 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+  address: {
+    type: String,
+    trim: true
+  },
+  phone: {
+    type: String,
+    trim: true
+  },
+  city: {
+    type: String,
+    trim: true
+  },
+  groups: [{
+    type: String,
+    trim: true
+  }],
+  maritalStatus: {
+    type: String,
+    enum: ['Single', 'Married', 'Divorced', 'Widowed', 'In a relationship', 'It\'s complicated'],
+    default: 'Single'
+  },
   role: {
     type: String,
     enum: ['user', 'admin'],
