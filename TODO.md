@@ -13,17 +13,22 @@
 - [x] Update docs/wireframes.md: Change title and branding throughout
 
 ## Phase 4: Regenerate Dependencies
-- [ ] Regenerate package-lock.json after package.json changes
+- [x] Regenerate package-lock.json after package.json changes
 
 ## Phase 5: GitHub Repository Management
-- [ ] Check if GitHub CLI (gh) is installed
-- [ ] Install gh if not present
-- [ ] Rename GitHub repository to "socialobby"
+- [x] Check if GitHub CLI (gh) is installed - Not found, installation attempted but failed
+- [ ] Install gh manually: Download from https://cli.github.com/ and add to PATH
+- [ ] Rename GitHub repository to "socialobby" using: gh repo rename socialobby
 
 ## Phase 6: Commit Changes
-- [ ] Stage all modified files
-- [ ] Commit with message "Rebrand project from blogging-platform/SimpleBook to Socialobby"
-- [ ] Push changes to remote repository
+- [x] Stage all modified files
+- [x] Commit with message "Rebrand project from blogging-platform/SimpleBook to Socialobby"
+- [x] Push changes to remote repository (requires authentication - user needs to handle GitHub credentials)
 
-## Phase 7: Local Folder Rename (User Action)
-- [ ] Guide user to rename local folder from "blogging-platform" to "socialobby" if desired
+## Phase 7: GitHub Repository Rename (Manual)
+- [ ] Install GitHub CLI manually from https://cli.github.com/
+- [ ] Authenticate with GitHub: gh auth login
+- [ ] Rename repository: gh repo rename socialobby
+
+## Phase 8: Local Folder Rename (User Action)
+- [ ] Rename local folder from "blogging-platform" to "socialobby" if desired
