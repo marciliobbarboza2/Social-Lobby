@@ -59,14 +59,34 @@ const Feed = () => {
       {getTodaysBirthdays().length > 0 && (
         <div className="birthdays-section">
           <h3>🎂 Birthdays Today</h3>
-          {/* ... birthday list rendering ... */}
+          <div className="birthdays-list">
+            {getTodaysBirthdays().map((user) => (
+              <div key={user.username} className="birthday-item">
+                <img src={user.avatar} alt={user.name} className="birthday-avatar" />
+                <span className="birthday-name">{user.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
       {getUpcomingEvents().length > 0 && (
         <div className="events-section">
           <h3>📅 Upcoming Events</h3>
-          {/* ... event list rendering ... */}
+          <div className="events-list">
+            {getUpcomingEvents().map((event) => (
+              <div key={event.id} className="event-item">
+                <img src={event.image} alt={event.title} className="event-image" />
+                <div className="event-details">
+                  <h4 className="event-title">{event.title}</h4>
+                  <p className="event-description">{event.description}</p>
+                  <p className="event-date">{event.date} at {event.time}</p>
+                  <p className="event-location">{event.location}</p>
+                  <p className="event-going">{event.going} going</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
