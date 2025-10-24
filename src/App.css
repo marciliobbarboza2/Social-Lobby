@@ -580,6 +580,19 @@
   font-weight: 600;
 }
 
+.like-btn {
+  transition: all 0.2s ease;
+}
+
+.like-btn:hover {
+  transform: scale(1.05);
+}
+
+.like-btn.liked {
+  background: rgba(255, 105, 180, 0.1);
+  border-radius: 20px;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .socialobby-main {

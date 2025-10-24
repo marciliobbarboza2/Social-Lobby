@@ -88,10 +88,11 @@ const Post = ({
 
       <div className="post-actions">
         <button
-          className={`action-btn ${post.isLikedByCurrentUser ? 'liked' : ''}`}
+          className={`action-btn like-btn ${post.isLikedByCurrentUser ? 'liked' : ''}`}
           onClick={() => handleLike(post.id)}
+          title={post.isLikedByCurrentUser ? 'Unlike this post' : 'Like this post'}
         >
-          👍 Like
+          {post.isLikedByCurrentUser ? '❤️ Liked' : '🤍 Like'}
         </button>
         <button
           className="action-btn"
