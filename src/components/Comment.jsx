@@ -11,6 +11,7 @@ const Comment = ({
   handleSaveComment,
   handleCancelEdit,
   postId,
+  currentUser,
 }) => {
   const handleDeleteClick = () => {
     if (window.confirm('Are you sure you want to delete this comment?')) {
@@ -25,7 +26,7 @@ const Comment = ({
         <div className="comment-header">
           <span className="comment-author">{comment.author}</span>
           <span className="comment-time">{comment.time}</span>
-          {isLoggedIn && comment.author === "You" && (
+          {isLoggedIn && currentUser && comment.authorId === currentUser._id && (
             <>
               <button className="edit-comment-btn" onClick={() => handleEditComment(postId, comment.id, comment.content)}>✏️</button>
               <button className="delete-comment-btn" onClick={handleDeleteClick}>🗑️</button>

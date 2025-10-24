@@ -4,7 +4,7 @@ import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const Feed = () => {
   const { dataProps, postsProps, authProps, filterTopic, viewProps, setSelectedEvent } = useSocialLobbyContext();
-  const { handleViewProfile, getTodaysBirthdays, getUpcomingEvents } = dataProps;
+  const { handleViewProfile, getTodaysBirthdays, getUpcomingEvents, groupPostsByDate } = dataProps;
   const { currentUser } = authProps;
   const { setCurrentView } = viewProps;
   const {
@@ -29,7 +29,6 @@ const Feed = () => {
     handleSaveComment,
     handleDeleteComment,
     handleEditPost,
-    groupPostsByDate,
     draftSaved,
   } = postsProps;
 

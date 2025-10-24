@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth, usePosts, useView, useData } from './useHooks';
 import { notifications as initialNotifications } from './data/notifications.js';
 import { groups as initialGroups } from './data/groups.js';
@@ -33,13 +33,13 @@ export const SocialLobbyProvider = ({ children }) => {
   const viewProps = useView();
   const { setCurrentView, setShowLogin, setShowStoryModal, setShowChat } = viewProps;
 
-  const dataProps = useData(initialUsers, initialGroups, initialStories, initialEvents, initialNotifications);
+  const dataProps = useData(initialUsers, initialGroups, initialStories, initialEvents, initialNotifications, currentUser, authProps.setCurrentUser);
   const { handleViewProfile, setSelectedUser, setSelectedStory } = dataProps;
 
   // New states for enhanced interactivity
-  const [filterTopic, setFilterTopic] = React.useState(null);
-  const [selectedEvent, setSelectedEvent] = React.useState(null);
-  const [selectedPage, setSelectedPage] = React.useState(null);
+  const [filterTopic, setFilterTopic] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedPage, setSelectedPage] = useState(null);
 
   const postsProps = usePosts([], currentUser);
 

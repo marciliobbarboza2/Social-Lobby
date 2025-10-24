@@ -31,7 +31,7 @@ const getPosts = async (req, res, next) => {
         path: 'author',
         select: 'username firstName lastName avatar'
       },
-      select: 'title slug excerpt content featuredImage category tags publishedAt views likes commentsCount author'
+      select: 'title slug excerpt content featuredImage category tags publishedAt views likedBy commentsCount author'
     };
 
     const result = await Post.paginate(query, options);

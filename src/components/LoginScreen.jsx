@@ -199,7 +199,7 @@ const LoginScreen = ({
               />
               <input
                 type="password"
-                placeholder="Password"
+                placeholder="Password (use 'password')"
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
                 className="login-input"

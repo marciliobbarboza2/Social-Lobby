@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { mapFetchedPosts } from './utils/mappers';
+import { posts as postsData } from './data/posts';
 
 /**
  * Custom hook for managing user authentication.
@@ -57,9 +58,6 @@ export const useAuth = () => {
     setIsLoading(true);
     setError(null);
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
@@ -69,8 +67,7 @@ export const useAuth = () => {
         body: JSON.stringify({
           email: emailToLogin,
           password: passwordToLogin
-        }),
-        signal: controller.signal
+        })
       });
 
       const data = await response.json();
@@ -84,10 +81,10 @@ export const useAuth = () => {
       } else {
         setError(data.message || 'Login failed');
       }
-    } catch {
+    } catch (error) {
+      console.error('Login error:', error);
       setError('Network error. Please try again.');
     } finally {
-      clearTimeout(timeoutId);
       setIsLoading(false);
     }
   };
@@ -201,77 +198,10 @@ export const usePosts = (initialPosts, currentUser) => {
   const [newComment, setNewComment] = useState('');
   const [showComments, setShowComments] = useState({});
 
+  // Use static data for now
   useEffect(() => {
-    const fetchPosts = async () => {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-      try {
-        const response = await fetch('http://localhost:5000/api/posts', {
-          signal: controller.signal
-        });
-        if (!response.ok) {
-          throw new Error('Failed to fetch posts');
-        }
-        const data = await response.json();
-        if (data.success) {
-          const postsWithId = mapFetchedPosts(data, currentUser);
-          // Fetch comments for each post
-          const postsWithComments = await Promise.all(
-            postsWithId.map(async (post) => {
-              try {
-                const commentsController = new AbortController();
-                const commentsTimeoutId = setTimeout(() => commentsController.abort(), 10000); // 10 second timeout
-
-                const commentsResponse = await fetch(`http://localhost:5000/api/comments/post/${post.id}`, {
-                  signal: commentsController.signal
-                });
-                clearTimeout(commentsTimeoutId);
-                if (commentsResponse.ok) {
-                  const commentsData = await commentsResponse.json();
-                  if (commentsData.success) {
-                    // Flatten comments and replies
-                    const allComments = [];
-                    commentsData.data.forEach(comment => {
-                      allComments.push({
-                        id: comment._id,
-                        content: comment.content,
-                        author: comment.author.firstName + ' ' + comment.author.lastName,
-                        authorId: comment.author._id,
-                        avatar: comment.author.avatar,
-                        time: new Date(comment.createdAt).toLocaleDateString(),
-                        likes: comment.likes || 0,
-                        replies: comment.replies ? comment.replies.map(reply => ({
-                          id: reply._id,
-                          content: reply.content,
-                          author: reply.author.firstName + ' ' + reply.author.lastName,
-                          authorId: reply.author._id,
-                          avatar: reply.author.avatar,
-                          time: new Date(reply.createdAt).toLocaleDateString(),
-                          likes: reply.likes || 0
-                        })) : []
-                      });
-                    });
-                    return { ...post, comments: allComments };
-                  }
-                }
-              } catch (error) {
-                console.error('Error fetching comments for post', post.id, error);
-              }
-              return post;
-            })
-          );
-          setPosts(postsWithComments);
-        }
-      } catch (error) {
-        console.error(error.message);
-      } finally {
-        clearTimeout(timeoutId);
-      }
-    };
-
-    fetchPosts();
-  }, [currentUser]);
+    setPosts(postsData);
+  }, []);
 
   const handleEditPost = (postId, content) => {
     setEditingPost(postId);
@@ -305,7 +235,7 @@ export const usePosts = (initialPosts, currentUser) => {
 
       if (data.success) {
         // Instead of re-fetching, update the single post in the local state
-        setPosts(posts.map(p => (p.id === postId ? mapFetchedPosts([data.post], currentUser)[0] : p)));
+        setPosts(posts.map(p => (p.id === postId ? mapFetchedPosts({data: [data.post]}, currentUser)[0] : p)));
         handleCancelEdit();
       } else {
         console.error('Failed to update post:', data.message);
@@ -367,48 +297,15 @@ export const usePosts = (initialPosts, currentUser) => {
     }
   };
 
-  const handleLike = async (postId) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No authentication token found');
-      return;
-    }
-
-    // Optimistic update
-    // const originalPosts = posts;
+  const handleLike = (postId) => {
     setPosts(posts.map(p => {
       if (p.id === postId) {
-        const wasLiked = p.likes.includes(currentUser._id);
-        return { ...p, likes: wasLiked ? p.likes.filter(id => id !== currentUser._id) : [...p.likes, currentUser._id] };
+        const likesArray = Array.isArray(p.likes) ? p.likes : [];
+        const wasLiked = likesArray.includes(currentUser?._id);
+        return { ...p, likes: wasLiked ? likesArray.filter(id => id !== currentUser?._id) : [...likesArray, currentUser?._id] };
       }
       return p;
     }));
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-    try {
-      const response = await fetch(`http://localhost:5000/api/posts/${postId}/like`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        signal: controller.signal
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        // Update with the authoritative server response
-        setPosts(posts => posts.map(p => p.id === postId ? mapFetchedPosts([data.post], currentUser)[0] : p));
-      } else {
-        console.error('Failed to toggle like:', data.message);
-        // setPosts(originalPosts); // Revert on failure
-      }
-    } catch (error) {
-      console.error('Error toggling like:', error);
-    } finally {
-      clearTimeout(timeoutId);
-    }
   };
 
   const handlePost = async () => {
@@ -442,7 +339,7 @@ export const usePosts = (initialPosts, currentUser) => {
 
       if (data.success) {
         // Instead of re-fetching, add the new post to the top of the list
-        const newPostData = mapFetchedPosts([data.post], currentUser)[0];
+        const newPostData = mapFetchedPosts({data: [data.post]}, currentUser)[0];
         setPosts([newPostData, ...posts]);
         setNewPost('');
       } else {
@@ -462,84 +359,27 @@ export const usePosts = (initialPosts, currentUser) => {
     }));
   };
 
-  const handleComment = async (postId) => {
+  const handleComment = (postId) => {
     if (!newComment.trim()) return;
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No authentication token found');
-      return;
-    }
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-    try {
-      const response = await fetch('http://localhost:5000/api/comments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          content: newComment,
-          postId: postId
-        }),
-        signal: controller.signal
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        // Instead of re-fetching, update the single post with the new comment
-        const updatedPost = mapFetchedPosts([data.post], currentUser)[0];
-        setPosts(posts.map(p => p.id === postId ? updatedPost : p));
-        setNewComment('');
-      } else {
-        console.error('Failed to create comment:', data.message);
-      }
-    } catch (error) {
-      console.error('Error creating comment:', error);
-    } finally {
-      clearTimeout(timeoutId);
-    }
+    const newCommentObj = {
+      id: Date.now(),
+      author: currentUser?.username || 'You',
+      avatar: 'https://picsum.photos/seed/you/30',
+      content: newComment,
+      time: 'now'
+    };
+    setPosts(posts.map(post =>
+      post.id === postId ? { ...post, comments: [...post.comments, newCommentObj] } : post
+    ));
+    setNewComment('');
   };
 
-  const handleDeletePost = async (postId) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No authentication token found');
-      return;
-    }
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-    try {
-      const response = await fetch(`http://localhost:5000/api/posts/${postId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        signal: controller.signal
-      });
-
-      if (response.ok) {
-        // Instead of re-fetching, filter out the deleted post from local state
-        setPosts(posts.filter(p => p.id !== postId));
-      } else {
-        console.error('Failed to delete post');
-      }
-    } catch (error) {
-      console.error('Error deleting post:', error);
-    } finally {
-      clearTimeout(timeoutId);
-    }
+  const handleDeletePost = (postId) => {
+    setPosts(posts.filter(p => p.id !== postId));
   };
 
-  const handleDeleteComment = async (postId, commentId) => {
-    // Optimistically update UI
-    const originalPosts = posts;
+  const handleDeleteComment = (postId, commentId) => {
     setPosts(posts.map(post =>
       post.id === postId
         ? {
@@ -548,45 +388,10 @@ export const usePosts = (initialPosts, currentUser) => {
         }
         : post
     ));
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/comments/${commentId}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` },
-        signal: controller.signal
-      });
-      if (!response.ok) {
-        // Revert on failure
-        console.error('Failed to delete comment');
-        setPosts(originalPosts);
-      }
-    } catch (error) {
-      console.error('Error deleting comment:', error);
-      setPosts(originalPosts);
-    } finally {
-      clearTimeout(timeoutId);
-    }
   };
 
-  const fetchSinglePost = async (postId) => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/posts/${postId}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch single post');
-      }
-      const data = await response.json();
-      if (data.success) {
-        // You can set a single post state or handle navigation here
-        // For now, just log it or set a state if needed
-        console.log('Fetched single post:', data.post);
-      }
-    } catch (error) {
-      console.error('Error fetching single post:', error);
-    }
+  const fetchSinglePost = (postId) => {
+    return posts.find(post => post.id === postId);
   };
 
   return {
@@ -659,14 +464,16 @@ export const useView = () => {
  * @param {Array} initialNotifications - The initial list of notifications.
  * @returns {object} - An object containing data state and handler functions.
  */
-export const useData = (initialUsers, initialGroups, initialStories, initialEvents, initialNotifications) => {
+export const useData = (initialUsers, initialGroups, initialStories, initialEvents, initialNotifications, currentUser, setCurrentUser) => {
   const [users] = useState(initialUsers);
   const [groups, setGroups] = useState(initialGroups);
-  const [stories] = useState(initialStories);
+  const [stories, setStories] = useState(initialStories);
   const [events] = useState(initialEvents);
   const [notifications] = useState(initialNotifications);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedStory, setSelectedStory] = useState(null);
+  const [newStoryImage, setNewStoryImage] = useState(null);
+  const [isCreatingStory, setIsCreatingStory] = useState(false);
   const [otherUser, setOtherUser] = useState(null);
   // const [isLoading, setIsLoading] = useState(false); // Assuming data is static for now
   // const [error, setError] = useState(null); // Assuming no errors for static data
@@ -732,6 +539,32 @@ export const useData = (initialUsers, initialGroups, initialStories, initialEven
     return grouped;
   };
 
+  const handleCreateStory = (imageFile) => {
+    if (!imageFile) return;
+
+    const newStory = {
+      id: Date.now(),
+      author: currentUser?.fullName || 'You',
+      userId: currentUser?._id || 'user1',
+      avatar: currentUser?.avatar || 'https://picsum.photos/seed/you/50',
+      image: URL.createObjectURL(imageFile),
+      time: 'now'
+    };
+
+    // Add to stories array (in a real app, this would be sent to backend)
+    setStories(prevStories => [newStory, ...prevStories]);
+    setNewStoryImage(null);
+    setIsCreatingStory(false);
+  };
+
+  const handleChangeProfilePic = (imageFile, currentUser) => {
+    if (!imageFile || !currentUser) return;
+
+    const newAvatar = URL.createObjectURL(imageFile);
+    // Update current user avatar (in a real app, this would be sent to backend)
+    setCurrentUser(prev => ({ ...prev, avatar: newAvatar }));
+  };
+
   return {
     users,
     groups,
@@ -742,10 +575,16 @@ export const useData = (initialUsers, initialGroups, initialStories, initialEven
     setSelectedUser,
     selectedStory,
     setSelectedStory,
+    newStoryImage,
+    setNewStoryImage,
+    isCreatingStory,
+    setIsCreatingStory,
     otherUser,
     setOtherUser,
     handleViewProfile,
     handleJoinGroup,
+    handleCreateStory,
+    handleChangeProfilePic,
     getTodaysBirthdays,
     getUpcomingEvents,
     groupPostsByDate
