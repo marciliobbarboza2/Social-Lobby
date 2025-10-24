@@ -106,6 +106,23 @@ const Post = ({
           // Update URL for single post
           window.history.pushState({}, '', `/post/${post.id}`);
         }}>📤 View</button>
+        <button className="action-btn" onClick={() => {
+          // Copy post URL to clipboard
+          const postUrl = `${window.location.origin}/post/${post.id}`;
+          navigator.clipboard.writeText(postUrl).then(() => {
+            alert('Post link copied to clipboard!');
+          }).catch(err => {
+            console.error('Failed to copy: ', err);
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = postUrl;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Post link copied to clipboard!');
+          });
+        }}>🔗 Share</button>
       </div>
 
       {showComments[post.id] && (
