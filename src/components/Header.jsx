@@ -9,6 +9,7 @@ const Header = ({
   setSelectedUser,
   isLoggedIn,
   currentView,
+  setShowLogin,
 }) => {
   return (
     <header className="socialobby-header">

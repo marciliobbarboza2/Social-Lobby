@@ -1,3 +1,16 @@
+/**
+ * Authentication Routes
+ *
+ * This module defines the API endpoints for user authentication including:
+ * - User registration (signup)
+ * - User login
+ * - User logout
+ * - Token verification (me endpoint)
+ * - Account deletion
+ *
+ * All routes use express-validator for input validation and JWT tokens for authentication.
+ */
+
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
@@ -49,7 +62,7 @@ router.post('/register', [
     // Generate JWT token
     const token = jwt.sign(
       { id: user._id },
-      process.env.JWT_SECRET || 'your-secret-key',
+      process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
@@ -106,7 +119,7 @@ router.post('/login', [
     // Generate JWT token
     const token = jwt.sign(
       { id: user._id },
-      process.env.JWT_SECRET || 'your-secret-key',
+      process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 

@@ -1,3 +1,17 @@
+/**
+ * Post Routes
+ *
+ * This module defines the API endpoints for post management including:
+ * - Creating new posts
+ * - Retrieving posts (all posts or single post)
+ * - Updating existing posts
+ * - Deleting posts
+ * - Liking/unliking posts
+ *
+ * All routes except GET use JWT authentication via verifyToken middleware.
+ * Input validation is handled by express-validator.
+ */
+
 const express = require('express');
 const { body, param, query, validationResult } = require('express-validator');
 const postController = require('../controllers/postController');

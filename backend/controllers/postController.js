@@ -9,7 +9,7 @@ const logger = require('../utils/logger');
 const getPosts = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 20;
     const category = req.query.category;
     const search = req.query.search;
 
@@ -73,7 +73,7 @@ const getPost = async (req, res, next) => {
 
     res.json({
       success: true,
-      data: post
+      post: post
     });
   } catch (error) {
     logger.error('Error getting post:', error);
@@ -105,7 +105,7 @@ const createPost = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      data: post
+      post: post
     });
   } catch (error) {
     logger.error('Error creating post:', error);
@@ -144,7 +144,7 @@ const updatePost = async (req, res, next) => {
 
     res.json({
       success: true,
-      data: post
+      post: post
     });
   } catch (error) {
     logger.error('Error updating post:', error);
@@ -206,10 +206,7 @@ const toggleLike = async (req, res, next) => {
 
     res.json({
       success: true,
-      data: {
-        likes: post.likes,
-        likedBy: post.likedBy
-      }
+      post: post
     });
   } catch (error) {
     logger.error('Error toggling like:', error);

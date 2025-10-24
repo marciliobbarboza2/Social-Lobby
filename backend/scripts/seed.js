@@ -69,11 +69,11 @@ const users = [
 
 const posts = [
   {
-    title: 'The Future of Artificial Intelligence in 2024',
-    content: 'Artificial Intelligence continues to evolve at an unprecedented pace. From machine learning algorithms to neural networks, AI is transforming industries across the globe. In this post, we explore the latest developments and what they mean for the future of technology.',
-    excerpt: 'Exploring the latest AI developments and their impact on technology.',
-    category: 'technology',
-    tags: ['AI', 'Machine Learning', 'Technology'],
+    title: 'Sustainable Living: Small Changes for a Big Impact',
+    content: 'Making small changes in our daily lives can have a significant impact on the environment. From reducing plastic use to conserving energy, every little effort counts. In this post, we share practical tips for living more sustainably and why it matters for our planet.',
+    excerpt: 'Practical tips for sustainable living and environmental conservation.',
+    category: 'lifestyle',
+    tags: ['Sustainability', 'Environment', 'Eco-Friendly'],
     status: 'published'
   },
   {

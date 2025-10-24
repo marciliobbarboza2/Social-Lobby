@@ -236,7 +236,7 @@ This document contains detailed wireframe sketches for the core pages of Socialo
 │  │  [Choose File] or [Drag & Drop Image Here]       │    │
 │  └─────────────────────────────────────────────────┘    │
 │                                                         │
-│  Excerpt (auto-generated from content)                 │
+  Excerpt (auto-generated from content)
 │  ┌─────────────────────────────────────────────────┐    │
 │  │  Share your authentic story and connect with... │    │
 │  └─────────────────────────────────────────────────┘    │

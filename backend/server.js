@@ -13,6 +13,16 @@ const errorHandler = require('./middleware/errorHandler');
 // Load environment variables
 dotenv.config();
 
+// Validate required environment variables
+const requiredEnvVars = ['JWT_SECRET', 'MONGODB_URI'];
+const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+
+if (missingEnvVars.length > 0) {
+  logger.error(`❌ Missing required environment variables: ${missingEnvVars.join(', ')}`);
+  logger.error('Please create a .env file with the required variables. See .env.example for reference.');
+  process.exit(1);
+}
+
 const app = express();
 
 // Security middleware
@@ -41,7 +51,7 @@ app.use((req, res, next) => {
 // MongoDB Connection
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/socialobby');
+    await mongoose.connect(process.env.MONGODB_URI);
     logger.info('✅ MongoDB connected successfully!');
   } catch (error) {
     logger.error('❌ MongoDB connection error:', error);

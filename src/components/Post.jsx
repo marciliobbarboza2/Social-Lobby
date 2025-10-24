@@ -1,10 +1,10 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import Comment from './Comment';
+import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const Post = ({
   post,
-  isLoggedIn,
   handleEditPost,
   handleDeletePost,
   editingPost,
@@ -13,7 +13,6 @@ const Post = ({
   handleSavePost,
   handleCancelEdit,
   handleLike,
-  handleReaction,
   toggleComments,
   showComments,
   newComment,
@@ -25,19 +24,20 @@ const Post = ({
   editingComment,
   handleSaveComment,
 }) => {
-  const [showReactions, setShowReactions] = useState(false);
+  const { authProps } = useSocialLobbyContext();
+  const { currentUser, isLoggedIn } = authProps;
   return (
     <article className="post">
       <div className="post-header">
         <div className="post-author">
-          <img src={post.avatar} alt={post.author} className="author-avatar" onClick={() => handleViewProfile(post.author)} style={{cursor: 'pointer'}} />
+          <img src={post.avatar} alt={post.author} className="author-avatar" onClick={() => handleViewProfile(post.authorObject)} style={{cursor: 'pointer'}} />
           <div className="author-info">
-            <h4 className="author-name" onClick={() => handleViewProfile(post.author)} style={{cursor: 'pointer'}}>{post.author}</h4>
+            <h4 className="author-name" onClick={() => handleViewProfile(post.authorObject)} style={{cursor: 'pointer'}}>{post.author}</h4>
             <span className="post-time">{post.time}</span>
           </div>
         </div>
         <div className="post-options">
-          {isLoggedIn && post.author === "You" && (
+          {currentUser?._id === post.author?._id && (
             <>
               <button className="edit-btn" onClick={() => handleEditPost(post.id, post.content)}>✏️ Edit</button>
               <button className="delete-btn" onClick={() => handleDeletePost(post.id)}>🗑️ Delete</button>
@@ -80,10 +80,10 @@ const Post = ({
 
       <div className="post-actions">
         <button
-          className={`action-btn ${post.liked ? 'liked' : ''}`}
-          onClick={() => setShowReactions(!showReactions)}
+          className={`action-btn ${post.isLikedByCurrentUser ? 'liked' : ''}`}
+          onClick={() => handleLike(post.id)}
         >
-          {post.reaction || '👍'} Like
+          👍 Like
         </button>
         <button
           className="action-btn"
@@ -93,16 +93,6 @@ const Post = ({
         </button>
         <button className="action-btn">📤 Share</button>
       </div>
-      {showReactions && (
-        <div className="reactions">
-          <button onClick={() => { handleReaction(post.id, '👍'); setShowReactions(false); }}>👍</button>
-          <button onClick={() => { handleReaction(post.id, '❤️'); setShowReactions(false); }}>❤️</button>
-          <button onClick={() => { handleReaction(post.id, '😂'); setShowReactions(false); }}>😂</button>
-          <button onClick={() => { handleReaction(post.id, '😮'); setShowReactions(false); }}>😮</button>
-          <button onClick={() => { handleReaction(post.id, '😢'); setShowReactions(false); }}>😢</button>
-          <button onClick={() => { handleReaction(post.id, '😡'); setShowReactions(false); }}>😡</button>
-        </div>
-      )}
 
       {showComments[post.id] && (
         <div className="comments-section">
