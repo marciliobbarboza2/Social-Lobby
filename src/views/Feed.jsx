@@ -3,8 +3,9 @@ import Post from '../components/Post';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const Feed = () => {
-  const { dataProps, postsProps } = useSocialLobbyContext();
+  const { dataProps, postsProps, authProps } = useSocialLobbyContext();
   const { handleViewProfile, getTodaysBirthdays, getUpcomingEvents } = dataProps;
+  const { currentUser } = authProps;
   const {
     posts,
     newPost,
@@ -35,7 +36,7 @@ const Feed = () => {
       <div className="create-post">
         <div className="post-composer">
           <div className="composer-input">
-            <img src="https://picsum.photos/seed/you/40" alt="You" className="user-avatar" />
+            <img src={currentUser?.avatar || "https://picsum.photos/seed/you/40"} alt="You" className="user-avatar" />
             <textarea
               placeholder="What's happening in your world?"
               value={newPost}

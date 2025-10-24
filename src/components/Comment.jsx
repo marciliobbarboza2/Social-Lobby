@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const Comment = ({
@@ -13,6 +12,12 @@ const Comment = ({
   handleCancelEdit,
   postId,
 }) => {
+  const handleDeleteClick = () => {
+    if (window.confirm('Are you sure you want to delete this comment?')) {
+      handleDeleteComment(postId, comment.id);
+    }
+  };
+
   return (
     <div key={comment.id} className="comment">
       <img src={comment.avatar} alt={comment.author} className="comment-avatar" />
@@ -23,7 +28,7 @@ const Comment = ({
           {isLoggedIn && comment.author === "You" && (
             <>
               <button className="edit-comment-btn" onClick={() => handleEditComment(postId, comment.id, comment.content)}>✏️</button>
-              <button className="delete-comment-btn" onClick={() => handleDeleteComment(postId, comment.id)}>🗑️</button>
+              <button className="delete-comment-btn" onClick={handleDeleteClick}>🗑️</button>
             </>
           )}
         </div>

@@ -64,30 +64,6 @@ const users = [
     city: 'Chicago',
     groups: ['Business Professionals', 'Entrepreneurs'],
     maritalStatus: 'Married'
-  },
-  {
-    username: 'emmarodriguez',
-    email: 'emma@example.com',
-    password: 'password123',
-    firstName: 'Emma',
-    lastName: 'Rodriguez',
-    bio: 'Travel blogger and photographer',
-    avatar: 'https://randomuser.me/api/portraits/women/5.jpg',
-    city: 'Miami',
-    groups: ['Travel Enthusiasts', 'Photographers'],
-    maritalStatus: 'Single'
-  },
-  {
-    username: 'marciliobbarboza',
-    email: 'marciliobbarboza@gmail.com',
-    password: 'marciliobbarboza',
-    firstName: 'Marcilio',
-    lastName: 'Barboza',
-    bio: 'Developer and tech enthusiast',
-    avatar: 'https://randomuser.me/api/portraits/men/6.jpg',
-    city: 'Rio de Janeiro',
-    groups: ['Developers', 'Tech Enthusiasts'],
-    maritalStatus: 'Single'
   }
 ];
 

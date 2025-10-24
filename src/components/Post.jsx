@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Comment from './Comment';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
@@ -26,6 +25,13 @@ const Post = ({
 }) => {
   const { authProps } = useSocialLobbyContext();
   const { currentUser, isLoggedIn } = authProps;
+
+  const handleDeletePostClick = () => {
+    if (window.confirm('Are you sure you want to delete this post?')) {
+      handleDeletePost(post.id);
+    }
+  };
+
   return (
     <article className="post">
       <div className="post-header">
@@ -40,7 +46,7 @@ const Post = ({
           {currentUser?._id === post.author?._id && (
             <>
               <button className="edit-btn" onClick={() => handleEditPost(post.id, post.content)}>✏️ Edit</button>
-              <button className="delete-btn" onClick={() => handleDeletePost(post.id)}>🗑️ Delete</button>
+              <button className="delete-btn" onClick={handleDeletePostClick}>🗑️ Delete</button>
             </>
           )}
         </div>
