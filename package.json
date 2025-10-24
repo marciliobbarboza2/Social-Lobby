@@ -12,9 +12,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "razorpay": "^2.9.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "razorpay": "^2.9.2",
+    "react-icons": "^5.5.0",
+    "react-pull-to-refresh": "^2.0.1",
     "slugify": "^1.6.6"
   },
   "devDependencies": {

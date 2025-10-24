@@ -31,7 +31,7 @@ export const SocialLobbyProvider = ({ children }) => {
   const { currentUser, isLoggedIn } = authProps;
 
   const viewProps = useView();
-  const { setCurrentView, setShowStoryModal, setShowChat } = viewProps;
+  const { setCurrentView, setShowLogin, setShowStoryModal, setShowChat } = viewProps;
 
   const dataProps = useData(initialUsers, initialGroups, initialStories, initialEvents, initialNotifications);
   const { handleViewProfile, setSelectedUser, setSelectedStory } = dataProps;
@@ -42,8 +42,12 @@ export const SocialLobbyProvider = ({ children }) => {
   useEffect(() => {
     if (isLoggedIn) {
       setCurrentView('feed');
+      setShowLogin(false);
+    } else {
+      setCurrentView('login');
+      setShowLogin(true);
     }
-  }, [isLoggedIn, setCurrentView]);
+  }, [isLoggedIn, setCurrentView, setShowLogin]);
 
   // --- DERIVED STATE & HANDLERS ---
 

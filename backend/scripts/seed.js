@@ -64,18 +64,6 @@ const users = [
     city: 'Chicago',
     groups: ['Business Professionals', 'Entrepreneurs'],
     maritalStatus: 'Married'
-  },
-  {
-    username: 'marciliobbarboza',
-    email: 'marciliobbarboza@gmail.com',
-    password: 'marciliobbarboza',
-    firstName: 'Marcilio',
-    lastName: 'Barboza',
-    bio: 'Developer and tech enthusiast',
-    avatar: 'https://randomuser.me/api/portraits/men/6.jpg',
-    city: 'Unknown',
-    groups: ['Developers'],
-    maritalStatus: 'Single'
   }
 ];
 
@@ -118,6 +106,102 @@ const posts = [
     excerpt: 'Exploring the benefits and challenges of remote work culture.',
     category: 'business',
     tags: ['Remote Work', 'Business', 'Work Culture'],
+    status: 'published'
+  },
+  {
+    title: 'The Future of Artificial Intelligence in Daily Life',
+    content: 'Artificial Intelligence is no longer just a concept from science fiction movies. It\'s becoming an integral part of our daily lives, from voice assistants to smart home devices. This post explores how AI is transforming various aspects of our routine and what we can expect in the coming years.',
+    excerpt: 'How AI is changing our daily lives and what to expect next.',
+    category: 'technology',
+    tags: ['AI', 'Technology', 'Future', 'Innovation'],
+    status: 'published'
+  },
+  {
+    title: 'Mindful Meditation: A Beginner\'s Guide',
+    content: 'In our fast-paced world, finding moments of peace and mindfulness is crucial for mental well-being. Meditation doesn\'t have to be complicated or time-consuming. Learn simple techniques to incorporate mindfulness into your daily routine and experience the benefits of reduced stress and improved focus.',
+    excerpt: 'Simple meditation techniques for beginners to reduce stress.',
+    category: 'health',
+    tags: ['Meditation', 'Mindfulness', 'Wellness', 'Mental Health'],
+    status: 'published'
+  },
+  {
+    title: 'Exploring Street Food Culture Around the World',
+    content: 'Street food is more than just convenient meals on the go. It\'s a window into local cultures, traditions, and culinary creativity. From bustling markets in Bangkok to food trucks in New York, street food tells stories of communities and their gastronomic heritage.',
+    excerpt: 'A culinary journey through global street food cultures.',
+    category: 'food',
+    tags: ['Street Food', 'Culture', 'Travel', 'Cuisine'],
+    status: 'published'
+  },
+  {
+    title: 'The Psychology of Social Media Addiction',
+    content: 'Social media has become an integral part of modern life, but it can also lead to addiction and negative mental health effects. Understanding the psychological mechanisms behind social media addiction can help us develop healthier digital habits and maintain better work-life balance.',
+    excerpt: 'Understanding the psychological impact of social media addiction.',
+    category: 'other',
+    tags: ['Psychology', 'Social Media', 'Mental Health', 'Digital Wellness'],
+    status: 'published'
+  },
+  {
+    title: 'Sustainable Fashion: Making Conscious Clothing Choices',
+    content: 'The fashion industry has a significant environmental impact, but consumers can make a difference through conscious choices. Learn about sustainable fashion practices, ethical brands, and how to build a wardrobe that\'s both stylish and environmentally responsible.',
+    excerpt: 'How to make sustainable and ethical fashion choices.',
+    category: 'other',
+    tags: ['Sustainable Fashion', 'Ethics', 'Environment', 'Style'],
+    status: 'published'
+  },
+  {
+    title: 'The Art of Digital Photography: Tips for Beginners',
+    content: 'Digital photography has become more accessible than ever with smartphone cameras and affordable DSLRs. Learn the fundamentals of composition, lighting, and post-processing to take your photos from good to great. Discover how to capture stunning images in any situation.',
+    excerpt: 'Essential tips for improving your digital photography skills.',
+    category: 'technology',
+    tags: ['Photography', 'Digital Art', 'Creativity', 'Technology'],
+    status: 'published'
+  },
+  {
+    title: 'Mental Health Awareness: Breaking the Stigma',
+    content: 'Mental health is just as important as physical health, yet it often carries an unfair stigma. This post explores common mental health challenges, the importance of seeking help, and how we can support each other in building a more compassionate society.',
+    excerpt: 'Understanding and supporting mental health in our communities.',
+    category: 'health',
+    tags: ['Mental Health', 'Wellness', 'Community', 'Support'],
+    status: 'published'
+  },
+  {
+    title: 'Home Gardening: Growing Your Own Food',
+    content: 'Growing your own vegetables and herbs can be incredibly rewarding and cost-effective. Whether you have a large backyard or just a windowsill, learn how to start a home garden, choose the right plants for your climate, and maintain healthy, productive plants.',
+    excerpt: 'A beginner\'s guide to starting and maintaining a home garden.',
+    category: 'lifestyle',
+    tags: ['Gardening', 'Sustainability', 'Food', 'DIY'],
+    status: 'published'
+  },
+  {
+    title: 'The Future of Work: Remote vs Office Dynamics',
+    content: 'The COVID-19 pandemic accelerated the shift to remote work, but what does the future hold? This post examines the pros and cons of remote work versus traditional office environments, and explores hybrid models that might become the new normal.',
+    excerpt: 'Exploring the evolving landscape of work environments.',
+    category: 'business',
+    tags: ['Remote Work', 'Future of Work', 'Productivity', 'Business'],
+    status: 'published'
+  },
+  {
+    title: 'Cultural Cuisine: Exploring Global Flavors',
+    content: 'Food is a universal language that tells stories of culture, history, and tradition. From spicy curries in India to fresh seafood in Mediterranean countries, discover the diverse culinary traditions around the world and how they reflect local customs and ingredients.',
+    excerpt: 'A culinary journey through different cultures and their cuisines.',
+    category: 'food',
+    tags: ['Cuisine', 'Culture', 'Travel', 'Food'],
+    status: 'published'
+  },
+  {
+    title: 'Financial Planning for Young Professionals',
+    content: 'Building financial stability early in your career can set you up for long-term success. Learn about budgeting, saving, investing, and debt management strategies that are specifically tailored for young professionals starting their financial journey.',
+    excerpt: 'Essential financial planning tips for career starters.',
+    category: 'business',
+    tags: ['Finance', 'Planning', 'Investment', 'Career'],
+    status: 'published'
+  },
+  {
+    title: 'The Science of Sleep: Optimizing Your Rest',
+    content: 'Quality sleep is crucial for physical and mental health, yet many people struggle with sleep issues. Discover the science behind sleep cycles, learn how to create an optimal sleep environment, and adopt habits that promote better rest and recovery.',
+    excerpt: 'Understanding sleep science and improving sleep quality.',
+    category: 'health',
+    tags: ['Sleep', 'Health', 'Wellness', 'Science'],
     status: 'published'
   }
 ];
