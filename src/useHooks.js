@@ -436,6 +436,23 @@ export const usePosts = (initialPosts, currentUser) => {
     }
   };
 
+  const fetchSinglePost = async (postId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/posts/${postId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch single post');
+      }
+      const data = await response.json();
+      if (data.success) {
+        // You can set a single post state or handle navigation here
+        // For now, just log it or set a state if needed
+        console.log('Fetched single post:', data.post);
+      }
+    } catch (error) {
+      console.error('Error fetching single post:', error);
+    }
+  };
+
   return {
     posts,
     editingPost,
@@ -457,7 +474,8 @@ export const usePosts = (initialPosts, currentUser) => {
     toggleComments,
     handleComment,
     handleDeletePost,
-    handleDeleteComment
+    handleDeleteComment,
+    fetchSinglePost
   };
 };
 

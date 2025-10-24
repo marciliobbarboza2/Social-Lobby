@@ -61,7 +61,7 @@ const Feed = () => {
           <h3>🎂 Birthdays Today</h3>
           <div className="birthdays-list">
             {getTodaysBirthdays().map((user) => (
-              <div key={user.username} className="birthday-item">
+              <div key={user.username} className="birthday-item" onClick={() => handleViewProfile(user)} style={{cursor: 'pointer'}}>
                 <img src={user.avatar} alt={user.name} className="birthday-avatar" />
                 <span className="birthday-name">{user.name}</span>
               </div>
@@ -75,7 +75,7 @@ const Feed = () => {
           <h3>📅 Upcoming Events</h3>
           <div className="events-list">
             {getUpcomingEvents().map((event) => (
-              <div key={event.id} className="event-item">
+              <div key={event.id} className="event-item" style={{cursor: 'pointer'}}>
                 <img src={event.image} alt={event.title} className="event-image" />
                 <div className="event-details">
                   <h4 className="event-title">{event.title}</h4>
