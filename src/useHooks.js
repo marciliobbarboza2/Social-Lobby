@@ -158,6 +158,9 @@ export const usePosts = (initialPosts, currentUser) => {
   const [newPost, setNewPost] = useState('');
   const [newComment, setNewComment] = useState('');
   const [showComments, setShowComments] = useState({});
+  const [singlePost, setSinglePost] = useState(null);
+  const [singlePostLoading, setSinglePostLoading] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -168,7 +171,7 @@ export const usePosts = (initialPosts, currentUser) => {
         }
         const data = await response.json();
         if (data.success) {
-          const postsWithId = mapFetchedPosts(data.data, currentUser);
+        const postsWithId = mapFetchedPosts(data.data, currentUser);
           setPosts(postsWithId);
         }
       } catch (error) {
@@ -436,6 +439,25 @@ export const usePosts = (initialPosts, currentUser) => {
     }
   };
 
+  const fetchSinglePost = async (postId) => {
+    setSinglePostLoading(true);
+    try {
+      const response = await fetch(`http://localhost:5000/api/posts/${postId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch post');
+      }
+      const data = await response.json();
+      if (data.success) {
+        const postWithId = mapFetchedPosts([data.post], currentUser)[0];
+        setSinglePost(postWithId);
+      }
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      setSinglePostLoading(false);
+    }
+  };
+
   return {
     posts,
     editingPost,
@@ -457,7 +479,12 @@ export const usePosts = (initialPosts, currentUser) => {
     toggleComments,
     handleComment,
     handleDeletePost,
-    handleDeleteComment
+    handleDeleteComment,
+    singlePost,
+    singlePostLoading,
+    fetchSinglePost,
+    selectedPost,
+    setSelectedPost
   };
 };
 

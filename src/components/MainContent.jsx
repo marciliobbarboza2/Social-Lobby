@@ -1,5 +1,6 @@
 import React from 'react';
 import HomePage from '../pages/HomePage';
+import SinglePostPage from '../pages/SinglePostPage';
 import Post from './Post'; // Import Post for the profile view
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
@@ -11,6 +12,10 @@ const MainContent = () => {
 
   if (currentView === 'feed') {
     return <HomePage />;
+  }
+
+  if (currentView === 'singlePost') {
+    return <SinglePostPage />;
   }
 
   if (currentView === 'friends') {

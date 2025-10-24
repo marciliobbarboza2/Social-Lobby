@@ -37,6 +37,8 @@ export const SocialLobbyProvider = ({ children }) => {
   const { handleViewProfile, setSelectedUser, setSelectedStory } = dataProps;
 
   const postsProps = usePosts([], currentUser);
+  const { selectedPost, setSelectedPost } = postsProps;
+  const { fetchSinglePost } = postsProps;
 
   // When user logs in or out, reset the view to the feed
   useEffect(() => {

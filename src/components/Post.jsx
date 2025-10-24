@@ -24,8 +24,10 @@ const Post = ({
   editingComment,
   handleSaveComment,
 }) => {
-  const { authProps } = useSocialLobbyContext();
+  const { authProps, viewProps, postsProps } = useSocialLobbyContext();
   const { currentUser, isLoggedIn } = authProps;
+  const { setCurrentView } = viewProps;
+  const { fetchSinglePost } = postsProps;
   return (
     <article className="post">
       <div className="post-header">
@@ -91,7 +93,12 @@ const Post = ({
         >
           💬 Comment
         </button>
-        <button className="action-btn">📤 Share</button>
+        <button className="action-btn" onClick={() => {
+          fetchSinglePost(post.id);
+          setCurrentView('singlePost');
+          // Update URL for single post
+          window.history.pushState({}, '', `/post/${post.id}`);
+        }}>📤 View</button>
       </div>
 
       {showComments[post.id] && (
