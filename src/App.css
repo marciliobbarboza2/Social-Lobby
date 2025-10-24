@@ -241,6 +241,72 @@
   border-left: 4px solid #FF9800;
 }
 
+.socialobby-right-sidebar {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dee2e6;
+}
+
+.socialobby-right-sidebar .sidebar-section {
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.socialobby-right-sidebar .sidebar-section h3 {
+  color: #495057;
+  font-weight: 600;
+  border-bottom: 2px solid #6c757d;
+  padding-bottom: 8px;
+}
+
+.socialobby-right-sidebar .contact {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.socialobby-right-sidebar .contact:hover {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.socialobby-right-sidebar .trend-item {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.socialobby-right-sidebar .trend-item:hover {
+  background: rgba(255, 152, 0, 0.1);
+  border-color: rgba(255, 152, 0, 0.3);
+  transform: translateX(2px);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
+}
+
+.socialobby-right-sidebar .trend-link {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.socialobby-right-sidebar .trend-link:hover {
+  color: #FF9800;
+}
+
+.socialobby-right-sidebar .trend-count {
+  color: #FF9800;
+  font-weight: 600;
+}
+
 .sidebar-section h3 {
   margin: 0 0 12px 0;
   font-size: 16px;
