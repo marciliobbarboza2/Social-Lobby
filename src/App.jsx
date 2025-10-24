@@ -66,32 +66,35 @@ const AppContent = () => {
       <MainContent />
 
       {/* Modal dialogs for various features */}
-      <Modals
-        showLogin={showLogin}
-        setShowLogin={setShowLogin}
-        loginEmail={loginEmail}
-        setLoginEmail={setLoginEmail}
-        loginPassword={loginPassword}
-        setLoginPassword={setLoginPassword}
-        handleLogin={handleLogin}
-        showProfile={showProfile}
-        setShowProfile={setShowProfile}
-        currentUser={currentUser}
-        handleDeleteAccount={handleDeleteAccount}
-        showOtherProfile={showOtherProfile}
-        setShowOtherProfile={setShowOtherProfile}
-        otherUser={otherUser}
-        showNotifications={showNotifications}
-        setShowNotifications={setShowNotifications}
-        notifications={notifications}
-        showGroups={showGroups}
-        setShowGroups={setShowGroups}
-        groups={groups}
-        handleJoinGroup={handleJoinGroup}
-        showStoryModal={showStoryModal}
-        setShowStoryModal={setShowStoryModal}
-        selectedStory={selectedStory}
-      />
+      {isLoggedIn && (
+        <Modals
+          showLogin={showLogin}
+          setShowLogin={setShowLogin}
+          loginEmail={loginEmail}
+          setLoginEmail={setLoginEmail}
+          loginPassword={loginPassword}
+          setLoginPassword={setLoginPassword}
+          handleLogin={handleLogin}
+          showProfile={showProfile}
+          setShowProfile={setShowProfile}
+          currentUser={currentUser}
+          handleDeleteAccount={handleDeleteAccount}
+          showOtherProfile={showOtherProfile}
+          setShowOtherProfile={setShowOtherProfile}
+          otherUser={otherUser}
+          showNotifications={showNotifications}
+          setShowNotifications={setShowNotifications}
+          notifications={notifications}
+          showGroups={showGroups}
+          setShowGroups={setShowGroups}
+          groups={groups}
+          handleJoinGroup={handleJoinGroup}
+          showStoryModal={showStoryModal}
+          setShowStoryModal={setShowStoryModal}
+          selectedStory={selectedStory}
+        />
+      )}
+
 
     </div>
   );

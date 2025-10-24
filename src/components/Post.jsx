@@ -23,8 +23,10 @@ const Post = ({
   editingComment,
   handleSaveComment,
 }) => {
-  const { authProps } = useSocialLobbyContext();
+  const { authProps, viewProps, postsProps } = useSocialLobbyContext();
   const { currentUser, isLoggedIn } = authProps;
+  const { setCurrentView } = viewProps;
+  const { fetchSinglePost } = postsProps;
 
   const handleDeletePostClick = () => {
     if (window.confirm('Are you sure you want to delete this post?')) {
@@ -97,7 +99,12 @@ const Post = ({
         >
           💬 Comment
         </button>
-        <button className="action-btn">📤 Share</button>
+        <button className="action-btn" onClick={() => {
+          fetchSinglePost(post.id);
+          setCurrentView('singlePost');
+          // Update URL for single post
+          window.history.pushState({}, '', `/post/${post.id}`);
+        }}>📤 View</button>
       </div>
 
       {showComments[post.id] && (
