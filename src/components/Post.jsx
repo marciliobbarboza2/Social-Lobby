@@ -160,6 +160,7 @@ const Post = ({
                 handleCancelEdit={handleCancelEdit}
                 postId={post.id}
                 handleViewProfile={handleViewProfile}
+                postAuthorId={post.authorId}
               />
             ))}
           </div>
