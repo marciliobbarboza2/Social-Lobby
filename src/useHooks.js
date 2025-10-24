@@ -20,10 +20,14 @@ export const useAuth = () => {
     const token = localStorage.getItem('token');
     if (token) {
       // Verify token with backend
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
       fetch('http://localhost:5000/api/auth/me', {
         headers: {
           'Authorization': `Bearer ${token}`
-        }
+        },
+        signal: controller.signal
       })
       .then(response => response.json())
       .then(data => {
@@ -36,7 +40,8 @@ export const useAuth = () => {
       })
       .catch(() => {
         localStorage.removeItem('token');
-      });
+      })
+      .finally(() => clearTimeout(timeoutId));
     }
   }, []);
 
@@ -52,6 +57,9 @@ export const useAuth = () => {
     setIsLoading(true);
     setError(null);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
@@ -61,7 +69,8 @@ export const useAuth = () => {
         body: JSON.stringify({
           email: emailToLogin,
           password: passwordToLogin
-        })
+        }),
+        signal: controller.signal
       });
 
       const data = await response.json();
@@ -78,11 +87,15 @@ export const useAuth = () => {
     } catch {
       setError('Network error. Please try again.');
     } finally {
+      clearTimeout(timeoutId);
       setIsLoading(false);
     }
   };
 
   const handleLogout = async () => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     try {
       const token = localStorage.getItem('token');
       if (token) {
@@ -90,12 +103,14 @@ export const useAuth = () => {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`
-          }
+          },
+          signal: controller.signal
         });
       }
     } catch {
       console.error('Logout error');
     } finally {
+      clearTimeout(timeoutId);
       localStorage.removeItem('token');
       setIsLoggedIn(false);
       setCurrentUser(null);
@@ -107,13 +122,17 @@ export const useAuth = () => {
       return;
     }
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/api/users/me', {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
-        }
+        },
+        signal: controller.signal
       });
 
       if (response.ok) {
@@ -125,6 +144,8 @@ export const useAuth = () => {
       }
     } catch {
       setError('Network error. Please try again.');
+    } finally {
+      clearTimeout(timeoutId);
     }
   };
 
@@ -161,8 +182,13 @@ export const usePosts = (initialPosts, currentUser) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
       try {
-        const response = await fetch('http://localhost:5000/api/posts');
+        const response = await fetch('http://localhost:5000/api/posts', {
+          signal: controller.signal
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch posts');
         }
@@ -173,7 +199,13 @@ export const usePosts = (initialPosts, currentUser) => {
           const postsWithComments = await Promise.all(
             postsWithId.map(async (post) => {
               try {
-                const commentsResponse = await fetch(`http://localhost:5000/api/comments/post/${post.id}`);
+                const commentsController = new AbortController();
+                const commentsTimeoutId = setTimeout(() => commentsController.abort(), 10000); // 10 second timeout
+
+                const commentsResponse = await fetch(`http://localhost:5000/api/comments/post/${post.id}`, {
+                  signal: commentsController.signal
+                });
+                clearTimeout(commentsTimeoutId);
                 if (commentsResponse.ok) {
                   const commentsData = await commentsResponse.json();
                   if (commentsData.success) {
@@ -212,6 +244,8 @@ export const usePosts = (initialPosts, currentUser) => {
         }
       } catch (error) {
         console.error(error.message);
+      } finally {
+        clearTimeout(timeoutId);
       }
     };
 
@@ -230,6 +264,9 @@ export const usePosts = (initialPosts, currentUser) => {
       return;
     }
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     try {
       const response = await fetch(`http://localhost:5000/api/posts/${postId}`, {
         method: 'PUT',
@@ -239,7 +276,8 @@ export const usePosts = (initialPosts, currentUser) => {
         },
         body: JSON.stringify({
           content: editContent
-        })
+        }),
+        signal: controller.signal
       });
 
       const data = await response.json();
@@ -253,6 +291,8 @@ export const usePosts = (initialPosts, currentUser) => {
       }
     } catch (error) {
       console.error('Error updating post:', error);
+    } finally {
+      clearTimeout(timeoutId);
     }
   };
 
@@ -282,12 +322,16 @@ export const usePosts = (initialPosts, currentUser) => {
     ));
     handleCancelEdit();
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`http://localhost:5000/api/comments/${commentId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ content: editContent })
+        body: JSON.stringify({ content: editContent }),
+        signal: controller.signal
       });
       if (!response.ok) {
         // Revert on failure
@@ -297,6 +341,8 @@ export const usePosts = (initialPosts, currentUser) => {
     } catch (error) {
       console.error('Error saving comment:', error);
       setPosts(originalPosts);
+    } finally {
+      clearTimeout(timeoutId);
     }
   };
 
@@ -316,12 +362,16 @@ export const usePosts = (initialPosts, currentUser) => {
       }
       return p;
     }));
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     try {
       const response = await fetch(`http://localhost:5000/api/posts/${postId}/like`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
-        }
+        },
+        signal: controller.signal
       });
 
       const data = await response.json();
@@ -335,6 +385,8 @@ export const usePosts = (initialPosts, currentUser) => {
       }
     } catch (error) {
       console.error('Error toggling like:', error);
+    } finally {
+      clearTimeout(timeoutId);
     }
   };
 
@@ -347,6 +399,9 @@ export const usePosts = (initialPosts, currentUser) => {
       return;
     }
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     try {
       const response = await fetch('http://localhost:5000/api/posts', {
         method: 'POST',
@@ -358,7 +413,8 @@ export const usePosts = (initialPosts, currentUser) => {
           title: newPost.substring(0, 50), // First 50 chars as title
           content: newPost,
           status: 'published'
-        })
+        }),
+        signal: controller.signal
       });
 
       const data = await response.json();
@@ -373,6 +429,8 @@ export const usePosts = (initialPosts, currentUser) => {
       }
     } catch (error) {
       console.error('Error creating post:', error);
+    } finally {
+      clearTimeout(timeoutId);
     }
   };
 
@@ -392,6 +450,9 @@ export const usePosts = (initialPosts, currentUser) => {
       return;
     }
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     try {
       const response = await fetch('http://localhost:5000/api/comments', {
         method: 'POST',
@@ -402,7 +463,8 @@ export const usePosts = (initialPosts, currentUser) => {
         body: JSON.stringify({
           content: newComment,
           postId: postId
-        })
+        }),
+        signal: controller.signal
       });
 
       const data = await response.json();
@@ -417,6 +479,8 @@ export const usePosts = (initialPosts, currentUser) => {
       }
     } catch (error) {
       console.error('Error creating comment:', error);
+    } finally {
+      clearTimeout(timeoutId);
     }
   };
 
@@ -427,12 +491,16 @@ export const usePosts = (initialPosts, currentUser) => {
       return;
     }
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     try {
       const response = await fetch(`http://localhost:5000/api/posts/${postId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
-        }
+        },
+        signal: controller.signal
       });
 
       if (response.ok) {
@@ -443,6 +511,8 @@ export const usePosts = (initialPosts, currentUser) => {
       }
     } catch (error) {
       console.error('Error deleting post:', error);
+    } finally {
+      clearTimeout(timeoutId);
     }
   };
 
@@ -458,11 +528,15 @@ export const usePosts = (initialPosts, currentUser) => {
         : post
     ));
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`http://localhost:5000/api/comments/${commentId}`, {
         method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${token}` },
+        signal: controller.signal
       });
       if (!response.ok) {
         // Revert on failure
@@ -472,6 +546,8 @@ export const usePosts = (initialPosts, currentUser) => {
     } catch (error) {
       console.error('Error deleting comment:', error);
       setPosts(originalPosts);
+    } finally {
+      clearTimeout(timeoutId);
     }
   };
 
@@ -586,22 +662,7 @@ export const useData = (initialUsers, initialGroups, initialStories, initialEven
     return null;
   };
 
-  const fetchUserById = async (userId) => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/users/${userId}/posts`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
-          // Find user from posts author data
-          const userFromPosts = data.data.length > 0 ? data.data[0].author : null;
-          return userFromPosts;
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching user by ID:', error);
-    }
-    return null;
-  };
+
 
   const handleJoinGroup = (groupId) => {
     // TODO: This should be an API call to join/leave a group on the server.
