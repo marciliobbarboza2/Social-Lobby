@@ -1,6 +1,6 @@
 const logger = require('../utils/logger');
 
-const errorHandler = (err, req, res) => {
+const errorHandler = (err, req, res, next) => {
   let error = { ...err };
   error.message = err.message;
 
@@ -36,10 +36,17 @@ const errorHandler = (err, req, res) => {
     error = { message, statusCode: 401 };
   }
 
-  res.status(error.statusCode || 500).json({
-    success: false,
-    error: error.message || 'Server Error'
-  });
+  // Check if response object is valid
+  if (res && typeof res.status === 'function') {
+    res.status(error.statusCode || 500).json({
+      success: false,
+      error: error.message || 'Server Error'
+    });
+  } else {
+    // Fallback if res is not available
+    logger.error('Response object not available in error handler');
+    next(err);
+  }
 };
 
 module.exports = errorHandler;
