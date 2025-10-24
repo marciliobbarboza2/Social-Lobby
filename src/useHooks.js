@@ -168,7 +168,7 @@ export const usePosts = (initialPosts, currentUser) => {
         }
         const data = await response.json();
         if (data.success) {
-          const postsWithId = mapFetchedPosts(data.data, currentUser);
+          const postsWithId = mapFetchedPosts(data, currentUser);
           // Fetch comments for each post
           const postsWithComments = await Promise.all(
             postsWithId.map(async (post) => {
