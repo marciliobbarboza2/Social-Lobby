@@ -64,6 +64,18 @@ const users = [
     city: 'Chicago',
     groups: ['Business Professionals', 'Entrepreneurs'],
     maritalStatus: 'Married'
+  },
+  {
+    username: 'emmarodriguez',
+    email: 'emma@example.com',
+    password: 'password123',
+    firstName: 'Emma',
+    lastName: 'Rodriguez',
+    bio: 'Travel blogger and photographer',
+    avatar: 'https://randomuser.me/api/portraits/women/5.jpg',
+    city: 'Miami',
+    groups: ['Travel Enthusiasts', 'Photographers'],
+    maritalStatus: 'Single'
   }
 ];
 
@@ -106,6 +118,46 @@ const posts = [
     excerpt: 'Exploring the benefits and challenges of remote work culture.',
     category: 'business',
     tags: ['Remote Work', 'Business', 'Work Culture'],
+    status: 'published'
+  },
+  {
+    title: 'The Future of Artificial Intelligence in Daily Life',
+    content: 'Artificial Intelligence is no longer just a concept from science fiction movies. It\'s becoming an integral part of our daily lives, from voice assistants to smart home devices. This post explores how AI is transforming various aspects of our routine and what we can expect in the coming years.',
+    excerpt: 'How AI is changing our daily lives and what to expect next.',
+    category: 'technology',
+    tags: ['AI', 'Technology', 'Future', 'Innovation'],
+    status: 'published'
+  },
+  {
+    title: 'Mindful Meditation: A Beginner\'s Guide',
+    content: 'In our fast-paced world, finding moments of peace and mindfulness is crucial for mental well-being. Meditation doesn\'t have to be complicated or time-consuming. Learn simple techniques to incorporate mindfulness into your daily routine and experience the benefits of reduced stress and improved focus.',
+    excerpt: 'Simple meditation techniques for beginners to reduce stress.',
+    category: 'health',
+    tags: ['Meditation', 'Mindfulness', 'Wellness', 'Mental Health'],
+    status: 'published'
+  },
+  {
+    title: 'Exploring Street Food Culture Around the World',
+    content: 'Street food is more than just convenient meals on the go. It\'s a window into local cultures, traditions, and culinary creativity. From bustling markets in Bangkok to food trucks in New York, street food tells stories of communities and their gastronomic heritage.',
+    excerpt: 'A culinary journey through global street food cultures.',
+    category: 'food',
+    tags: ['Street Food', 'Culture', 'Travel', 'Cuisine'],
+    status: 'published'
+  },
+  {
+    title: 'The Psychology of Social Media Addiction',
+    content: 'Social media has become an integral part of modern life, but it can also lead to addiction and negative mental health effects. Understanding the psychological mechanisms behind social media addiction can help us develop healthier digital habits and maintain better work-life balance.',
+    excerpt: 'Understanding the psychological impact of social media addiction.',
+    category: 'other',
+    tags: ['Psychology', 'Social Media', 'Mental Health', 'Digital Wellness'],
+    status: 'published'
+  },
+  {
+    title: 'Sustainable Fashion: Making Conscious Clothing Choices',
+    content: 'The fashion industry has a significant environmental impact, but consumers can make a difference through conscious choices. Learn about sustainable fashion practices, ethical brands, and how to build a wardrobe that\'s both stylish and environmentally responsible.',
+    excerpt: 'How to make sustainable and ethical fashion choices.',
+    category: 'other',
+    tags: ['Sustainable Fashion', 'Ethics', 'Environment', 'Style'],
     status: 'published'
   }
 ];
