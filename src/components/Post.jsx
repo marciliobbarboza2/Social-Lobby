@@ -45,7 +45,7 @@ const Post = ({
           </div>
         </div>
         <div className="post-options">
-          {currentUser?._id === post.author?._id && (
+          {currentUser?._id === post.authorId && (
             <>
               <button className="edit-btn" onClick={() => handleEditPost(post.id, post.content)}>✏️ Edit</button>
               <button className="delete-btn" onClick={handleDeletePostClick}>🗑️ Delete</button>

@@ -161,7 +161,7 @@ const MainContent = () => {
           <div className="profile-posts">
             <h3>Posts</h3>
             {posts
-              .filter(post => post.author && post.author._id === selectedUser._id)
+              .filter(post => post.authorId === selectedUser._id)
               .map(post => (
                 <Post
                   key={post.id}
