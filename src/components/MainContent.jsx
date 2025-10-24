@@ -113,13 +113,13 @@ const MainContent = () => {
     <div className="profile-page">
       {selectedUser && (
         <>
-          <div className="profile-cover" style={{backgroundImage: `url(${selectedUser.coverPhoto})`}}>
+          <div className="profile-cover" style={{backgroundImage: `url(https://picsum.photos/800/300?random=${selectedUser._id})`}}>
             <div className="profile-avatar-large">
-              <img src={selectedUser.avatar} alt={selectedUser.name} />
+              <img src={selectedUser.avatar} alt={selectedUser.firstName + ' ' + selectedUser.lastName} />
             </div>
           </div>
           <div className="profile-info">
-            <h2>{selectedUser.name}</h2>
+            <h2>{selectedUser.firstName} {selectedUser.lastName}</h2>
             <p>@{selectedUser.username}</p>
             <p>{selectedUser.bio}</p>
             <div className="profile-details">
@@ -130,7 +130,7 @@ const MainContent = () => {
                 <strong>Profession:</strong> {selectedUser.profession}
               </div>
               <div className="detail-row">
-                <strong>Location:</strong> {selectedUser.location}
+                <strong>Location:</strong> {selectedUser.city}
               </div>
               <div className="detail-row">
                 <strong>Education:</strong> {selectedUser.education}
@@ -139,7 +139,7 @@ const MainContent = () => {
                 <strong>Work:</strong> {selectedUser.work}
               </div>
               <div className="detail-row">
-                <strong>Relationship:</strong> {selectedUser.relationship}
+                <strong>Relationship:</strong> {selectedUser.maritalStatus}
               </div>
               <div className="detail-row">
                 <strong>Phone:</strong> {selectedUser.phone}
@@ -151,10 +151,10 @@ const MainContent = () => {
                 <strong>City:</strong> {selectedUser.city}
               </div>
               <div className="detail-row">
-                <strong>Groups:</strong> {selectedUser.groups.join(', ')}
+                <strong>Groups:</strong> {selectedUser.groups ? selectedUser.groups.join(', ') : ''}
               </div>
               <div className="detail-row">
-                <strong>Joined:</strong> {selectedUser.joined}
+                <strong>Joined:</strong> {selectedUser.createdAt ? new Date(selectedUser.createdAt).toLocaleDateString() : 'N/A'}
               </div>
             </div>
           </div>

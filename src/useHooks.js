@@ -586,6 +586,23 @@ export const useData = (initialUsers, initialGroups, initialStories, initialEven
     return null;
   };
 
+  const fetchUserById = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/users/${userId}/posts`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          // Find user from posts author data
+          const userFromPosts = data.data.length > 0 ? data.data[0].author : null;
+          return userFromPosts;
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user by ID:', error);
+    }
+    return null;
+  };
+
   const handleJoinGroup = (groupId) => {
     // TODO: This should be an API call to join/leave a group on the server.
     setGroups(groups.map(group =>

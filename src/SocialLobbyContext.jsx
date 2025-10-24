@@ -51,8 +51,14 @@ export const SocialLobbyProvider = ({ children }) => {
 
   // --- DERIVED STATE & HANDLERS ---
 
-  const handleViewProfileClick = (userOrName) => {
-    const userToView = handleViewProfile(userOrName);
+  const handleViewProfileClick = async (userOrName) => {
+    let userToView = handleViewProfile(userOrName);
+
+    // If user not found in static data, try to fetch from backend
+    if (!userToView && typeof userOrName === 'object' && userOrName._id) {
+      userToView = userOrName; // It's already a user object from backend
+    }
+
     if (userToView) {
       setSelectedUser(userToView);
       setCurrentView('profile');
