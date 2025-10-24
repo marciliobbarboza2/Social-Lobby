@@ -168,45 +168,45 @@ const MainContent = () => {
     <div className="profile-page">
       {selectedUser && (
         <>
-          <div className="profile-cover" style={{backgroundImage: `url(https://picsum.photos/800/300?random=${selectedUser._id})`}}>
+          <div className="profile-cover" style={{backgroundImage: `url(https://picsum.photos/800/300?random=${selectedUser._id || selectedUser.username})`}}>
             <div className="profile-avatar-large">
-              <img src={selectedUser.avatar} alt={selectedUser.firstName + ' ' + selectedUser.lastName} />
+              <img src={selectedUser.avatar || 'https://picsum.photos/seed/default/100'} alt={selectedUser.firstName + ' ' + selectedUser.lastName || selectedUser.name} />
             </div>
           </div>
           <div className="profile-info">
-            <h2>{selectedUser.firstName} {selectedUser.lastName}</h2>
+            <h2>{selectedUser.firstName && selectedUser.lastName ? `${selectedUser.firstName} ${selectedUser.lastName}` : selectedUser.name}</h2>
             <p>@{selectedUser.username}</p>
-            <p>{selectedUser.bio}</p>
+            <p>{selectedUser.bio || 'No bio available'}</p>
             <div className="profile-details">
               <div className="detail-row">
-                <strong>Birthday:</strong> {selectedUser.birthday}
+                <strong>Birthday:</strong> {selectedUser.birthday || 'Not specified'}
               </div>
               <div className="detail-row">
-                <strong>Profession:</strong> {selectedUser.profession}
+                <strong>Profession:</strong> {selectedUser.profession || 'Not specified'}
               </div>
               <div className="detail-row">
-                <strong>Location:</strong> {selectedUser.city}
+                <strong>Location:</strong> {selectedUser.city || 'Not specified'}
               </div>
               <div className="detail-row">
-                <strong>Education:</strong> {selectedUser.education}
+                <strong>Education:</strong> {selectedUser.education || 'Not specified'}
               </div>
               <div className="detail-row">
-                <strong>Work:</strong> {selectedUser.work}
+                <strong>Work:</strong> {selectedUser.work || 'Not specified'}
               </div>
               <div className="detail-row">
-                <strong>Relationship:</strong> {selectedUser.maritalStatus}
+                <strong>Relationship:</strong> {selectedUser.maritalStatus || 'Not specified'}
               </div>
               <div className="detail-row">
-                <strong>Phone:</strong> {selectedUser.phone}
+                <strong>Phone:</strong> {selectedUser.phone || 'Not specified'}
               </div>
               <div className="detail-row">
-                <strong>Address:</strong> {selectedUser.address}
+                <strong>Address:</strong> {selectedUser.address || 'Not specified'}
               </div>
               <div className="detail-row">
-                <strong>City:</strong> {selectedUser.city}
+                <strong>City:</strong> {selectedUser.city || 'Not specified'}
               </div>
               <div className="detail-row">
-                <strong>Groups:</strong> {selectedUser.groups ? selectedUser.groups.join(', ') : ''}
+                <strong>Groups:</strong> {selectedUser.groups ? selectedUser.groups.join(', ') : 'None'}
               </div>
               <div className="detail-row">
                 <strong>Joined:</strong> {selectedUser.createdAt ? new Date(selectedUser.createdAt).toLocaleDateString() : 'N/A'}
@@ -216,7 +216,7 @@ const MainContent = () => {
           <div className="profile-posts">
             <h3>Posts</h3>
             {posts
-              .filter(post => post.authorId === selectedUser._id)
+              .filter(post => post.authorId === selectedUser._id || post.authorId === selectedUser.id)
               .map(post => (
                 <Post
                   key={post.id}

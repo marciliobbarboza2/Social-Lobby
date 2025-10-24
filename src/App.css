@@ -6,6 +6,7 @@
   align-items: center;
   background: linear-gradient(135deg, #f0f2f5 0%, #e3f2fd 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
 }
 
 .login-container {
@@ -15,6 +16,8 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
   text-align: center;
 }
 
@@ -113,6 +116,33 @@
   align-items: center;
 }
 
+.socialobby-logo {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.socialobby-logo:hover {
+  transform: scale(1.05);
+  border-color: rgba(102, 126, 234, 0.3);
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-text-fill-color: #667eea;
+}
 .socialobby-logo {
   font-size: 32px;
   font-weight: 700;

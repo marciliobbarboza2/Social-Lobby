@@ -5,7 +5,7 @@ export const posts = [
       avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80",
       time: "2 hours ago",
       content: "Just launched my first React app! 🚀 The journey from idea to deployment is incredible. Grateful for the amazing developer community that helped me along the way. What's your biggest coding achievement this year?",
-      likes: [],
+      likes: ["user2", "user3", "user4"],
       comments: [
         { id: 1, author: "Alex Chen", avatar: "https://picsum.photos/seed/alex/30", content: "Congrats! That's awesome! 🎉", time: "1h ago", authorId: "user9" },
         { id: 2, author: "Maria Garcia", avatar: "https://picsum.photos/seed/maria/30", content: "So proud of you! What's next?", time: "45m ago", authorId: "user10" },
@@ -21,7 +21,7 @@ export const posts = [
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80",
       time: "4 hours ago",
       content: "Made homemade pizza from scratch tonight! 🍕 Nothing beats the smell of fresh dough baking. The secret is using high-quality olive oil and fresh basil. Recipe in the comments if anyone wants it!",
-      likes: [],
+      likes: ["user1", "user5", "user6"],
       comments: [
         { id: 3, author: "Lisa Park", avatar: "https://picsum.photos/seed/lisa/30", content: "That looks amazing! Please share the recipe 🙏", time: "3h ago", authorId: "user12" },
         { id: 4, author: "Tom Wilson", avatar: "https://picsum.photos/seed/tom/30", content: "Homemade pizza is the best! What's your favorite topping combo?", time: "2h ago", authorId: "user13" },

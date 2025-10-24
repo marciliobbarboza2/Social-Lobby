@@ -288,6 +288,22 @@ export const usePosts = (initialPosts, currentUser) => {
         // Revert on failure
         console.error('Failed to save comment');
         setPosts(originalPosts);
+      } else {
+        // Update with server response if needed
+        const data = await response.json();
+        if (data.success) {
+          // Update with the returned comment data
+          setPosts(posts.map(post =>
+            post.id === postId
+              ? {
+                ...post,
+                comments: post.comments.map(comment =>
+                  comment.id === commentId ? { ...comment, content: data.comment.content, time: data.comment.updatedAt || comment.time } : comment
+                )
+              }
+              : post
+          ));
+        }
       }
     } catch (error) {
       console.error('Error saving comment:', error);
