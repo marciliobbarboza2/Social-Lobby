@@ -169,7 +169,46 @@ export const usePosts = (initialPosts, currentUser) => {
         const data = await response.json();
         if (data.success) {
           const postsWithId = mapFetchedPosts(data.data, currentUser);
-          setPosts(postsWithId);
+          // Fetch comments for each post
+          const postsWithComments = await Promise.all(
+            postsWithId.map(async (post) => {
+              try {
+                const commentsResponse = await fetch(`http://localhost:5000/api/comments/post/${post.id}`);
+                if (commentsResponse.ok) {
+                  const commentsData = await commentsResponse.json();
+                  if (commentsData.success) {
+                    // Flatten comments and replies
+                    const allComments = [];
+                    commentsData.data.forEach(comment => {
+                      allComments.push({
+                        id: comment._id,
+                        content: comment.content,
+                        author: comment.author.firstName + ' ' + comment.author.lastName,
+                        authorId: comment.author._id,
+                        avatar: comment.author.avatar,
+                        time: new Date(comment.createdAt).toLocaleDateString(),
+                        likes: comment.likes || 0,
+                        replies: comment.replies ? comment.replies.map(reply => ({
+                          id: reply._id,
+                          content: reply.content,
+                          author: reply.author.firstName + ' ' + reply.author.lastName,
+                          authorId: reply.author._id,
+                          avatar: reply.author.avatar,
+                          time: new Date(reply.createdAt).toLocaleDateString(),
+                          likes: reply.likes || 0
+                        })) : []
+                      });
+                    });
+                    return { ...post, comments: allComments };
+                  }
+                }
+              } catch (error) {
+                console.error('Error fetching comments for post', post.id, error);
+              }
+              return post;
+            })
+          );
+          setPosts(postsWithComments);
         }
       } catch (error) {
         console.error(error.message);
