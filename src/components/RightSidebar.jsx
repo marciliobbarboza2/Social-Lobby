@@ -2,9 +2,9 @@ import React from 'react';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const RightSidebar = () => {
-  const { dataProps, viewProps } = useSocialLobbyContext();
+  const { dataProps, viewProps, setFilterTopic } = useSocialLobbyContext();
   const { users } = dataProps;
-  const { handleOpenChat } = viewProps;
+  const { handleOpenChat, setCurrentView } = viewProps;
 
   const trendingTopics = ['#ReactJS', '#NodeJS', '#WebDev', '#SocialLobby', '#FinalProject'];
 
@@ -27,7 +27,7 @@ const RightSidebar = () => {
         <h3>Trending</h3>
         <div className="trending-list">
           {trendingTopics.map(topic => (
-            <div key={topic} className="trend-item">
+            <div key={topic} className="trend-item" onClick={() => { setFilterTopic(topic); setCurrentView('feed'); }}>
               <a href="#" className="trend-link">{topic}</a>
               <span className="trend-count">{Math.floor(Math.random() * 5)}k</span>
             </div>

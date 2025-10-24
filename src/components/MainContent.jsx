@@ -4,8 +4,8 @@ import Post from './Post'; // Import Post for the profile view
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const MainContent = () => {
-  const { viewProps, dataProps, postsProps } = useSocialLobbyContext();
-  const { currentView } = viewProps;
+  const { viewProps, dataProps, postsProps, setSelectedEvent, setSelectedPage, selectedEvent, selectedPage } = useSocialLobbyContext();
+  const { currentView, setCurrentView } = viewProps;
   const { users, events, groups, selectedUser, handleViewProfile } = dataProps;
   const { posts } = postsProps;
 
@@ -20,13 +20,13 @@ const MainContent = () => {
           <h2>Friends</h2>
           <div className="friends-list">
             {users.map(user => (
-              <div key={user.username} className="friend-item">
+              <div key={user.username} className="friend-item" onClick={() => handleViewProfile(user)}>
                 <img src={user.avatar} alt={user.name} className="friend-avatar" />
                 <div className="friend-info">
                   <h3>{user.name}</h3>
                   <p>{user.bio}</p>
                 </div>
-                <button className="friend-btn" onClick={() => handleViewProfile(user)}>View Profile</button>
+                <button className="friend-btn" onClick={(e) => { e.stopPropagation(); handleViewProfile(user); }}>View Profile</button>
               </div>
             ))}
           </div>
@@ -63,7 +63,7 @@ const MainContent = () => {
           <h2>Photos</h2>
           <div className="photos-grid">
             {posts.filter(p => p.image).map(post => (
-              <img key={post.id} src={post.image} alt="Post" className="photo-item" />
+              <img key={post.id} src={post.image} alt="Post" className="photo-item" onClick={() => setCurrentView('feed')} />
             ))}
           </div>
         </main>
@@ -78,10 +78,10 @@ const MainContent = () => {
           <h2>Events</h2>
           <div className="events-list">
             {events.map(event => (
-              <div key={event.id} className="event-item">
+              <div key={event.id} className="event-item" onClick={() => { setSelectedEvent(event); setCurrentView('event-details'); }}>
                 <h3>{event.title}</h3>
                 <p>{new Date(event.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} - {event.location}</p>
-                <button className="event-btn">Attend</button>
+                <button className="event-btn" onClick={(e) => { e.stopPropagation(); alert('Attending event!'); }}>Attend</button>
               </div>
             ))}
           </div>
@@ -97,13 +97,50 @@ const MainContent = () => {
           <h2>Pages</h2>
           <div className="pages-list">
             {groups.map(group => (
-              <div key={group.id} className="page-item">
+              <div key={group.id} className="page-item" onClick={() => { setSelectedPage(group); setCurrentView('page-details'); }}>
                 <h3>{group.name}</h3>
                 <p>{group.description}</p>
-                <button className="page-btn">{group.joined ? 'Liked' : 'Like'}</button>
+                <button className="page-btn" onClick={(e) => { e.stopPropagation(); alert(`${group.joined ? 'Unliked' : 'Liked'} page!`); }}>{group.joined ? 'Liked' : 'Like'}</button>
               </div>
             ))}
           </div>
+        </main>
+      </React.Fragment>
+    );
+  }
+
+  if (currentView === 'event-details') {
+    return (
+      <React.Fragment>
+        <main className="socialobby-content">
+          <h2>Event Details</h2>
+          {selectedEvent && (
+            <div className="event-detail">
+              <h3>{selectedEvent.title}</h3>
+              <p>{selectedEvent.description}</p>
+              <p>Date: {new Date(selectedEvent.date).toLocaleDateString()}</p>
+              <p>Time: {selectedEvent.time}</p>
+              <p>Location: {selectedEvent.location}</p>
+              <p>Going: {selectedEvent.going}</p>
+            </div>
+          )}
+        </main>
+      </React.Fragment>
+    );
+  }
+
+  if (currentView === 'page-details') {
+    return (
+      <React.Fragment>
+        <main className="socialobby-content">
+          <h2>Page Details</h2>
+          {selectedPage && (
+            <div className="page-detail">
+              <h3>{selectedPage.name}</h3>
+              <p>{selectedPage.description}</p>
+              <p>Members: {selectedPage.members}</p>
+            </div>
+          )}
         </main>
       </React.Fragment>
     );

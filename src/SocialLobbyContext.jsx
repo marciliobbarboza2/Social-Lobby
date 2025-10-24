@@ -36,6 +36,11 @@ export const SocialLobbyProvider = ({ children }) => {
   const dataProps = useData(initialUsers, initialGroups, initialStories, initialEvents, initialNotifications);
   const { handleViewProfile, setSelectedUser, setSelectedStory } = dataProps;
 
+  // New states for enhanced interactivity
+  const [filterTopic, setFilterTopic] = React.useState(null);
+  const [selectedEvent, setSelectedEvent] = React.useState(null);
+  const [selectedPage, setSelectedPage] = React.useState(null);
+
   const postsProps = usePosts([], currentUser);
 
   // When user logs in or out, reset the view to the feed
@@ -100,6 +105,12 @@ export const SocialLobbyProvider = ({ children }) => {
     viewProps: finalViewProps,
     dataProps: finalDataProps,
     postsProps,
+    filterTopic,
+    setFilterTopic,
+    selectedEvent,
+    setSelectedEvent,
+    selectedPage,
+    setSelectedPage,
   };
 
   return (

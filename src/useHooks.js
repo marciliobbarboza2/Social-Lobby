@@ -177,6 +177,27 @@ export const usePosts = (initialPosts, currentUser) => {
   const [editingComment, setEditingComment] = useState(null);
   const [editContent, setEditContent] = useState('');
   const [newPost, setNewPost] = useState('');
+  const [draftSaved, setDraftSaved] = useState(false);
+
+  // Auto-save draft
+  useEffect(() => {
+    if (newPost.trim()) {
+      const timer = setTimeout(() => {
+        localStorage.setItem('postDraft', newPost);
+        setDraftSaved(true);
+        setTimeout(() => setDraftSaved(false), 2000); // Hide message after 2 seconds
+      }, 1000); // Save after 1 second of inactivity
+      return () => clearTimeout(timer);
+    }
+  }, [newPost]);
+
+  // Load draft on mount
+  useEffect(() => {
+    const draft = localStorage.getItem('postDraft');
+    if (draft) {
+      setNewPost(draft);
+    }
+  }, []);
   const [newComment, setNewComment] = useState('');
   const [showComments, setShowComments] = useState({});
 
@@ -590,7 +611,8 @@ export const usePosts = (initialPosts, currentUser) => {
     handleComment,
     handleDeletePost,
     handleDeleteComment,
-    fetchSinglePost
+    fetchSinglePost,
+    draftSaved
   };
 };
 

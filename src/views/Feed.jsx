@@ -3,7 +3,7 @@ import Post from '../components/Post';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const Feed = () => {
-  const { dataProps, postsProps, authProps } = useSocialLobbyContext();
+  const { dataProps, postsProps, authProps, filterTopic } = useSocialLobbyContext();
   const { handleViewProfile, getTodaysBirthdays, getUpcomingEvents } = dataProps;
   const { currentUser } = authProps;
   const {
@@ -29,6 +29,7 @@ const Feed = () => {
     handleDeleteComment,
     handleEditPost,
     groupPostsByDate,
+    draftSaved,
   } = postsProps;
 
   return (
@@ -45,14 +46,15 @@ const Feed = () => {
             />
           </div>
           <div className="composer-actions">
-            <button className="media-btn">📷 Photo</button>
-            <button className="media-btn">📹 Video</button>
-            <button className="media-btn">📍 Location</button>
-            <button className="media-btn">😊 Feeling</button>
+            <button className="media-btn" onClick={() => alert('Photo upload coming soon!')}>📷 Photo</button>
+            <button className="media-btn" onClick={() => alert('Video upload coming soon!')}>📹 Video</button>
+            <button className="media-btn" onClick={() => alert('Location tagging coming soon!')}>📍 Location</button>
+            <button className="media-btn" onClick={() => alert('Feeling/Activity coming soon!')}>😊 Feeling</button>
             <button className="post-btn" onClick={handlePost} disabled={!newPost.trim()}>
               Share
             </button>
           </div>
+          {draftSaved && <div className="draft-saved">Draft saved!</div>}
         </div>
       </div>
 
@@ -91,39 +93,42 @@ const Feed = () => {
       )}
 
       <div className="posts-feed">
-        {posts.length === 0 ? (
-          <p>No posts to show. Start sharing!</p>
-        ) : (
-          Object.entries(groupPostsByDate(posts)).map(([date, datePosts]) => (
-            <div key={date} className="date-group">
-              <h4 className="date-header">{date}</h4>
-              {datePosts.map((post) => (
-                <Post
-                  key={post.id}
-                  post={post}
-                  handleEditPost={handleEditPost}
-                  handleDeletePost={handleDeletePost}
-                  editingPost={editingPost}
-                  editContent={editContent}
-                  setEditContent={setEditContent}
-                  handleSavePost={handleSavePost}
-                  handleCancelEdit={handleCancelEdit}
-                  handleLike={handleLike}
-                  toggleComments={toggleComments}
-                  showComments={showComments}
-                  newComment={newComment}
-                  setNewComment={setNewComment}
-                  handleComment={handleComment}
-                  handleViewProfile={handleViewProfile}
-                  editingComment={editingComment}
-                  handleEditComment={handleEditComment}
-                  handleSaveComment={handleSaveComment}
-                  handleDeleteComment={handleDeleteComment}
-                />
-              ))}
-            </div>
-          ))
-        )}
+        {(() => {
+          const filteredPosts = filterTopic ? posts.filter(post => post.content.includes(filterTopic)) : posts;
+          return filteredPosts.length === 0 ? (
+            <p>{filterTopic ? `No posts found for ${filterTopic}.` : 'No posts to show. Start sharing!'}</p>
+          ) : (
+            Object.entries(groupPostsByDate(filteredPosts)).map(([date, datePosts]) => (
+              <div key={date} className="date-group">
+                <h4 className="date-header">{date}</h4>
+                {datePosts.map((post) => (
+                  <Post
+                    key={post.id}
+                    post={post}
+                    handleEditPost={handleEditPost}
+                    handleDeletePost={handleDeletePost}
+                    editingPost={editingPost}
+                    editContent={editContent}
+                    setEditContent={setEditContent}
+                    handleSavePost={handleSavePost}
+                    handleCancelEdit={handleCancelEdit}
+                    handleLike={handleLike}
+                    toggleComments={toggleComments}
+                    showComments={showComments}
+                    newComment={newComment}
+                    setNewComment={setNewComment}
+                    handleComment={handleComment}
+                    handleViewProfile={handleViewProfile}
+                    editingComment={editingComment}
+                    handleEditComment={handleEditComment}
+                    handleSaveComment={handleSaveComment}
+                    handleDeleteComment={handleDeleteComment}
+                  />
+                ))}
+              </div>
+            ))
+          );
+        })()}
       </div>
     </main>
   );

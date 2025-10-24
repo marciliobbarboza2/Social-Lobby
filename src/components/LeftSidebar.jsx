@@ -14,13 +14,17 @@ const LeftSidebar = () => {
     { name: 'Photos', icon: '🖼️', view: 'photos' },
   ];
 
+  const handleNavClick = (view) => {
+    setCurrentView(view);
+  };
+
   return (
     <aside className="socialobby-sidebar">
       <div className="sidebar-section navigation-section">
         <h3>Navigation</h3>
         <ul>
           {navItems.map(item => (
-            <li key={item.view} onClick={() => setCurrentView(item.view)}>
+            <li key={item.view} onClick={() => handleNavClick(item.view)} className="nav-item">
               <span role="img" aria-label={item.name}>{item.icon}</span> {item.name}
             </li>
           ))}
@@ -29,9 +33,9 @@ const LeftSidebar = () => {
       <div className="sidebar-section your-shortcuts">
         <h3>Your Shortcuts</h3>
         <ul>
-          <li><span role="img" aria-label="Tech Innovators">🚀</span> Tech Innovators</li>
-          <li><span role="img" aria-label="Travel Enthusiasts">✈️</span> Travel Enthusiasts</li>
-          <li><span role="img" aria-label="Food Lovers">🍔</span> Food Lovers</li>
+          <li onClick={() => handleNavClick('pages')} className="shortcut-item"><span role="img" aria-label="Tech Innovators">🚀</span> Tech Innovators</li>
+          <li onClick={() => handleNavClick('pages')} className="shortcut-item"><span role="img" aria-label="Travel Enthusiasts">✈️</span> Travel Enthusiasts</li>
+          <li onClick={() => handleNavClick('pages')} className="shortcut-item"><span role="img" aria-label="Food Lovers">🍔</span> Food Lovers</li>
         </ul>
       </div>
     </aside>

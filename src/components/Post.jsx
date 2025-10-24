@@ -79,7 +79,7 @@ const Post = ({
 
       <div className="post-stats">
         <span className="likes-count">
-          {post.likes > 0 && `👍 ${post.likes} likes`}
+          {post.likes.length > 0 && `👍 ${post.likes.length} likes`}
         </span>
         <span className="comments-count">
           {post.comments.length > 0 && `${post.comments.length} comments`}
