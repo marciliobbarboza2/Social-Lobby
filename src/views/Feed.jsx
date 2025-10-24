@@ -3,9 +3,10 @@ import Post from '../components/Post';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const Feed = () => {
-  const { dataProps, postsProps, authProps, filterTopic } = useSocialLobbyContext();
+  const { dataProps, postsProps, authProps, filterTopic, viewProps, setSelectedEvent } = useSocialLobbyContext();
   const { handleViewProfile, getTodaysBirthdays, getUpcomingEvents } = dataProps;
   const { currentUser } = authProps;
+  const { setCurrentView } = viewProps;
   const {
     posts,
     newPost,
@@ -60,7 +61,7 @@ const Feed = () => {
 
       {getTodaysBirthdays().length > 0 && (
         <div className="birthdays-section">
-          <h3>🎂 Birthdays Today</h3>
+          <h3 onClick={() => setCurrentView('birthdays')} style={{cursor: 'pointer'}}>🎂 Birthdays Today</h3>
           <div className="birthdays-list">
             {getTodaysBirthdays().map((user) => (
               <div key={user.username} className="birthday-item" onClick={() => handleViewProfile(user)} style={{cursor: 'pointer'}}>
@@ -74,10 +75,10 @@ const Feed = () => {
 
       {getUpcomingEvents().length > 0 && (
         <div className="events-section">
-          <h3>📅 Upcoming Events</h3>
+          <h3 onClick={() => setCurrentView('events')} style={{cursor: 'pointer'}}>📅 Upcoming Events</h3>
           <div className="events-list">
             {getUpcomingEvents().map((event) => (
-              <div key={event.id} className="event-item" style={{cursor: 'pointer'}}>
+              <div key={event.id} className="event-item" onClick={() => { setSelectedEvent(event); setCurrentView('event-details'); }} style={{cursor: 'pointer'}}>
                 <img src={event.image} alt={event.title} className="event-image" />
                 <div className="event-details">
                   <h4 className="event-title">{event.title}</h4>

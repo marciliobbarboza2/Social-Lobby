@@ -6,7 +6,7 @@ import { useSocialLobbyContext } from '../SocialLobbyContext';
 const MainContent = () => {
   const { viewProps, dataProps, postsProps, setSelectedEvent, setSelectedPage, selectedEvent, selectedPage } = useSocialLobbyContext();
   const { currentView, setCurrentView } = viewProps;
-  const { users, events, groups, selectedUser, handleViewProfile } = dataProps;
+  const { users, events, groups, selectedUser, handleViewProfile, getTodaysBirthdays } = dataProps;
   const { posts } = postsProps;
 
   if (currentView === 'feed') {
@@ -60,10 +60,28 @@ const MainContent = () => {
     return (
       <React.Fragment>
         <main className="socialobby-content">
-          <h2>Photos</h2>
+          <h2 onClick={() => setCurrentView('feed')} style={{cursor: 'pointer'}}>Photos</h2>
           <div className="photos-grid">
             {posts.filter(p => p.image).map(post => (
               <img key={post.id} src={post.image} alt="Post" className="photo-item" onClick={() => setCurrentView('feed')} />
+            ))}
+          </div>
+        </main>
+      </React.Fragment>
+    );
+  }
+
+  if (currentView === 'birthdays') {
+    return (
+      <React.Fragment>
+        <main className="socialobby-content">
+          <h2 onClick={() => setCurrentView('feed')} style={{cursor: 'pointer'}}>Birthdays Today</h2>
+          <div className="birthdays-list">
+            {getTodaysBirthdays().map((user) => (
+              <div key={user.username} className="birthday-item" onClick={() => handleViewProfile(user)} style={{cursor: 'pointer'}}>
+                <img src={user.avatar} alt={user.name} className="birthday-avatar" />
+                <span className="birthday-name">{user.name}</span>
+              </div>
             ))}
           </div>
         </main>
