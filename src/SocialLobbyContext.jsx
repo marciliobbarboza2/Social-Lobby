@@ -56,7 +56,18 @@ export const SocialLobbyProvider = ({ children }) => {
 
     // If user not found in static data, try to fetch from backend
     if (!userToView && typeof userOrName === 'object' && userOrName._id) {
-      userToView = userOrName; // It's already a user object from backend
+      // Fetch user profile from backend
+      try {
+        const response = await fetch(`http://localhost:5000/api/users/${userOrName._id}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            userToView = data.data;
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
     }
 
     if (userToView) {

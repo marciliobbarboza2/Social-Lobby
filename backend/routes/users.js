@@ -10,6 +10,19 @@ const router = express.Router();
 // @access  Private
 router.get('/profile', verifyToken, userController.getProfile);
 
+// @desc    Get user profile by ID
+// @route   GET /api/users/:id
+// @access  Public
+router.get('/:id', [
+  param('id').isMongoId()
+], (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next();
+}, userController.getUserProfile);
+
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private

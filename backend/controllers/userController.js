@@ -19,6 +19,27 @@ const getProfile = async (req, res, next) => {
   }
 };
 
+// @desc    Get user profile by ID
+// @route   GET /api/users/:id
+// @access  Public
+const getUserProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({
+      success: true,
+      data: user
+    });
+  } catch (error) {
+    logger.error('Error getting user profile:', error);
+    next(error);
+  }
+};
+
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
@@ -98,6 +119,7 @@ const getUserPosts = async (req, res, next) => {
 
 module.exports = {
   getProfile,
+  getUserProfile,
   updateProfile,
   getUserPosts
 };
