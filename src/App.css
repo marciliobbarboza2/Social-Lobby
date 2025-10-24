@@ -158,6 +158,26 @@
   background: rgba(102, 126, 234, 0.2);
   transform: translateY(-1px);
 }
+.notification-btn {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #e53e3e; /* A strong red color */
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid white;
+}
 
 .user-info {
   display: flex;
@@ -976,11 +996,37 @@
   padding: 12px;
   border-bottom: 1px solid #e1e5e9;
   transition: background-color 0.2s ease;
+  position: relative;
 }
 
 .notification.unread {
   background-color: #f0f8ff;
   border-left: 4px solid #667eea;
+  cursor: pointer;
+}
+
+.notification-clear-btn {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.notification-clear-btn:hover {
+  color: #333;
+}
+
+.no-notifications {
+  text-align: center;
+  padding: 20px;
+  color: #65676b;
+  font-style: italic;
 }
 
 .notification.read {
@@ -1723,4 +1769,56 @@
 .story-info span {
   font-weight: 500;
   color: #1c1e21;
+}
+
+/* Pull to Refresh styles */
+.ptr-element {
+  background: #f0f2f5;
+}
+.ptr-element .genericon {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  background-color: #667eea;
+  border-radius: 50%;
+  color: white;
+  line-height: 32px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* 404 Not Found Page */
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 50px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+.not-found-page h1 {
+  font-size: 6rem;
+  margin: 0;
+  color: #667eea;
+}
+
+.not-found-page h2 {
+  font-size: 2rem;
+  margin: 10px 0;
+}
+
+.not-found-page p {
+  color: #65676b;
+  margin-bottom: 20px;
+}
+
+.not-found-btn {
+  background: #667eea;
+  color: white;
+  border-radius: 8px;
 }
