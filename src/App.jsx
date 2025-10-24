@@ -90,12 +90,10 @@ const AppContent = () => {
         setShowGroups={setShowGroups}
         groups={groups}
         handleJoinGroup={handleJoinGroup}
-
         showStoryModal={showStoryModal}
         setShowStoryModal={setShowStoryModal}
         selectedStory={selectedStory}
       />
-
 
     </div>
   );
