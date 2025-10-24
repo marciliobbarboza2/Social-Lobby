@@ -6,6 +6,22 @@ require('dotenv').config();
 
 const users = [
   {
+    username: 'marciliobbarboza',
+    email: 'marcilio@example.com',
+    password: 'password123',
+    firstName: 'Marcilio',
+    lastName: 'Barboza',
+    bio: 'Software developer passionate about creating user-friendly applications',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
+    city: 'San Francisco',
+    groups: ['Tech Innovators', 'Developers'],
+    maritalStatus: 'Single',
+    birthday: 'March 15, 1995',
+    profession: 'Software Developer',
+    work: 'TechCorp Inc.',
+    education: 'Stanford University'
+  },
+  {
     username: 'johndoe',
     email: 'john@example.com',
     password: 'password123',
