@@ -64,6 +64,18 @@ const users = [
     city: 'Chicago',
     groups: ['Business Professionals', 'Entrepreneurs'],
     maritalStatus: 'Married'
+  },
+  {
+    username: 'marciliobbarboza',
+    email: 'marciliobbarboza@gmail.com',
+    password: 'marciliobbarboza',
+    firstName: 'Marcilio',
+    lastName: 'Barboza',
+    bio: 'Developer and tech enthusiast',
+    avatar: 'https://randomuser.me/api/portraits/men/6.jpg',
+    city: 'Unknown',
+    groups: ['Developers'],
+    maritalStatus: 'Single'
   }
 ];
 

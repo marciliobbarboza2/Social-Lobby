@@ -60,8 +60,6 @@ const AppContent = () => {
         setSelectedUser={dataProps.setSelectedUser}
         isLoggedIn={isLoggedIn}
         currentView={currentView}
-        setShowLogin={setShowLogin}
-        onLogoClick={() => setCurrentView('feed')}
       />
 
       {/* Main content area - displays feed, profiles, etc. */}

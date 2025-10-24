@@ -9,7 +9,6 @@ const Header = ({
   setSelectedUser,
   isLoggedIn,
   currentView,
-  setShowLogin,
 }) => {
   return (
     <header className="socialobby-header">
@@ -31,9 +30,7 @@ const Header = ({
               </span>
               <button className="header-btn" onClick={handleLogout}>Logout</button>
             </>
-          ) : (
-            <button className="header-btn" onClick={() => setShowLogin(true)}>Login</button>
-          )}
+          ) : null}
           <button className="header-btn">⚙️ Settings</button>
           <button className="header-btn" onClick={() => setShowNotifications(true)}>🔔 Notifications</button>
         </div>
