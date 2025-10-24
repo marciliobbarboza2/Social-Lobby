@@ -38,7 +38,7 @@ const Post = ({
     <article className="post">
       <div className="post-header">
         <div className="post-author">
-          <img src={post.avatar} alt={post.author} className="author-avatar" onClick={() => handleViewProfile(post.authorObject)} style={{cursor: 'pointer'}} />
+          <img src={post.avatar} alt={post.author} className="author-avatar" onClick={() => handleViewProfile(post.authorObject)} style={{cursor: 'pointer', borderRadius: '50%'}} />
           <div className="author-info">
             <h4 className="author-name" onClick={() => handleViewProfile(post.authorObject)} style={{cursor: 'pointer'}}>{post.author}</h4>
             <span className="post-time">{post.time}</span>
@@ -159,6 +159,7 @@ const Post = ({
                 handleSaveComment={handleSaveComment}
                 handleCancelEdit={handleCancelEdit}
                 postId={post.id}
+                handleViewProfile={handleViewProfile}
               />
             ))}
           </div>

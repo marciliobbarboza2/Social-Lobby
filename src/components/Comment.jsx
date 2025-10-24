@@ -12,6 +12,7 @@ const Comment = ({
   handleCancelEdit,
   postId,
   currentUser,
+  handleViewProfile,
 }) => {
   const handleDeleteClick = () => {
     if (window.confirm('Are you sure you want to delete this comment?')) {
@@ -21,7 +22,7 @@ const Comment = ({
 
   return (
     <div key={comment.id} className="comment">
-      <img src={comment.avatar} alt={comment.author} className="comment-avatar" />
+      <img src={comment.avatar} alt={comment.author} className="comment-avatar" onClick={() => handleViewProfile && handleViewProfile(comment.authorObject || comment.author)} style={{cursor: 'pointer', borderRadius: '50%'}} />
       <div className="comment-content">
         <div className="comment-header">
           <span className="comment-author">{comment.author}</span>

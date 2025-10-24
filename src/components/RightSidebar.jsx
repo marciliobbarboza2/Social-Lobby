@@ -16,7 +16,7 @@ const RightSidebar = () => {
           {users && users.length > 0 ? (
             users.slice(0, 7).map(user => (
               <div key={user.username} className="contact online" onClick={() => handleOpenChat(user)}>
-                <img src={user.avatar} alt={user.name} className="user-avatar" />
+                <img src={user.avatar} alt={user.name} className="user-avatar" onClick={() => dataProps.handleViewProfile(user)} style={{cursor: 'pointer', borderRadius: '50%'}} />
                 <span>{user.name}</span>
               </div>
             ))
