@@ -1,4 +1,4 @@
-export const posts = [
+port const posts = [
     {
       id: 1,
       author: "Emma Rodriguez",
@@ -30,6 +30,8 @@ export const posts = [
       ],
       liked: true,
       image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
+      video: null,
+      story: null,
       authorId: "user2"
     },
     {

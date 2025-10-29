@@ -31,9 +31,9 @@ const Comment = ({
           {isLoggedIn && currentUser && (comment.authorId === currentUser._id || postAuthorId === currentUser._id) && (
             <div className="comment-actions">
               {comment.authorId === currentUser._id && (
-                <button className="edit-comment-btn" onClick={() => handleEditComment(postId, comment.id, comment.content)} title="Edit comment">Edit</button>
+                <button className="edit-comment-btn" onClick={() => handleEditComment(postId, comment.id, comment.content)} title="Edit comment">✏️</button>
               )}
-              <button className="delete-comment-btn" onClick={handleDeleteClick} title="Delete comment">Delete</button>
+              <button className="delete-comment-btn" onClick={handleDeleteClick} title="Delete comment">🗑️</button>
             </div>
           )}
         </div>

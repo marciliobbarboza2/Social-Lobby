@@ -47,10 +47,15 @@ const Feed = () => {
             />
           </div>
           <div className="composer-actions">
-            <button className="media-btn" onClick={() => alert('Photo upload feature! 📷')}>📷 Photo</button>
-            <button className="media-btn" onClick={() => alert('Video upload feature! 📹')}>📹 Video</button>
-            <button className="media-btn" onClick={() => alert('Location tagging feature! 📍')}>📍 Location</button>
-            <button className="media-btn" onClick={() => alert('Feeling/Activity feature! 😊')}>😊 Feeling</button>
+            <button className="media-btn" onClick={() => setNewPost(newPost + ' 📷 [Photo: Enter URL or upload] ')}>📷 Photo</button>
+            <button className="media-btn" onClick={() => setNewPost(newPost + ' 📹 [Video: Enter URL or upload] ')}>📹 Video</button>
+            <button className="media-btn" onClick={() => setNewPost(newPost + ' 📍 [Location: Enter location] ')}>📍 Location</button>
+            <button className="media-btn" onClick={() => setNewPost(newPost + ' 😊 [Feeling: How are you feeling?] ')}>😊 Feeling</button>
+            <button className="media-btn" onClick={() => setNewPost(newPost + ' 🎬 [GIF: Enter GIF URL] ')}>🎬 GIF</button>
+            <button className="media-btn" onClick={() => setNewPost(newPost + ' 📊 [Poll: Question? Option1 | Option2] ')}>📊 Poll</button>
+            <button className="media-btn" onClick={() => setNewPost(newPost + ' 📅 [Event: Title, Date, Time, Location] ')}>📅 Event</button>
+            <button className="media-btn" onClick={() => setNewPost(newPost + ' 🎵 [Music: Song/Artist] ')}>🎵 Music</button>
+            <button className="media-btn" onClick={() => setNewPost(newPost + ' 🔴 [Live: Streaming now] ')}>🔴 Live</button>
             <button className="post-btn" onClick={handlePost} disabled={!newPost.trim()}>
               Share
             </button>

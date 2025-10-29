@@ -71,7 +71,8 @@ const LoginScreen = ({
           lastName: registerData.lastName,
           username: registerData.username,
           email: registerData.email,
-          password: registerData.password
+          password: registerData.password,
+          avatar: registerData.avatar
         })
       });
 
@@ -87,7 +88,8 @@ const LoginScreen = ({
           username: '',
           email: '',
           password: '',
-          confirmPassword: ''
+          confirmPassword: '',
+          avatar: ''
         });
       } else {
         setError(data.message || 'Registration failed');
@@ -118,6 +120,31 @@ const LoginScreen = ({
           <>
             <h2>Create Account</h2>
             <form onSubmit={handleSubmit}>
+              <div className="avatar-upload">
+                <div className="avatar-preview">
+                  <img
+                    src={registerData.avatar || 'https://picsum.photos/seed/default/100'}
+                    alt="Avatar preview"
+                    className="avatar-image"
+                  />
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (e) => {
+                        setRegisterData({...registerData, avatar: e.target.result});
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                  className="avatar-input"
+                />
+                <label className="avatar-label">Choose Avatar</label>
+              </div>
               <div className="name-fields">
                 <input
                   type="text"
