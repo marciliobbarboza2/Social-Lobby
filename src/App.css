@@ -92,6 +92,11 @@
   line-height: 1.5;
   color: #1c1e21;
   font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 /* Header */
@@ -230,8 +235,7 @@
 
 /* Main Layout */
 .socialobby-main {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
   padding: 20px 16px;
   display: grid;
   grid-template-columns: 300px 1fr 300px;
@@ -922,17 +926,35 @@
   background: #d1d5db;
 }
 
-.edit-comment-btn {
+.comment-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.edit-comment-btn, .delete-comment-btn {
   background: none;
   border: none;
   font-size: 14px;
   color: #65676b;
   cursor: pointer;
-  margin-left: auto;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.1s;
 }
 
 .edit-comment-btn:hover {
+  background: #f0f2f5;
   color: #667eea;
+}
+
+.delete-comment-btn {
+  color: #ff6b6b;
+}
+
+.delete-comment-btn:hover {
+  background: #ffeaea;
+  color: #ff4757;
 }
 
 .delete-btn, .delete-comment-btn {

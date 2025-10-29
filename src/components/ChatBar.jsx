@@ -1,49 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 import ChatWindow from './ChatWindow';
 
 const ChatBar = () => {
-  const { dataProps, viewProps } = useSocialLobbyContext();
+  const { dataProps, chatProps } = useSocialLobbyContext();
   const { users } = dataProps;
-  const { handleOpenChat } = viewProps;
-
-  const [activeChats, setActiveChats] = useState([]);
-  const [minimizedChats, setMinimizedChats] = useState(new Set());
+  const { activeChats, minimizedChats, openChat, closeChat, toggleMinimize } = chatProps;
 
   // Get online users for chat suggestions
   const onlineUsers = users.filter(user => user.isOnline).slice(0, 5);
-
-  const openChat = (user) => {
-    if (!activeChats.find(chat => chat._id === user._id)) {
-      setActiveChats(prev => [...prev, user]);
-    }
-    setMinimizedChats(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(user._id);
-      return newSet;
-    });
-  };
-
-  const closeChat = (userId) => {
-    setActiveChats(prev => prev.filter(chat => chat._id !== userId));
-    setMinimizedChats(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(userId);
-      return newSet;
-    });
-  };
-
-  const toggleMinimize = (userId) => {
-    setMinimizedChats(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(userId)) {
-        newSet.delete(userId);
-      } else {
-        newSet.add(userId);
-      }
-      return newSet;
-    });
-  };
 
   return (
     <>

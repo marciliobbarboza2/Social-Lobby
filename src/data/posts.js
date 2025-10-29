@@ -123,5 +123,65 @@ export const posts = [
       liked: true,
       image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
       authorId: "user8"
+    },
+    {
+      id: 9,
+      author: "Sarah Johnson",
+      avatar: "https://picsum.photos/seed/sarah/50",
+      time: "18 hours ago",
+      content: "Just finished designing a new brand identity for a local coffee shop! ☕ The challenge was capturing the cozy, community feel while keeping it modern. Love how design can tell a story. What's your favorite local business?",
+      likes: ["user1", "user2"],
+      comments: [
+        { id: 22, author: "Emma Rodriguez", avatar: "https://picsum.photos/seed/emma/30", content: "Love the branding! So warm and inviting 🎨", time: "17h ago", authorId: "user1" },
+        { id: 23, author: "David Kim", avatar: "https://picsum.photos/seed/david/30", content: "Coffee shops need good design! Where's this located?", time: "16h ago", authorId: "user2" }
+      ],
+      liked: false,
+      image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
+      authorId: "user9"
+    },
+    {
+      id: 10,
+      author: "Alex Chen",
+      avatar: "https://picsum.photos/seed/alex/50",
+      time: "20 hours ago",
+      content: "Excited to share my latest data visualization project! 📊 Clean data tells compelling stories. This dashboard shows user engagement metrics for a social platform. What tools do you use for data viz?",
+      likes: ["user7", "user5"],
+      comments: [
+        { id: 24, author: "Anna Petrov", avatar: "https://picsum.photos/seed/anna/30", content: "Beautiful viz! Tableau or Power BI?", time: "19h ago", authorId: "user7" },
+        { id: 25, author: "Lisa Thompson", avatar: "https://picsum.photos/seed/lisa/30", content: "Love the color scheme! Very professional 📈", time: "18h ago", authorId: "user5" }
+      ],
+      liked: true,
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
+      authorId: "user10"
+    },
+    {
+      id: 11,
+      author: "Maya Patel",
+      avatar: "https://picsum.photos/seed/maya/50",
+      time: "22 hours ago",
+      content: "Climate change is real and happening now. 🌍 Just presented research findings on rising sea levels to policymakers. We need urgent action. What environmental cause are you passionate about?",
+      likes: ["user3", "user4", "user11"],
+      comments: [
+        { id: 26, author: "Sophie Anderson", avatar: "https://picsum.photos/seed/sophie/30", content: "Critical work! Ocean conservation is my passion 🐢", time: "21h ago", authorId: "user3" },
+        { id: 27, author: "Carlos Mendoza", avatar: "https://picsum.photos/seed/carlos/30", content: "Thank you for your advocacy! We need more voices like yours 🌱", time: "20h ago", authorId: "user4" }
+      ],
+      liked: false,
+      image: "https://images.unsplash.com/photo-1569163139394-de4e4f43e4e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
+      authorId: "user11"
+    },
+    {
+      id: 12,
+      author: "Jordan Williams",
+      avatar: "https://picsum.photos/seed/jordan/50",
+      time: "1 day ago",
+      content: "New track dropping soon! 🎵 Been working on this beat for months. Fusion of electronic and soul music. Can't wait to share it with you all. What's your favorite music genre?",
+      likes: ["user6", "user8"],
+      comments: [
+        { id: 28, author: "Mike Johnson", avatar: "https://picsum.photos/seed/mike/30", content: "Can't wait to hear it! Soul music is my jam 🎧", time: "23h ago", authorId: "user6" },
+        { id: 29, author: "David Lee", avatar: "https://picsum.photos/seed/david2/30", content: "Love fusion music! When's the release? 🎼", time: "22h ago", authorId: "user8" }
+      ],
+      liked: true,
+      image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
+      authorId: "user12"
     }
   ];

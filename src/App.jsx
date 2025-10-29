@@ -3,6 +3,7 @@ import Header from './components/Header';
 import LoginScreen from './components/LoginScreen';
 import MainContent from './components/MainContent';
 import Modals from './components/Modals';
+import ChatBar from './components/ChatBar';
 import React from 'react';
 import { SocialLobbyProvider, useSocialLobbyContext } from './SocialLobbyContext';
 
@@ -95,6 +96,8 @@ const AppContent = () => {
         />
       )}
 
+      {/* Chat Bar */}
+      {isLoggedIn && <ChatBar />}
 
     </div>
   );

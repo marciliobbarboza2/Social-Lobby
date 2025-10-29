@@ -15,3 +15,19 @@ export const mapFetchedPosts = (data, currentUser) => {
     image: post.featuredImage
   })).sort((a, b) => new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0));
 };
+
+export const mapFetchedComments = (data) => {
+  return data.data.map(comment => ({
+    id: comment._id,
+    author: comment.author.firstName && comment.author.lastName
+      ? `${comment.author.firstName} ${comment.author.lastName}`
+      : comment.author.username,
+    avatar: comment.author.avatar || 'https://picsum.photos/seed/default/30',
+    content: comment.content,
+    time: comment.createdAt ? new Date(comment.createdAt).toLocaleString() : 'now',
+    authorId: comment.author._id,
+    authorObject: comment.author,
+    likes: comment.likes || [],
+    likedBy: comment.likedBy || []
+  }));
+};

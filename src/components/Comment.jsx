@@ -15,9 +15,9 @@ const Comment = ({
   handleViewProfile,
   postAuthorId,
 }) => {
-  const handleDeleteClick = () => {
+  const handleDeleteClick = async () => {
     if (window.confirm('Are you sure you want to delete this comment?')) {
-      handleDeleteComment(postId, comment.id);
+      await handleDeleteComment(postId, comment.id);
     }
   };
 
@@ -29,12 +29,12 @@ const Comment = ({
           <span className="comment-author">{comment.author}</span>
           <span className="comment-time">{comment.time}</span>
           {isLoggedIn && currentUser && (comment.authorId === currentUser._id || postAuthorId === currentUser._id) && (
-            <>
+            <div className="comment-actions">
               {comment.authorId === currentUser._id && (
-                <button className="edit-comment-btn" onClick={() => handleEditComment(postId, comment.id, comment.content)}>✏️</button>
+                <button className="edit-comment-btn" onClick={() => handleEditComment(postId, comment.id, comment.content)} title="Edit comment">Edit</button>
               )}
-              <button className="delete-comment-btn" onClick={handleDeleteClick}>🗑️</button>
-            </>
+              <button className="delete-comment-btn" onClick={handleDeleteClick} title="Delete comment">Delete</button>
+            </div>
           )}
         </div>
         {editingComment && editingComment.postId === postId && editingComment.commentId === comment.id ? (

@@ -4,7 +4,7 @@ import Post from './Post'; // Import Post for the profile view
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const MainContent = () => {
-  const { viewProps, dataProps, postsProps, setSelectedEvent, setSelectedPage, selectedEvent, selectedPage } = useSocialLobbyContext();
+  const { viewProps, dataProps, postsProps, setSelectedEvent, setSelectedPage, selectedEvent, selectedPage, setSelectedUser } = useSocialLobbyContext();
   const { currentView, setCurrentView } = viewProps;
   const { users, events, groups, selectedUser, handleViewProfile, getTodaysBirthdays } = dataProps;
   const { posts } = postsProps;
@@ -78,7 +78,7 @@ const MainContent = () => {
           <h2 onClick={() => setCurrentView('feed')} style={{cursor: 'pointer'}}>Birthdays Today</h2>
           <div className="birthdays-list">
             {getTodaysBirthdays().map((user) => (
-              <div key={user.username} className="birthday-item" onClick={() => handleViewProfile(user)} style={{cursor: 'pointer'}}>
+              <div key={user.username} className="birthday-item" onClick={() => { setSelectedUser(user); setCurrentView('profile'); }} style={{cursor: 'pointer'}}>
                 <img src={user.avatar} alt={user.name} className="birthday-avatar" />
                 <span className="birthday-name">{user.name}</span>
               </div>
@@ -209,7 +209,22 @@ const MainContent = () => {
                 <strong>Groups:</strong> {selectedUser.groups ? selectedUser.groups.join(', ') : 'None'}
               </div>
               <div className="detail-row">
-                <strong>Joined:</strong> {selectedUser.createdAt ? new Date(selectedUser.createdAt).toLocaleDateString() : 'N/A'}
+                <strong>Joined:</strong> {selectedUser.createdAt ? new Date(selectedUser.createdAt).toLocaleDateString() : selectedUser.joined || 'N/A'}
+              </div>
+              <div className="detail-row">
+                <strong>Website:</strong> {selectedUser.website ? <a href={selectedUser.website} target="_blank" rel="noopener noreferrer">{selectedUser.website}</a> : 'Not specified'}
+              </div>
+              <div className="detail-row">
+                <strong>Languages:</strong> {selectedUser.languages ? selectedUser.languages.join(', ') : 'Not specified'}
+              </div>
+              <div className="detail-row">
+                <strong>Interests:</strong> {selectedUser.interests ? selectedUser.interests.join(', ') : 'Not specified'}
+              </div>
+              <div className="detail-row">
+                <strong>Skills:</strong> {selectedUser.skills ? selectedUser.skills.join(', ') : 'Not specified'}
+              </div>
+              <div className="detail-row">
+                <strong>Gender:</strong> {selectedUser.gender || 'Not specified'}
               </div>
             </div>
           </div>

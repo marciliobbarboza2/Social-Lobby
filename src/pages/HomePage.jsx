@@ -5,7 +5,7 @@ import Feed from '../views/Feed';
 const HomePage = () => {
   const { viewProps, dataProps } = useSocialLobbyContext();
   const { setCurrentView, setShowGroups, handleOpenChat } = viewProps;
-  const { stories, users, handleStoryClick } = dataProps;
+  const { stories, users, handleStoryClick, handleViewProfile } = dataProps;
 
   return (
     <div className="socialobby-main">
@@ -25,10 +25,10 @@ const HomePage = () => {
         <div className="sidebar-section your-shortcuts">
           <h3>Your Shortcuts</h3>
           <ul>
-            <li>🎨 Art Community</li>
-            <li>💻 Tech Talk</li>
-            <li>🍳 Food Lovers</li>
-            <li>🏃 Fitness Friends</li>
+            <li onClick={() => setCurrentView('pages')} style={{cursor: 'pointer'}}>🎨 Art Community</li>
+            <li onClick={() => setCurrentView('pages')} style={{cursor: 'pointer'}}>💻 Tech Talk</li>
+            <li onClick={() => setCurrentView('pages')} style={{cursor: 'pointer'}}>🍳 Food Lovers</li>
+            <li onClick={() => setCurrentView('pages')} style={{cursor: 'pointer'}}>🏃 Fitness Friends</li>
           </ul>
         </div>
       </aside>
@@ -64,7 +64,8 @@ const HomePage = () => {
             <div className="contacts-list">
               {users.slice(0, 6).map(user => (
                 <div key={user.username} className={`contact ${user.isOnline ? 'online' : ''}`} onClick={() => handleOpenChat(user)}>
-                  {user.isOnline ? '🟢' : '⚪'} {user.name}
+                  <img src={user.avatar} alt={user.name} className="contact-avatar" />
+                  <span onClick={(e) => { e.stopPropagation(); handleViewProfile(user); }} style={{cursor: 'pointer', color: 'blue'}}>{user.name}</span>
                 </div>
               ))}
             </div>

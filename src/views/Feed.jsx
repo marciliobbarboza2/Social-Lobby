@@ -30,6 +30,7 @@ const Feed = () => {
     handleDeleteComment,
     handleEditPost,
     draftSaved,
+    postError,
   } = postsProps;
 
   return (
@@ -46,15 +47,16 @@ const Feed = () => {
             />
           </div>
           <div className="composer-actions">
-            <button className="media-btn" onClick={() => alert('Photo upload coming soon!')}>📷 Photo</button>
-            <button className="media-btn" onClick={() => alert('Video upload coming soon!')}>📹 Video</button>
-            <button className="media-btn" onClick={() => alert('Location tagging coming soon!')}>📍 Location</button>
-            <button className="media-btn" onClick={() => alert('Feeling/Activity coming soon!')}>😊 Feeling</button>
+            <button className="media-btn" onClick={() => alert('Photo upload feature! 📷')}>📷 Photo</button>
+            <button className="media-btn" onClick={() => alert('Video upload feature! 📹')}>📹 Video</button>
+            <button className="media-btn" onClick={() => alert('Location tagging feature! 📍')}>📍 Location</button>
+            <button className="media-btn" onClick={() => alert('Feeling/Activity feature! 😊')}>😊 Feeling</button>
             <button className="post-btn" onClick={handlePost} disabled={!newPost.trim()}>
               Share
             </button>
           </div>
           {draftSaved && <div className="draft-saved">Draft saved!</div>}
+          {postError && <div className="post-error">{postError}</div>}
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth, usePosts, useView, useData } from './useHooks';
+import useWebSocket from './hooks/useWebSocket';
 import { notifications as initialNotifications } from './data/notifications.js';
 import { groups as initialGroups } from './data/groups.js';
 import { stories as initialStories } from './data/stories.js';
@@ -42,6 +43,14 @@ export const SocialLobbyProvider = ({ children }) => {
   const [selectedPage, setSelectedPage] = useState(null);
 
   const postsProps = usePosts([], currentUser);
+
+  // WebSocket for chat
+  const token = localStorage.getItem('token');
+  const { messages: wsMessages, sendMessage, isConnected } = useWebSocket(token);
+
+  // Chat states
+  const [activeChats, setActiveChats] = useState([]);
+  const [minimizedChats, setMinimizedChats] = useState(new Set());
 
   // When user logs in or out, reset the view to the feed
   useEffect(() => {
@@ -86,9 +95,40 @@ export const SocialLobbyProvider = ({ children }) => {
     setShowStoryModal(true);
   };
 
+  const openChat = (user) => {
+    if (!activeChats.find(chat => chat._id === user._id)) {
+      setActiveChats(prev => [...prev, user]);
+    }
+    setMinimizedChats(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(user._id);
+      return newSet;
+    });
+  };
+
+  const closeChat = (userId) => {
+    setActiveChats(prev => prev.filter(chat => chat._id !== userId));
+    setMinimizedChats(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(userId);
+      return newSet;
+    });
+  };
+
+  const toggleMinimize = (userId) => {
+    setMinimizedChats(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(userId)) {
+        newSet.delete(userId);
+      } else {
+        newSet.add(userId);
+      }
+      return newSet;
+    });
+  };
+
   const handleOpenChat = (user) => {
-    setSelectedUser(user);
-    setShowChat(true);
+    openChat(user);
   };
 
   // --- PROPS GROUPING ---
@@ -100,11 +140,23 @@ export const SocialLobbyProvider = ({ children }) => {
     handleStoryClick,
   };
 
+  const chatProps = {
+    wsMessages,
+    sendMessage,
+    isConnected,
+    activeChats,
+    minimizedChats,
+    openChat,
+    closeChat,
+    toggleMinimize,
+  };
+
   const contextValue = {
     authProps,
     viewProps: finalViewProps,
     dataProps: finalDataProps,
     postsProps,
+    chatProps,
     filterTopic,
     setFilterTopic,
     selectedEvent,

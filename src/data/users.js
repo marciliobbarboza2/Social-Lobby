@@ -23,7 +23,8 @@ export const users = [
       website: 'https://emma.dev',
       languages: ['English', 'Spanish'],
       interests: ['Programming', 'Open Source', 'AI', 'Web Development', 'UI/UX Design'],
-      skills: ['JavaScript', 'React', 'Node.js', 'Python', 'MongoDB', 'TypeScript']
+      skills: ['JavaScript', 'React', 'Node.js', 'Python', 'MongoDB', 'TypeScript'],
+      isOnline: true
     },
     {
       _id: 'user2',

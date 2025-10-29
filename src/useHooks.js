@@ -1,7 +1,7 @@
 // This file contains custom hooks that encapsulate the business logic of the application.
 
 import { useState, useEffect } from 'react';
-import { mapFetchedPosts } from './utils/mappers';
+import { mapFetchedPosts, mapFetchedComments } from './utils/mappers';
 import { posts as postsData } from './data/posts';
 
 /**
@@ -175,6 +175,7 @@ export const usePosts = (initialPosts, currentUser) => {
   const [editContent, setEditContent] = useState('');
   const [newPost, setNewPost] = useState('');
   const [draftSaved, setDraftSaved] = useState(false);
+  const [postError, setPostError] = useState(null);
 
   // Auto-save draft
   useEffect(() => {
@@ -198,10 +199,38 @@ export const usePosts = (initialPosts, currentUser) => {
   const [newComment, setNewComment] = useState('');
   const [showComments, setShowComments] = useState({});
 
-  // Use static data for now
+  // Fetch posts from backend on mount
   useEffect(() => {
-    setPosts(postsData);
-  }, []);
+    const fetchPosts = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const response = await fetch('http://localhost:5000/api/posts', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          const data = await response.json();
+          if (data.success) {
+            const mappedPosts = mapFetchedPosts(data, currentUser);
+            setPosts(mappedPosts);
+          } else {
+            // Fallback to static data if backend fails
+            setPosts(postsData);
+          }
+        } else {
+          // Fallback to static data if no token
+          setPosts(postsData);
+        }
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+        // Fallback to static data
+        setPosts(postsData);
+      }
+    };
+
+    fetchPosts();
+  }, [currentUser]);
 
   const handleEditPost = (postId, content) => {
     setEditingPost(postId);
@@ -273,43 +302,45 @@ export const usePosts = (initialPosts, currentUser) => {
     ));
     handleCancelEdit();
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/comments/${commentId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ content: editContent }),
-        signal: controller.signal
-      });
-      if (!response.ok) {
-        // Revert on failure
-        console.error('Failed to save comment');
-        setPosts(originalPosts);
-      } else {
-        // Update with server response if needed
-        const data = await response.json();
-        if (data.success) {
-          // Update with the returned comment data
-          setPosts(posts.map(post =>
-            post.id === postId
-              ? {
-                ...post,
-                comments: post.comments.map(comment =>
-                  comment.id === commentId ? { ...comment, content: data.comment.content, time: data.comment.updatedAt || comment.time } : comment
-                )
-              }
-              : post
-          ));
+        const response = await fetch(`http://localhost:5000/api/comments/${commentId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ content: editContent }),
+          signal: controller.signal
+        });
+
+        if (!response.ok) {
+          // Revert on failure
+          console.error('Failed to save comment');
+          setPosts(originalPosts);
+        } else {
+          // Update with server response if needed
+          const data = await response.json();
+          if (data.success) {
+            // Update with the returned comment data
+            setPosts(posts.map(post =>
+              post.id === postId
+                ? {
+                  ...post,
+                  comments: post.comments.map(comment =>
+                    comment.id === commentId ? { ...comment, content: data.comment.content, time: data.comment.updatedAt || comment.time } : comment
+                  )
+                }
+                : post
+            ));
+          }
         }
+        clearTimeout(timeoutId);
+      } catch (error) {
+        console.error('Error saving comment:', error);
+        setPosts(originalPosts);
       }
-    } catch (error) {
-      console.error('Error saving comment:', error);
-      setPosts(originalPosts);
-    } finally {
-      clearTimeout(timeoutId);
     }
   };
 
@@ -358,32 +389,97 @@ export const usePosts = (initialPosts, currentUser) => {
         const newPostData = mapFetchedPosts({data: [data.post]}, currentUser)[0];
         setPosts([newPostData, ...posts]);
         setNewPost('');
+        setPostError(null);
       } else {
+        setPostError(data.message || 'Failed to create post');
         console.error('Failed to create post:', data.message);
       }
     } catch (error) {
+      setPostError('Network error. Please try again.');
       console.error('Error creating post:', error);
     } finally {
       clearTimeout(timeoutId);
     }
   };
 
-  const toggleComments = (postId) => {
+  const toggleComments = async (postId) => {
+    const newShowState = !showComments[postId];
     setShowComments(prev => ({
       ...prev,
-      [postId]: !prev[postId]
+      [postId]: newShowState
     }));
+
+    // Fetch comments when opening comments section
+    if (newShowState) {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const response = await fetch(`http://localhost:5000/api/comments/post/${postId}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          const data = await response.json();
+          if (data.success) {
+            const mappedComments = mapFetchedComments(data);
+            setPosts(posts.map(post =>
+              post.id === postId ? { ...post, comments: mappedComments } : post
+            ));
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    }
   };
 
-  const handleComment = (postId) => {
+  const handleComment = async (postId) => {
     if (!newComment.trim()) return;
 
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+        const response = await fetch('http://localhost:5000/api/comments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            content: newComment,
+            postId: postId
+          }),
+          signal: controller.signal
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Add the new comment to the post's comments
+          const newCommentObj = mapFetchedComments({ data: [data.data] })[0];
+          setPosts(posts.map(post =>
+            post.id === postId ? { ...post, comments: [...post.comments, newCommentObj] } : post
+          ));
+          setNewComment('');
+          clearTimeout(timeoutId);
+          return;
+        }
+      } catch (error) {
+        console.error('Error creating comment:', error);
+      }
+    }
+
+    // Fallback to local comment creation
     const newCommentObj = {
       id: Date.now(),
       author: currentUser?.username || 'You',
       avatar: 'https://picsum.photos/seed/you/30',
       content: newComment,
-      time: 'now'
+      time: 'now',
+      authorId: currentUser?._id
     };
     setPosts(posts.map(post =>
       post.id === postId ? { ...post, comments: [...post.comments, newCommentObj] } : post
@@ -395,15 +491,45 @@ export const usePosts = (initialPosts, currentUser) => {
     setPosts(posts.filter(p => p.id !== postId));
   };
 
-  const handleDeleteComment = (postId, commentId) => {
-    setPosts(posts.map(post =>
-      post.id === postId
-        ? {
-          ...post,
-          comments: post.comments.filter(comment => comment.id !== commentId)
-        }
-        : post
-    ));
+  const handleDeleteComment = async (postId, commentId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No authentication token found');
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/comments/${commentId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        signal: controller.signal
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Update local state to remove the comment
+        setPosts(posts.map(post =>
+          post.id === postId
+            ? {
+              ...post,
+              comments: post.comments.filter(comment => comment.id !== commentId)
+            }
+            : post
+        ));
+      } else {
+        console.error('Failed to delete comment:', data.message);
+      }
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+    } finally {
+      clearTimeout(timeoutId);
+    }
   };
 
   const fetchSinglePost = (postId) => {
@@ -433,7 +559,8 @@ export const usePosts = (initialPosts, currentUser) => {
     handleDeletePost,
     handleDeleteComment,
     fetchSinglePost,
-    draftSaved
+    draftSaved,
+    postError
   };
 };
 

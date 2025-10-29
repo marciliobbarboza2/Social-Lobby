@@ -87,12 +87,47 @@ const Post = ({
       </div>
 
       <div className="post-actions">
+        <button className="action-btn" onClick={() => {
+          const postUrl = `${window.location.origin}/post/${post.id}`;
+          const postTitle = `Check out this post by ${post.author}`;
+
+          if (navigator.share) {
+            navigator.share({
+              title: postTitle,
+              text: post.content.substring(0, 100) + (post.content.length > 100 ? '...' : ''),
+              url: postUrl,
+            }).catch(err => {
+              console.error('Error sharing:', err);
+              // Fallback to clipboard
+              navigator.clipboard.writeText(postUrl).then(() => {
+                alert('Post link copied to clipboard!');
+              }).catch(() => {
+                alert('Unable to share or copy link.');
+              });
+            });
+          } else {
+            // Fallback to clipboard
+            navigator.clipboard.writeText(postUrl).then(() => {
+              alert('Post link copied to clipboard!');
+            }).catch(err => {
+              console.error('Failed to copy: ', err);
+              // Fallback for older browsers
+              const textArea = document.createElement('textarea');
+              textArea.value = postUrl;
+              document.body.appendChild(textArea);
+              textArea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+              alert('Post link copied to clipboard!');
+            });
+          }
+        }}>🔗 Share</button>
         <button
           className={`action-btn like-btn ${post.isLikedByCurrentUser ? 'liked' : ''}`}
           onClick={() => handleLike(post.id)}
           title={post.isLikedByCurrentUser ? 'Unlike this post' : 'Like this post'}
         >
-          {post.isLikedByCurrentUser ? '❤️ Liked' : '🤍 Like'}
+          {post.isLikedByCurrentUser ? '❤️' : '🤍'}
         </button>
         <button
           className="action-btn"
@@ -106,23 +141,6 @@ const Post = ({
           // Update URL for single post
           window.history.pushState({}, '', `/post/${post.id}`);
         }}>📤 View</button>
-        <button className="action-btn" onClick={() => {
-          // Copy post URL to clipboard
-          const postUrl = `${window.location.origin}/post/${post.id}`;
-          navigator.clipboard.writeText(postUrl).then(() => {
-            alert('Post link copied to clipboard!');
-          }).catch(err => {
-            console.error('Failed to copy: ', err);
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = postUrl;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            alert('Post link copied to clipboard!');
-          });
-        }}>🔗 Share</button>
       </div>
 
       {showComments[post.id] && (
