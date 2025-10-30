@@ -44,6 +44,26 @@ const users = [
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
     coverPhoto: 'https://picsum.photos/800/300?random=admin',
     address: 'System Admin St, System City, SC',
+    phone: '+1 (555) 000-0000',
+    city: 'System City',
+    groups: ['Admins'],
+    maritalStatus: 'Single',
+    birthday: 'January 1, 2000',
+    profession: 'System Administrator',
+    location: 'System City, SC',
+    education: 'System University',
+    work: 'Socialobby Inc.',
+    relationship: 'Single',
+    joined: 'January 2020',
+    gender: 'Other',
+    website: 'https://socialobby.com',
+    languages: ['English'],
+    interests: ['System Administration', 'Security', 'Technology'],
+    skills: ['System Admin', 'Security', 'Database Management'],
+    isOnline: true,
+    role: 'admin'
+  }
+];
 
 const posts = [
   {

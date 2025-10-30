@@ -52,7 +52,7 @@ const updateProfile = async (req, res, next) => {
     }
 
     // A more scalable way to update fields
-    const fieldsToUpdate = ['firstName', 'lastName', 'bio', 'avatar', 'address', 'phone', 'city', 'groups', 'maritalStatus'];
+    const fieldsToUpdate = ['firstName', 'lastName', 'bio', 'avatar'];
 
     fieldsToUpdate.forEach(field => {
       if (req.body[field] !== undefined) {

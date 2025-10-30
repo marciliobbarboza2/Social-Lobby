@@ -9,6 +9,8 @@ const rateLimit = require('express-rate-limit');
 const dotenv = require('dotenv');
 const logger = require('./utils/logger');
 const errorHandler = require('./middleware/errorHandler');
+const http = require('http');
+const { Server } = require('socket.io');
 
 // Load environment variables
 dotenv.config();
@@ -24,6 +26,15 @@ if (missingEnvVars.length > 0) {
 }
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176', 'http://localhost:5177', 'http://localhost:5178', 'http://localhost:5179', 'http://localhost:5180', 'http://localhost:5181', 'http://localhost:5182', 'http://localhost:5183', 'http://localhost:5184', 'http://localhost:5185', 'http://localhost:5186', 'http://localhost:3000'],
+    methods: ['GET', 'POST']
+  }
+});
+
+require('./socket')(io);
 
 // Security middleware
 app.use(helmet());
@@ -104,7 +115,7 @@ app.use((req, res) => {
 // Start server
 const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     logger.info(`🚀 Server is running on port ${PORT}`);
     logger.info(`📝 API available at http://localhost:${PORT}/api`);
   });

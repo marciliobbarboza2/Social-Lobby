@@ -1,4 +1,4 @@
-port const posts = [
+export const posts = [
     {
       id: 1,
       author: "Emma Rodriguez",

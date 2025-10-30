@@ -1,4 +1,3 @@
-
 Welcome to Sociallobby - your comprehensive social media platform!
 This is a full-featured social media platform built with React and Vite. Connect with friends, share your thoughts, engage with content through likes and comments, and build meaningful relationships online.
 
@@ -80,5 +79,3 @@ Made With:
 - Mongoose - Elegant MongoDB object modeling
 
 Happy socializing on Socialobby! Remember, meaningful connections start with authentic interactions. Build your online community thoughtfully and enjoy connecting with others.
-
-

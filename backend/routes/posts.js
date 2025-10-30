@@ -35,6 +35,11 @@ router.get('/', [
   next();
 }, postController.getPosts);
 
+// @desc    Get recent posts
+// @route   GET /api/posts/recent
+// @access  Public
+// router.get('/recent', postController.getRecentPosts);
+
 // @desc    Get single post
 // @route   GET /api/posts/:id
 // @access  Public

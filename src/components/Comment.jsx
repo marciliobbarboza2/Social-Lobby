@@ -17,7 +17,12 @@ const Comment = ({
 }) => {
   const handleDeleteClick = async () => {
     if (window.confirm('Are you sure you want to delete this comment?')) {
-      await handleDeleteComment(postId, comment.id);
+      try {
+        await handleDeleteComment(postId, comment.id);
+      } catch (error) {
+        console.error('Error deleting comment:', error);
+        alert('Failed to delete comment. Please try again.');
+      }
     }
   };
 

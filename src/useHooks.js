@@ -13,7 +13,7 @@ export const useAuth = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Start with loading true
   const [error, setError] = useState(null);
 
   // Check for existing token on mount
@@ -42,7 +42,12 @@ export const useAuth = () => {
       .catch(() => {
         localStorage.removeItem('token');
       })
-      .finally(() => clearTimeout(timeoutId));
+      .finally(() => {
+        setIsLoading(false); // Set loading to false after verification
+        clearTimeout(timeoutId);
+      });
+    } else {
+      setIsLoading(false); // No token, not loading
     }
   }, []);
 
@@ -173,29 +178,6 @@ export const usePosts = (initialPosts, currentUser) => {
   const [editingPost, setEditingPost] = useState(null);
   const [editingComment, setEditingComment] = useState(null);
   const [editContent, setEditContent] = useState('');
-  const [newPost, setNewPost] = useState('');
-  const [draftSaved, setDraftSaved] = useState(false);
-  const [postError, setPostError] = useState(null);
-
-  // Auto-save draft
-  useEffect(() => {
-    if (newPost.trim()) {
-      const timer = setTimeout(() => {
-        localStorage.setItem('postDraft', newPost);
-        setDraftSaved(true);
-        setTimeout(() => setDraftSaved(false), 2000); // Hide message after 2 seconds
-      }, 1000); // Save after 1 second of inactivity
-      return () => clearTimeout(timer);
-    }
-  }, [newPost]);
-
-  // Load draft on mount
-  useEffect(() => {
-    const draft = localStorage.getItem('postDraft');
-    if (draft) {
-      setNewPost(draft);
-    }
-  }, []);
   const [newComment, setNewComment] = useState('');
   const [showComments, setShowComments] = useState({});
 
@@ -355,8 +337,9 @@ export const usePosts = (initialPosts, currentUser) => {
     }));
   };
 
-  const handlePost = async () => {
-    if (!newPost.trim()) return;
+  const handlePost = async (post) => {
+    const { title, content } = post;
+    if (!title.trim() || !content.trim()) return;
 
     const token = localStorage.getItem('token');
     if (!token) {
@@ -375,8 +358,8 @@ export const usePosts = (initialPosts, currentUser) => {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          title: newPost.substring(0, 50), // First 50 chars as title
-          content: newPost,
+          title,
+          content,
           status: 'published'
         }),
         signal: controller.signal
@@ -388,14 +371,10 @@ export const usePosts = (initialPosts, currentUser) => {
         // Instead of re-fetching, add the new post to the top of the list
         const newPostData = mapFetchedPosts({data: [data.post]}, currentUser)[0];
         setPosts([newPostData, ...posts]);
-        setNewPost('');
-        setPostError(null);
       } else {
-        setPostError(data.message || 'Failed to create post');
         console.error('Failed to create post:', data.message);
       }
     } catch (error) {
-      setPostError('Network error. Please try again.');
       console.error('Error creating post:', error);
     } finally {
       clearTimeout(timeoutId);
@@ -542,8 +521,6 @@ export const usePosts = (initialPosts, currentUser) => {
     editingComment,
     editContent,
     setEditContent,
-    newPost,
-    setNewPost,
     newComment,
     setNewComment,
     showComments,
@@ -552,15 +529,13 @@ export const usePosts = (initialPosts, currentUser) => {
     handleCancelEdit,
     handleEditComment,
     handleSaveComment,
-    handleLike, // handleReaction is removed as it was redundant
+    handleLike,
     handlePost,
     toggleComments,
     handleComment,
     handleDeletePost,
     handleDeleteComment,
     fetchSinglePost,
-    draftSaved,
-    postError
   };
 };
 

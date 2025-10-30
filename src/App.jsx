@@ -23,7 +23,7 @@ const AppContent = () => {
   const { authProps, viewProps, dataProps } = useSocialLobbyContext();
 
   // Authentication state and handlers
-  const { isLoggedIn, currentUser, loginEmail, setLoginEmail, loginPassword, setLoginPassword, handleLogin, authLoading, authError, setAuthError, handleLogout, handleDeleteAccount } = authProps;
+  const { isLoggedIn, currentUser, loginEmail, setLoginEmail, loginPassword, setLoginPassword, handleLogin, isLoading, error, setError, handleLogout, handleDeleteAccount } = authProps;
 
   // View state for modals and navigation
   const { showLogin, setShowLogin, showProfile, setShowProfile, showOtherProfile, setShowOtherProfile, showNotifications, setShowNotifications, showGroups, setShowGroups, showStoryModal, setShowStoryModal, setCurrentView, currentView } = viewProps;
@@ -32,6 +32,15 @@ const AppContent = () => {
   const { groups, notifications, otherUser, handleJoinGroup, selectedStory } = dataProps;
 
 
+
+  // Show loading screen while checking authentication
+  if (isLoading) {
+    return (
+      <div className="loading-screen">
+        <div className="loading-spinner">Loading...</div>
+      </div>
+    );
+  }
 
   // Show login screen if user is not authenticated
   if (!isLoggedIn) {
@@ -42,9 +51,9 @@ const AppContent = () => {
         loginPassword={loginPassword}
         setLoginPassword={setLoginPassword}
         handleLogin={handleLogin}
-        isLoading={authLoading}
-        error={authError}
-        setError={setAuthError}
+        isLoading={isLoading}
+        error={error}
+        setError={setError}
       />
     );
   }
