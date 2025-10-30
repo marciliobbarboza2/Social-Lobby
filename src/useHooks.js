@@ -11,8 +11,8 @@ import { posts as postsData } from './data/posts';
 export const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
+  const [loginEmail, setLoginEmail] = useState(() => localStorage.getItem('loginEmail') || '');
+  const [loginPassword, setLoginPassword] = useState(() => localStorage.getItem('loginPassword') || '');
   const [isLoading, setIsLoading] = useState(true); // Start with loading true
   const [error, setError] = useState(null);
 
@@ -79,6 +79,8 @@ export const useAuth = () => {
 
       if (data.success) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('loginEmail', emailToLogin);
+        localStorage.setItem('loginPassword', passwordToLogin);
         setIsLoggedIn(true);
         setCurrentUser(data.user);
         setLoginEmail('');
