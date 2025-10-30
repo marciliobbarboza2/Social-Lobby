@@ -50,7 +50,8 @@ export const users = [
       website: 'https://kimskitchen.com',
       languages: ['English', 'Korean'],
       interests: ['Cooking', 'Food Photography', 'Wine Tasting', 'Travel'],
-      skills: ['Culinary Arts', 'Food Styling', 'Recipe Development', 'Baking']
+      skills: ['Culinary Arts', 'Food Styling', 'Recipe Development', 'Baking'],
+      isOnline: true
     },
     {
       _id: 'user3',
@@ -76,7 +77,8 @@ export const users = [
       website: 'https://andersonphotography.com',
       languages: ['English', 'French'],
       interests: ['Photography', 'Hiking', 'Environmental Conservation', 'Wildlife'],
-      skills: ['Photography', 'Photo Editing', 'Environmental Education', 'Hiking Guide']
+      skills: ['Photography', 'Photo Editing', 'Environmental Education', 'Hiking Guide'],
+      isOnline: true
     },
     {
       _id: 'user4',
@@ -102,7 +104,8 @@ export const users = [
       website: 'https://carlosnursing.com',
       languages: ['English', 'Spanish'],
       interests: ['Healthcare', 'Medical Research', 'Patient Advocacy', 'Community Health'],
-      skills: ['Nursing', 'Patient Care', 'Medical Procedures', 'Healthcare Administration']
+      skills: ['Nursing', 'Patient Care', 'Medical Procedures', 'Healthcare Administration'],
+      isOnline: true
     },
     {
       _id: 'user5',
@@ -128,7 +131,8 @@ export const users = [
       website: 'https://thompsonmarketing.com',
       languages: ['English'],
       interests: ['Digital Marketing', 'Content Strategy', 'Social Media', 'Brand Development'],
-      skills: ['Digital Marketing', 'Content Creation', 'SEO', 'Social Media Management']
+      skills: ['Digital Marketing', 'Content Creation', 'SEO', 'Social Media Management'],
+      isOnline: true
     },
     {
       _id: 'user6',
@@ -154,7 +158,8 @@ export const users = [
       website: 'https://mikejohnsonfitness.com',
       languages: ['English'],
       interests: ['Fitness', 'Nutrition', 'Wellness', 'Sports', 'Healthy Living'],
-      skills: ['Personal Training', 'Nutrition Planning', 'Group Fitness', 'Wellness Coaching']
+      skills: ['Personal Training', 'Nutrition Planning', 'Group Fitness', 'Wellness Coaching'],
+      isOnline: true
     },
     {
       _id: 'user7',
@@ -180,7 +185,8 @@ export const users = [
       website: 'https://annapetrov.dev',
       languages: ['English', 'Russian'],
       interests: ['Open Source', 'Programming', 'AI', 'Blockchain', 'Community Building'],
-      skills: ['JavaScript', 'Python', 'React', 'Node.js', 'Machine Learning']
+      skills: ['JavaScript', 'Python', 'React', 'Node.js', 'Machine Learning'],
+      isOnline: true
     },
     {
       _id: 'user8',
@@ -206,7 +212,8 @@ export const users = [
       website: 'https://davidleetravel.com',
       languages: ['English', 'Mandarin'],
       interests: ['Travel', 'Photography', 'Adventure Sports', 'Cultural Exploration'],
-      skills: ['Photography', 'Travel Writing', 'Video Production', 'Cultural Anthropology']
+      skills: ['Photography', 'Travel Writing', 'Video Production', 'Cultural Anthropology'],
+      isOnline: true
     },
     {
       _id: 'user9',
@@ -232,7 +239,8 @@ export const users = [
       website: 'https://sarahjohnsondesign.com',
       languages: ['English'],
       interests: ['Graphic Design', 'Branding', 'Typography', 'Digital Art', 'Creative Direction'],
-      skills: ['Adobe Creative Suite', 'Branding', 'Typography', 'UI/UX Design', 'Print Design']
+      skills: ['Adobe Creative Suite', 'Branding', 'Typography', 'UI/UX Design', 'Print Design'],
+      isOnline: true
     },
     {
       _id: 'user10',
@@ -258,7 +266,8 @@ export const users = [
       website: 'https://alexchen.ai',
       languages: ['English', 'Chinese'],
       interests: ['Machine Learning', 'Data Science', 'AI', 'Statistics', 'Big Data'],
-      skills: ['Python', 'R', 'Machine Learning', 'Deep Learning', 'Data Visualization', 'SQL']
+      skills: ['Python', 'R', 'Machine Learning', 'Deep Learning', 'Data Visualization', 'SQL'],
+      isOnline: true
     },
     {
       _id: 'user11',
@@ -284,7 +293,8 @@ export const users = [
       website: 'https://mayapatel.org',
       languages: ['English', 'Hindi'],
       interests: ['Environmental Science', 'Climate Change', 'Sustainability', 'Conservation', 'Renewable Energy'],
-      skills: ['Environmental Research', 'Climate Modeling', 'Data Analysis', 'Public Speaking', 'Policy Advocacy']
+      skills: ['Environmental Research', 'Climate Modeling', 'Data Analysis', 'Public Speaking', 'Policy Advocacy'],
+      isOnline: true
     },
     {
       _id: 'user12',
@@ -310,6 +320,7 @@ export const users = [
       website: 'https://jordanwilliamsmusic.com',
       languages: ['English'],
       interests: ['Music Production', 'Songwriting', 'Audio Engineering', 'Live Performance', 'Music Technology'],
-      skills: ['Music Production', 'Audio Engineering', 'Songwriting', 'Mixing', 'Mastering']
+      skills: ['Music Production', 'Audio Engineering', 'Songwriting', 'Mixing', 'Mastering'],
+      isOnline: true
     }
   ];
