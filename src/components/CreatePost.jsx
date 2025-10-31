@@ -26,9 +26,9 @@ const CreatePost = () => {
   return (
     <div className="create-post">
       <div className="post-composer">
-        <div className="composer-input">
+        <div className="composer-header">
           <img src={currentUser?.avatar || "https://picsum.photos/seed/you/40"} alt="You" className="user-avatar" />
-          <form onSubmit={handleSubmit} style={{width: '100%'}}>
+          <div className="composer-input">
             <textarea
               placeholder="What's on your mind?"
               value={content}
@@ -36,12 +36,26 @@ const CreatePost = () => {
               className="post-input"
               required
             />
-            <div className="composer-actions">
-              <button type="submit" className="post-btn" disabled={!content.trim() || isSubmitting}>
-                {isSubmitting ? 'Posting...' : 'Share'}
-              </button>
-            </div>
-          </form>
+          </div>
+        </div>
+        <div className="composer-options">
+          <button className="option-btn" type="button">
+            📷 Photo/Video
+          </button>
+          <button className="option-btn" type="button">
+            👥 Tag Friends
+          </button>
+          <button className="option-btn" type="button">
+            😊 Feeling/Activity
+          </button>
+          <button className="option-btn" type="button">
+            📍 Check In
+          </button>
+        </div>
+        <div className="composer-actions">
+          <button type="submit" className="post-btn" disabled={!content.trim() || isSubmitting} onClick={handleSubmit}>
+            {isSubmitting ? 'Posting...' : 'Post'}
+          </button>
         </div>
       </div>
     </div>
