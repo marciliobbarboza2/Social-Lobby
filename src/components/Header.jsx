@@ -14,7 +14,8 @@ const Header = ({
     <header className="facebook-header">
       <div className="header-left">
         <h1 className="facebook-logo" onClick={() => setCurrentView('feed')} style={{cursor: 'pointer'}}>
-          <span className="logo-icon">f</span>
+          <span className="logo-icon">🌐</span>
+          <span className="logo-text">Socialobby</span>
         </h1>
         <div className="search-bar">
           <input type="text" placeholder="Search Facebook" className="search-input" />

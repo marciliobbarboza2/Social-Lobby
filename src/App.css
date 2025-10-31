@@ -60,13 +60,16 @@
 }
 
 .facebook-logo {
-  font-size: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 24px;
   font-weight: bold;
-  color: #1877f2;
+  color: #667eea;
   margin: 0;
   cursor: pointer;
   padding: 8px;
-  border-radius: 50%;
+  border-radius: 8px;
   transition: background-color 0.2s;
 }
 
@@ -75,8 +78,17 @@
 }
 
 .logo-icon {
-  font-size: 32px;
+  font-size: 28px;
   line-height: 1;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .search-bar {
@@ -95,7 +107,7 @@
 }
 
 .search-input:focus {
-  border-color: #1877f2;
+  border-color: #667eea;
   background-color: #ffffff;
 }
 
@@ -124,8 +136,8 @@
 }
 
 .nav-btn.active {
-  border-bottom: 3px solid #1877f2;
-  color: #1877f2;
+  border-bottom: 3px solid #667eea;
+  color: #667eea;
 }
 
 .header-right {
