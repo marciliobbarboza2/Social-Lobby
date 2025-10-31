@@ -1016,6 +1016,181 @@
   background-color: #e4e6ea;
 }
 
+/* Header Styles */
+.socialobby-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+}
+
+.socialobby-logo {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.socialobby-logo:hover {
+  opacity: 0.8;
+}
+
+.logo-icon {
+  font-size: 28px;
+  margin-right: 8px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-weight: 500;
+}
+
+.header-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.search-bar {
+  position: relative;
+  width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 40px 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-input:focus {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+  .header-content {
+    padding: 8px 16px;
+  }
+
+  .socialobby-logo {
+    font-size: 20px;
+  }
+
+  .logo-icon {
+    font-size: 24px;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .header-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .search-bar {
+    width: 200px;
+  }
+
+  .user-info {
+    font-size: 12px;
+  }
+
+  .header-avatar {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Enhanced UI Improvements */
+.socialobby-main {
+  margin-top: 20px;
+}
+
+.socialobby-sidebar .nav-item,
+.socialobby-sidebar .shortcut-item,
+.socialobby-right-sidebar .contact,
+.socialobby-right-sidebar .trend-item {
+  transition: all 0.3s ease;
+}
+
+.socialobby-sidebar .nav-item:hover,
+.socialobby-sidebar .shortcut-item:hover,
+.socialobby-right-sidebar .contact:hover,
+.socialobby-right-sidebar .trend-item:hover {
+  background-color: #f0f2f5;
+  transform: translateX(4px);
+}
+
 /* Responsive adjustments for new pages */
 @media (max-width: 768px) {
   .friends-grid,
