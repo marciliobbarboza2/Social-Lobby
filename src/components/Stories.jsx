@@ -3,7 +3,7 @@ import { useSocialLobbyContext } from '../SocialLobbyContext';
 import { users } from '../data/users';
 
 const Stories = () => {
-  const { dataProps, authProps } = useSocialLobbyContext();
+  const { dataProps, authProps, viewProps } = useSocialLobbyContext();
   const { stories } = dataProps;
   const { currentUser } = authProps;
 
@@ -43,7 +43,7 @@ const Stories = () => {
     } else {
       // Navigate to user profile
       dataProps.setSelectedUser(story.userId);
-      dataProps.setCurrentView('profile');
+      viewProps.setCurrentView('profile');
     }
   };
 
