@@ -111,6 +111,10 @@
   background-color: #ffffff;
 }
 
+.search-input::placeholder {
+  color: #a0aec0;
+}
+
 .header-center {
   display: flex;
   gap: 8px;

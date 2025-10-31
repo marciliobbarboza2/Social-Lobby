@@ -18,7 +18,7 @@ const Header = ({
           <span className="logo-text">Socialobby</span>
         </h1>
         <div className="search-bar">
-          <input type="text" placeholder="Search Facebook" className="search-input" />
+          <input type="text" placeholder="Search Socialobby" className="search-input" />
         </div>
       </div>
       <div className="header-center">
