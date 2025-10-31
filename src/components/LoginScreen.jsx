@@ -214,7 +214,6 @@ const LoginScreen = ({
           </>
         ) : (
           <>
-            <h2>Login to Socialobby</h2>
             <form onSubmit={handleSubmit}>
               <input
                 type="email"
@@ -236,18 +235,23 @@ const LoginScreen = ({
                 {isLoading ? 'Logging in...' : 'Login'}
               </button>
             </form>
-            <p className="switch-mode">
-              Don't have an account?{' '}
-              <button
-                className="link-btn"
-                onClick={() => {
-                  setIsRegistering(true);
-                  setError(null);
-                }}
-              >
-                Register here
-              </button>
-            </p>
+
+            {/* Forgot Password Link */}
+            <a href="#" className="forgot-password">Forgot password?</a>
+
+            {/* Divider */}
+            <div className="divider"></div>
+
+            {/* Create Account Button */}
+            <button
+              className="create-account-btn"
+              onClick={() => {
+                setIsRegistering(true);
+                setError(null);
+              }}
+            >
+              Create new account
+            </button>
           </>
         )}
 
