@@ -5,9 +5,9 @@ import RightSidebar from '../components/RightSidebar';
 
 const HomePage = () => {
   return (
-    <div className="socialobby-main">
+    <div className="facebook-main">
       <LeftSidebar />
-      <div className="socialobby-content">
+      <div className="facebook-content">
         <Feed />
       </div>
       <RightSidebar />

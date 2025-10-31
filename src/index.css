@@ -25,43 +25,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Dark Mode - Cozy and Easy on the Eyes */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text-primary: #f5f6fa;
-    --text-secondary: #b2bec3;
-    --bg-primary: #1e272e;
-    --bg-secondary: #2d3436;
-    
-    color: var(--text-primary);
-    background-color: var(--bg-primary);
-  }
-  
-  .welcome-card,
-  .post-card {
-    background: var(--bg-secondary) !important;
-    border-color: #404040 !important;
-  }
-  
-  .post-card:hover {
-    border-color: var(--accent-primary) !important;
-  }
-  
-  .post-read-time {
-    background: #404040 !important;
-    color: var(--text-secondary) !important;
-  }
-  
-  .section-title,
-  .post-title {
-    color: var(--text-primary) !important;
-  }
-  
-  .post-excerpt,
-  .welcome-card p {
-    color: var(--text-secondary) !important;
-  }
-}
+
 
 /* Smooth Link Styles */
 a {
