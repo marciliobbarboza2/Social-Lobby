@@ -18,12 +18,12 @@ const RightSidebar = () => {
     <aside className="socialobby-right-sidebar">
       <div className="sidebar-section sponsored">
         <h3>Sponsored</h3>
-        <div className="sponsored-item">
+        <div className="sponsored-item" onClick={() => setCurrentView('feed')} style={{cursor: 'pointer'}}>
           <img src="https://picsum.photos/seed/sponsored2/80/60" alt="Sponsored" className="sponsored-image" />
           <div className="sponsored-content">
             <h4>Pro Membership</h4>
             <p>Get unlimited features</p>
-            <button className="upgrade-btn">Upgrade Now</button>
+            <button className="upgrade-btn" onClick={(e) => { e.stopPropagation(); setCurrentView('feed'); }}>Upgrade Now</button>
           </div>
         </div>
       </div>
@@ -58,14 +58,14 @@ const RightSidebar = () => {
       <div className="sidebar-section events-section">
         <h3>Upcoming Events</h3>
         <div className="event-preview">
-          <div className="event-item">
+          <div className="event-item" onClick={() => setCurrentView('events')} style={{cursor: 'pointer'}}>
             <div className="event-date">Dec 25</div>
             <div className="event-info">
               <h4>Christmas Party</h4>
               <p>🎄 Join us for celebrations!</p>
             </div>
           </div>
-          <div className="event-item">
+          <div className="event-item" onClick={() => setCurrentView('events')} style={{cursor: 'pointer'}}>
             <div className="event-date">Jan 1</div>
             <div className="event-info">
               <h4>New Year Bash</h4>
