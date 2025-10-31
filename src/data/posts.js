@@ -13,7 +13,7 @@ export const posts = [
       ],
       liked: false,
       image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
-      video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      video: null,
       story: null,
       authorId: "user1"
     },

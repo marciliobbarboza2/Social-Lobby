@@ -251,12 +251,40 @@ Main Feed Content...
 - ✅ Chat system real-time messaging
 - ✅ Story creation and viewing
 
+## Multimedia Content Support
+**Description:** Enhanced posts with image and video upload capabilities for richer content sharing.
+
+**Features:**
+- **Image Upload:** Users can upload images directly to posts with preview functionality
+- **Video Upload:** Support for video content with native HTML5 video player
+- **Media Preview:** Real-time preview of selected media before posting
+- **File Validation:** Client-side validation for file types and sizes
+- **Responsive Media:** Optimized display across different screen sizes
+- **Remove Media:** Easy option to remove selected media before posting
+
+**Technical Implementation:**
+- Frontend: File input handling with FileReader API for base64 conversion
+- Backend: Extended Post model with video field, updated controllers
+- UI: Enhanced CreatePost component with media upload buttons and preview
+- Styling: Responsive media display with proper aspect ratios
+
+**Screenshot Description - Media Upload:**
+```
++-----------------------------+
+| What's on your mind?        |
+| [Textarea with content]     |
++-----------------------------+
+| [📷 Photo] [🎥 Video]       |
+| [Preview Image/Video] [✕]   |
+| [Post]                      |
++-----------------------------+
+```
+
 ## Future Enhancements
-- Image upload for posts and comments
+- Cloud storage integration for media files
 - Push notifications
 - Advanced privacy settings
 - Group messaging
-- Video content support
 - Advanced search and filtering
 - Analytics dashboard
 

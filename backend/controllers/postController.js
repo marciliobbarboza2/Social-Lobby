@@ -86,13 +86,14 @@ const getPost = async (req, res, next) => {
 // @access  Private
 const createPost = async (req, res, next) => {
   try {
-    const { title, content, excerpt, featuredImage, category, tags, status } = req.body;
+    const { title, content, excerpt, featuredImage, video, category, tags, status } = req.body;
 
     const post = await Post.create({
       title,
       content,
       excerpt,
       featuredImage,
+      video,
       category,
       tags,
       status: status || 'draft',
@@ -129,7 +130,7 @@ const updatePost = async (req, res, next) => {
       return res.status(403).json({ message: 'Not authorized to update this post' });
     }
 
-    const fieldsToUpdate = ['title', 'content', 'excerpt', 'featuredImage', 'category', 'tags', 'status'];
+    const fieldsToUpdate = ['title', 'content', 'excerpt', 'featuredImage', 'video', 'category', 'tags', 'status'];
 
     fieldsToUpdate.forEach(field => {
       if (req.body[field] !== undefined) {

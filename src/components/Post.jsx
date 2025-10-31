@@ -75,6 +75,11 @@ const Post = ({
             <img src={post.image} alt="Post image" className="post-image-img" />
           </div>
         )}
+        {post.video && (
+          <div className="post-video">
+            <video src={post.video} controls className="post-video-player" />
+          </div>
+        )}
       </div>
 
       <div className="post-stats">
