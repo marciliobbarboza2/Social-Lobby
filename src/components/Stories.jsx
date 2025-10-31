@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
+import { users } from '../data/users';
 
 const Stories = () => {
   const { dataProps, authProps } = useSocialLobbyContext();
-  const { stories, handleStoryClick } = dataProps;
+  const { stories } = dataProps;
   const { currentUser } = authProps;
 
   // Add current user as first story (like Instagram)
@@ -20,14 +21,40 @@ const Stories = () => {
     ...stories
   ];
 
+  // Get all users for stories (excluding current user)
+  const allUsers = users
+    .filter(user => user._id !== currentUser?._id)
+    .map(user => ({
+      id: user._id,
+      author: user.name,
+      userId: user._id,
+      avatar: user.avatar,
+      image: null, // No image for profile stories
+      time: 'now',
+      caption: 'View profile'
+    }));
+
+  const allDisplayStories = [...allStories, ...allUsers];
+
+  const handleStoryClickInternal = (story) => {
+    if (story.userId === 'current') {
+      // Handle current user story (add story functionality)
+      console.log('Add story clicked');
+    } else {
+      // Navigate to user profile
+      dataProps.setSelectedUser(story.userId);
+      dataProps.setCurrentView('profile');
+    }
+  };
+
   return (
     <div className="stories-section">
       <div className="stories-container">
-        {allStories.map(story => (
+        {allDisplayStories.map(story => (
           <div
             key={story.id}
             className={`story-item ${story.id === 'current-user' ? 'current-user-story' : ''}`}
-            onClick={() => handleStoryClick(story)}
+            onClick={() => handleStoryClickInternal(story)}
           >
             <div className="story-avatar">
               <img src={story.avatar} alt={story.author} />
