@@ -64,17 +64,7 @@ const LeftSidebar = () => {
         </ul>
       </div>
 
-      <div className="sidebar-section sponsored">
-        <h3>Sponsored</h3>
-        <div className="sponsored-item">
-          <img src="https://picsum.photos/seed/sponsored1/80/60" alt="Sponsored" className="sponsored-image" />
-          <div className="sponsored-content">
-            <h4>Premium Features</h4>
-            <p>Unlock advanced social features</p>
-            <button className="learn-more-btn">Learn More</button>
-          </div>
-        </div>
-      </div>
+
     </aside>
   );
 };

@@ -28,13 +28,7 @@ const RightSidebar = () => {
         </div>
       </div>
 
-      <div className="sidebar-section birthday-section">
-        <h3>Birthdays</h3>
-        <div className="birthday-item">
-          <div className="birthday-icon">🎂</div>
-          <p><strong>John Doe</strong>'s birthday is today</p>
-        </div>
-      </div>
+
 
       <div className="sidebar-section online-friends">
         <h3>Contacts</h3>
