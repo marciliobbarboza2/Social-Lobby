@@ -11,9 +11,9 @@ const Header = ({
   currentView,
 }) => {
   return (
-    <header className="facebook-header">
+    <header className="socialobby-header">
       <div className="header-left">
-        <h1 className="facebook-logo" onClick={() => setCurrentView('feed')} style={{cursor: 'pointer'}}>
+        <h1 className="socialobby-logo" onClick={() => setCurrentView('feed')} style={{cursor: 'pointer'}}>
           <span className="logo-icon">🌐</span>
           <span className="logo-text">Socialobby</span>
         </h1>
