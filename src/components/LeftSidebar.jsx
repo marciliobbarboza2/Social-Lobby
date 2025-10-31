@@ -2,10 +2,8 @@ import React from 'react';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const LeftSidebar = () => {
-  const { viewProps, dataProps, authProps } = useSocialLobbyContext();
+  const { viewProps } = useSocialLobbyContext();
   const { setCurrentView } = viewProps;
-  const { users } = dataProps;
-  const { currentUser } = authProps;
 
   const navItems = [
     { name: 'Feed', icon: '🏠', view: 'feed' },
@@ -21,11 +19,6 @@ const LeftSidebar = () => {
     setCurrentView(view);
   };
 
-  // Get online friends (excluding current user)
-  const onlineFriends = users
-    .filter(user => user._id !== currentUser?._id)
-    .slice(0, 10); // Show up to 10 friends
-
   return (
     <aside className="socialobby-sidebar">
       <div className="sidebar-section navigation-section">
@@ -37,19 +30,6 @@ const LeftSidebar = () => {
             </li>
           ))}
         </ul>
-      </div>
-
-      <div className="sidebar-section online-friends">
-        <h3>Online Friends</h3>
-        <div className="online-friends-list">
-          {onlineFriends.map(friend => (
-            <div key={friend._id} className="online-friend-item" onClick={() => dataProps.setSelectedUser(friend._id) || setCurrentView('profile')}>
-              <img src={friend.avatar} alt={friend.name} className="friend-avatar-small" />
-              <span className="friend-name">{friend.name.split(' ')[0]}</span>
-              <div className="online-indicator"></div>
-            </div>
-          ))}
-        </div>
       </div>
 
       <div className="sidebar-section your-shortcuts">
