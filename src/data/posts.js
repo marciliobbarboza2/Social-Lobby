@@ -12,7 +12,9 @@ export const posts = [
         { id: 10, author: "John Doe", avatar: "https://picsum.photos/seed/john/30", content: "Amazing work! Keep it up!", time: "30m ago", authorId: "user11" }
       ],
       liked: false,
-      image: null,
+      image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
+      video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      story: null,
       authorId: "user1"
     },
     {
@@ -63,7 +65,9 @@ export const posts = [
         { id: 13, author: "Paul Brown", avatar: "https://picsum.photos/seed/paul/30", content: "Heroes indeed! Thank you all.", time: "5h ago", authorId: "user18" }
       ],
       liked: true,
-      image: null,
+      image: "https://images.unsplash.com/photo-1551190822-a9333d879b1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
+      video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      story: null,
       authorId: "user4"
     },
     {
@@ -108,7 +112,9 @@ export const posts = [
         { id: 19, author: "Lisa Thompson", avatar: "https://picsum.photos/seed/lisa/30", content: "Open source is the future! Keep up the great work 💻", time: "12h ago", authorId: "user5" }
       ],
       liked: false,
-      image: null,
+      image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
+      video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      story: null,
       authorId: "user7"
     },
     {
@@ -154,6 +160,8 @@ export const posts = [
       ],
       liked: true,
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
+      video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      story: null,
       authorId: "user10"
     },
     {
