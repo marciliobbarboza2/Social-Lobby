@@ -3,8 +3,12 @@ import { useSocialLobbyContext } from '../SocialLobbyContext';
 import ChatWindow from './ChatWindow';
 
 const ChatBar = () => {
-  const { chatProps } = useSocialLobbyContext();
-  const { activeChats, minimizedChats, closeChat, toggleMinimize } = chatProps;
+  const { dataProps, chatProps } = useSocialLobbyContext();
+  const { users } = dataProps;
+  const { activeChats, minimizedChats, closeChat, toggleMinimize, openChat } = chatProps;
+
+  // Get online users for chat suggestions
+  const onlineUsers = users.filter(user => user.isOnline).slice(0, 5);
 
   return (
     <>
@@ -48,7 +52,21 @@ const ChatBar = () => {
           <span>💬</span>
         </div>
 
-
+        {/* Online Friends */}
+        {onlineUsers.slice(0, 3).map((user, index) => (
+          <div
+            key={`online-${user._id}`}
+            className="chat-icon online"
+            onClick={() => openChat(user)}
+            style={{
+              backgroundImage: `url(${user.avatar})`,
+              right: `${100 + index * 60}px`
+            }}
+            title={user.name}
+          >
+            <div className="online-indicator"></div>
+          </div>
+        ))}
       </div>
     </>
   );

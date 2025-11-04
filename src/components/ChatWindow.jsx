@@ -11,16 +11,19 @@ const ChatWindow = ({ friend, onClose, style }) => {
 
   useEffect(() => {
     // Filter messages for this specific chat window
-    const relevantMessages = wsMessages.filter(
-      (msg) => (msg.senderId === currentUser._id && msg.recipientId === friend._id) || (msg.senderId === friend._id && msg.recipientId === currentUser._id)
-    );
-    setLocalMessages(relevantMessages);
+    if (wsMessages && Array.isArray(wsMessages)) {
+      const relevantMessages = wsMessages.filter(
+        (msg) => (msg.senderId === currentUser._id && msg.recipientId === friend._id) || (msg.senderId === friend._id && msg.recipientId === currentUser._id)
+      );
+      setLocalMessages(relevantMessages);
+    }
   }, [wsMessages, currentUser._id, friend._id]);
 
   const handleSendMessage = () => {
     if (!newMessage.trim()) return;
 
     const message = {
+      type: 'chatMessage',
       senderId: currentUser._id,
       recipientId: friend._id,
       text: newMessage,

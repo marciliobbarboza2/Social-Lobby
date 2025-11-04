@@ -32,6 +32,7 @@ module.exports = (io) => {
       // Broadcast to all connected clients (for now)
       // In a real app, you'd want to send to specific rooms/channels
       io.emit('chatMessage', {
+        type: 'chatMessage',
         ...data,
         userId: socket.userId,
         timestamp: new Date()

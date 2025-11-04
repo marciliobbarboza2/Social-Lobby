@@ -27,7 +27,9 @@ const useWebSocket = (token) => {
       try {
         const data = JSON.parse(event.data);
         // Handle chat messages
-        setMessages(prev => [...prev, data]);
+        if (data.type === 'chatMessage') {
+          setMessages(prev => [...prev, data]);
+        }
       } catch (error) {
         console.error('Error parsing WebSocket message:', error);
       }
