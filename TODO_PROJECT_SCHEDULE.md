@@ -20,8 +20,8 @@ Focus: Interactions & Features
 ### Submission Requirements (Due Oct 30, 11:59 PM)
 - [x] App updated with working comments
 - [x] At least one enhancement implemented
-- [ ] Updated GitHub repo with progress
-- [ ] Commit and push changes
+- [x] Updated GitHub repo with progress
+- [x] Commit and push changes
 
 ## Week 4 – Final Polish, Deployment & Presentation (Oct 31 – Nov 6)
 Focus: Complete & Deploy
