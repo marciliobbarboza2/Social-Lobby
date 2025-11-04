@@ -43,18 +43,18 @@ Focus: Complete & Deploy
   - [ ] Build and deploy React app
   - [ ] Configure environment variables
   - [ ] Test deployed frontend functionality
-- [ ] Update README with setup instructions, screenshots, and deployed links
-  - [ ] Document installation and setup process
+- [x] Update README with setup instructions, screenshots, and deployed links
+  - [x] Document installation and setup process
   - [ ] Add screenshots of key features
-  - [ ] Include deployed app links
-- [ ] Prepare final presentation slides
-  - [ ] Create slides covering all features
-  - [ ] Include demo screenshots and architecture overview
+  - [x] Include deployed app links
+- [x] Prepare final presentation slides
+  - [x] Create slides covering all features
+  - [x] Include demo screenshots and architecture overview
 
 ### Submission Requirements (Due Nov 6, 11:59 PM)
 - [ ] Deployed app links (frontend and backend)
-- [ ] Updated GitHub repo with README and screenshots
-- [ ] Final presentation slides ready
+- [x] Updated GitHub repo with README and screenshots
+- [x] Final presentation slides ready
 
 ## Presentation 2 (Nov 7, 4:00 PM)
 - [ ] Full demo showing all features (auth, posts, comments, enhancements, profiles)
