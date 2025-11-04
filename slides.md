@@ -6,8 +6,8 @@
 - **Presenter:** [Your Name]
 - **Date:** November 6, 2024
 - **Deployed Links:**
-  - Frontend: [Vercel URL]
-  - Backend: [Render URL]
+  - Frontend: https://social-lobby.vercel.app
+  - Backend: https://social-lobby.onrender.com
 
 ## Slide 2: Project Overview
 - **Objective:** Comprehensive social media platform with full feature set

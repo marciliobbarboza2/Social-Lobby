@@ -5,7 +5,7 @@ Welcome to **Social Lobby** - your comprehensive social media platform! This is 
 ## 🚀 Live Demo
 
 - **Frontend:** [Deployed on Vercel](https://social-lobby.vercel.app)
-- **Backend API:** [Deployed on Render](https://social-lobby-backend.onrender.com)
+- **Backend API:** [Deployed on Render](https://social-lobby.onrender.com)
 - **GitHub Repository:** [View Source Code](https://github.com/marciliobbarboza2/Social-Lobby)
 
 ## 📋 Project Overview
