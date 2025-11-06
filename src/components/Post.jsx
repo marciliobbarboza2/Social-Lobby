@@ -82,8 +82,12 @@ const Post = ({
 
       <div className="post-actions">
         <button
-          className={`action-btn ${post.isLikedByCurrentUser ? 'liked' : ''}`}
-          onClick={() => handleLike(post.id)}
+          className={`action-btn ${post.liked ? 'liked' : ''}`}
+          onClick={() => {
+            if (typeof handleLike === 'function') {
+              handleLike(post.id);
+            }
+          }}
         >
           👍 Like
         </button>

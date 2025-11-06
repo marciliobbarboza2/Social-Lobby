@@ -3,7 +3,7 @@ export const users = [
       username: 'emma',
       name: 'Emma Rodriguez',
       email: 'emma.rodriguez@example.com',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
+      avatar: 'https://i.pravatar.cc/100?img=1',
       coverPhoto: 'https://picsum.photos/800/300?random=emma',
       bio: 'Software developer passionate about creating user-friendly applications',
       address: '123 Tech St, San Francisco, CA',

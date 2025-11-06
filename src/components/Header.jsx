@@ -25,10 +25,10 @@ const Header = ({
           {isLoggedIn ? (
             <>
               <button className="header-btn" onClick={() => { setSelectedUser(currentUser); setCurrentView('profile'); }}>👤 Profile</button>
-              <span className="user-info">
+              <button className="user-info" type="button" onClick={() => { setSelectedUser(currentUser); setCurrentView('profile'); }}>
                 <img src={currentUser.avatar} alt={currentUser.name} className="header-avatar" />
                 {currentUser.name}
-              </span>
+              </button>
               <button className="header-btn" onClick={handleLogout}>Logout</button>
             </>
           ) : (
