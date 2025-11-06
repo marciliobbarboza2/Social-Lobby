@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { mapFetchedPosts, mapFetchedComments } from './utils/mappers';
 import { posts as postsData } from './data/posts';
 
+// Import git for version control operations
+// import git from 'git'; // Commented out to avoid import errors
+
 /**
  * Custom hook for managing user authentication.
  * @returns {object} - An object containing authentication state and handler functions.
@@ -11,8 +14,8 @@ import { posts as postsData } from './data/posts';
 export const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
+  const [loginEmail, setLoginEmail] = useState(() => localStorage.getItem('loginEmail') || '');
+  const [loginPassword, setLoginPassword] = useState(() => localStorage.getItem('loginPassword') || '');
   const [isLoading, setIsLoading] = useState(true); // Start with loading true
   const [error, setError] = useState(null);
 
@@ -79,6 +82,8 @@ export const useAuth = () => {
 
       if (data.success) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('loginEmail', emailToLogin);
+        localStorage.setItem('loginPassword', passwordToLogin);
         setIsLoggedIn(true);
         setCurrentUser(data.user);
         setLoginEmail('');
@@ -178,7 +183,6 @@ export const usePosts = (initialPosts, currentUser) => {
   const [editingPost, setEditingPost] = useState(null);
   const [editingComment, setEditingComment] = useState(null);
   const [editContent, setEditContent] = useState('');
-  const [newComment, setNewComment] = useState('');
   const [showComments, setShowComments] = useState({});
 
   // Fetch posts from backend on mount
@@ -211,6 +215,7 @@ export const usePosts = (initialPosts, currentUser) => {
       }
     };
 
+    // Always fetch posts, regardless of currentUser state
     fetchPosts();
   }, [currentUser]);
 
@@ -326,15 +331,53 @@ export const usePosts = (initialPosts, currentUser) => {
     }
   };
 
-  const handleLike = (postId) => {
+  const handleLike = async (postId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No authentication token found');
+      return;
+    }
+
+    // Optimistically update UI
+    const originalPosts = posts;
     setPosts(posts.map(p => {
       if (p.id === postId) {
         const likesArray = Array.isArray(p.likes) ? p.likes : [];
         const wasLiked = likesArray.includes(currentUser?._id);
-        return { ...p, likes: wasLiked ? likesArray.filter(id => id !== currentUser?._id) : [...likesArray, currentUser?._id] };
+        return {
+          ...p,
+          likes: wasLiked ? likesArray.filter(id => id !== currentUser?._id) : [...likesArray, currentUser?._id],
+          isLikedByCurrentUser: !wasLiked
+        };
       }
       return p;
     }));
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/posts/${postId}/like`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        signal: controller.signal
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        // Revert on failure
+        console.error('Failed to toggle like:', data.message);
+        setPosts(originalPosts);
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error);
+      setPosts(originalPosts);
+    } finally {
+      clearTimeout(timeoutId);
+    }
   };
 
   const handlePost = async (post) => {
@@ -412,7 +455,7 @@ export const usePosts = (initialPosts, currentUser) => {
     }
   };
 
-  const handleComment = async (postId) => {
+  const handleComment = async (postId, newComment, setNewComment) => {
     if (!newComment.trim()) return;
 
     const token = localStorage.getItem('token');
@@ -521,8 +564,6 @@ export const usePosts = (initialPosts, currentUser) => {
     editingComment,
     editContent,
     setEditContent,
-    newComment,
-    setNewComment,
     showComments,
     handleEditPost,
     handleSavePost,

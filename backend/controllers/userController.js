@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Post = require('../models/Post');
+const { body, param, validationResult } = require('express-validator');
 const logger = require('../utils/logger');
 
 // @desc    Get current user profile
@@ -43,36 +44,47 @@ const getUserProfile = async (req, res, next) => {
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
-const updateProfile = async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user._id);
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // A more scalable way to update fields
-    const fieldsToUpdate = ['firstName', 'lastName', 'bio', 'avatar'];
-
-    fieldsToUpdate.forEach(field => {
-      if (req.body[field] !== undefined) {
-        user[field] = req.body[field];
+const updateProfile = [
+  body('firstName').optional().isLength({ min: 2, max: 50 }).trim().escape(),
+  body('lastName').optional().isLength({ min: 2, max: 50 }).trim().escape(),
+  body('bio').optional().isLength({ max: 500 }).trim().escape(),
+  body('avatar').optional().isURL(),
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
       }
-    });
 
-    await user.save();
+      const user = await User.findById(req.user._id);
 
-    logger.info(`Profile updated for user: ${user.username}`);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
 
-    res.json({
-      success: true,
-      data: user.getPublicProfile()
-    });
-  } catch (error) {
-    logger.error('Error updating profile:', error);
-    next(error);
+      // A more scalable way to update fields
+      const fieldsToUpdate = ['firstName', 'lastName', 'bio', 'avatar'];
+
+      fieldsToUpdate.forEach(field => {
+        if (req.body[field] !== undefined) {
+          user[field] = req.body[field];
+        }
+      });
+
+      await user.save();
+
+      logger.info(`Profile updated for user: ${user.username}`);
+
+      res.json({
+        success: true,
+        data: user.getPublicProfile()
+      });
+    } catch (error) {
+      logger.error('Error updating profile:', error);
+      next(error);
+    }
   }
-};
+];
 
 // @desc    Get user's posts
 // @route   GET /api/users/:id/posts

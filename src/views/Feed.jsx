@@ -17,8 +17,6 @@ const Feed = () => {
     handleDeletePost,
     showComments,
     handleLike,
-    newComment,
-    setNewComment,
     handleComment,
     toggleComments,
     editingComment,
@@ -59,8 +57,6 @@ const Feed = () => {
                       handleLike={handleLike}
                       toggleComments={toggleComments}
                       showComments={showComments}
-                      newComment={newComment}
-                      setNewComment={setNewComment}
                       handleComment={handleComment}
                       handleViewProfile={handleViewProfile}
                       editingComment={editingComment}

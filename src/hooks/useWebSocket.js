@@ -29,7 +29,18 @@ const useWebSocket = (token) => {
 
     socket.on('chatMessage', (data) => {
       console.log('Received chat message:', data);
-      setMessages(prev => [...prev, data]);
+      setMessages(prev => {
+        // Avoid duplicates by checking if message already exists
+        const exists = prev.some(msg =>
+          msg.timestamp === data.timestamp &&
+          msg.senderId === data.senderId &&
+          msg.text === data.text
+        );
+        if (!exists) {
+          return [...prev, data];
+        }
+        return prev;
+      });
     });
 
     socket.on('disconnect', () => {

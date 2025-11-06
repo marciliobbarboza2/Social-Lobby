@@ -34,7 +34,10 @@ const Stories = () => {
       caption: 'View profile'
     }));
 
-  const allDisplayStories = [...allStories, ...allUsers];
+  // Show all users instead of limiting to 8
+  const limitedUsers = allUsers;
+
+  const allDisplayStories = [...allStories, ...limitedUsers];
 
   const handleStoryClickInternal = (story) => {
     if (story.userId === 'current') {

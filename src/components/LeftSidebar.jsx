@@ -2,8 +2,9 @@ import React from 'react';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const LeftSidebar = () => {
-  const { viewProps } = useSocialLobbyContext();
+  const { viewProps, authProps } = useSocialLobbyContext();
   const { setCurrentView } = viewProps;
+  const { handleLogout } = authProps;
 
   const navItems = [
     { name: 'Feed', icon: '🏠', view: 'feed' },
@@ -13,10 +14,18 @@ const LeftSidebar = () => {
     { name: 'Events', icon: '📅', view: 'events' },
     { name: 'Groups', icon: '👪', view: 'groups' },
     { name: 'Pages', icon: '📰', view: 'pages' },
+    { name: 'Notifications', icon: '🔔', view: 'notifications' },
+    { name: 'Settings', icon: '⚙️', view: 'settings' },
   ];
 
   const handleNavClick = (view) => {
     setCurrentView(view);
+  };
+
+  const handleLogoutClick = () => {
+    if (window.confirm('Are you sure you want to logout?')) {
+      handleLogout();
+    }
   };
 
   return (

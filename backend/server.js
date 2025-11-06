@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const csurf = require('csurf');
 const dotenv = require('dotenv');
 const logger = require('./utils/logger');
 const errorHandler = require('./middleware/errorHandler');
@@ -38,13 +39,46 @@ const io = new Server(server, {
 require('./socket')(io);
 
 // Security middleware
-app.use(helmet());
-const limiter = rateLimit({
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+    },
+  },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
+  }
+}));
+
+// User-based rate limiting (requires authentication middleware first)
+const userLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.'
+  max: 100, // limit each user to 100 requests per windowMs
+  keyGenerator: (req) => {
+    return req.user ? req.user._id.toString() : req.ip;
+  },
+  message: 'Too many requests from this user, please try again later.'
 });
-app.use(limiter);
+
+// CSRF protection
+const csrfProtection = csurf({
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict'
+  }
+});
+
+// Apply CSRF protection to all API routes (except GET, HEAD, OPTIONS)
+app.use('/api', csrfProtection);
+
+// Apply user-based rate limiting after authentication
+app.use('/api', userLimiter);
 
 // Middleware
 app.use(cors({
@@ -100,6 +134,11 @@ app.get('/api/health', (req, res) => {
     message: 'Socialobby API is running!',
     timestamp: new Date().toISOString()
   });
+});
+
+// CSRF token endpoint
+app.get('/api/csrf-token', (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
 });
 
 // Error handling middleware

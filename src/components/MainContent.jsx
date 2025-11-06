@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import HomePage from '../pages/HomePage';
 import Post from './Post'; // Import Post for the profile view
+import NotificationsPage from './NotificationsPage';
+import SettingsPage from './SettingsPage';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const MainContent = () => {
@@ -49,9 +51,9 @@ const MainContent = () => {
             <h3>Conversations</h3>
             {users.filter(user => user._id !== dataProps.currentUser?._id).slice(0, 5).map(user => (
               <div key={user._id} className="conversation-item" onClick={() => viewProps.handleOpenChat(user)}>
-                <img src={user.avatar} alt={user.name} className="conversation-avatar" />
+                <img src={user.avatar} alt={user.name || `${user.firstName} ${user.lastName}`} className="conversation-avatar" />
                 <div className="conversation-info">
-                  <h4>{user.name}</h4>
+                  <h4>{user.name || `${user.firstName} ${user.lastName}`}</h4>
                   <p>Last message preview...</p>
                   <span className="conversation-time">2h ago</span>
                 </div>
@@ -223,6 +225,14 @@ const MainContent = () => {
         </div>
       </div>
     );
+  }
+
+  if (currentView === 'notifications') {
+    return <NotificationsPage />;
+  }
+
+  if (currentView === 'settings') {
+    return <SettingsPage />;
   }
 
   if (currentView === 'profile') {

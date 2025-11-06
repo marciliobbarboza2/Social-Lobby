@@ -55,7 +55,7 @@ const Comment = ({
             </div>
           </div>
         ) : (
-          <p className="comment-text">{comment.content}</p>
+          <p className="comment-text" style={{color: 'black'}}>{comment.content}</p>
         )}
       </div>
     </div>

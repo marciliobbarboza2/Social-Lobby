@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const ChatWindow = ({ friend, onClose, style }) => {
-  const { authProps, viewProps } = useSocialLobbyContext();
+  const { authProps, chatProps } = useSocialLobbyContext();
   const { currentUser } = authProps;
-  const { wsMessages, sendMessage } = viewProps;
+  const { wsMessages, sendMessage } = chatProps;
   const [newMessage, setNewMessage] = useState('');
   const [isMinimized, setIsMinimized] = useState(false);
   const [localMessages, setLocalMessages] = useState([]);
@@ -29,8 +29,8 @@ const ChatWindow = ({ friend, onClose, style }) => {
       text: newMessage,
       time: new Date().toLocaleTimeString(),
       // Add sender/recipient names for display purposes
-      senderName: currentUser.name,
-      recipientName: friend.name,
+      senderName: currentUser.firstName + ' ' + currentUser.lastName,
+      recipientName: friend.firstName + ' ' + friend.lastName,
     };
     sendMessage(message);
     setNewMessage('');

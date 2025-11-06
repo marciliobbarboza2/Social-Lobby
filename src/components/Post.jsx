@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Comment from './Comment';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
@@ -14,8 +14,6 @@ const Post = ({
   handleLike,
   toggleComments,
   showComments,
-  newComment,
-  setNewComment,
   handleComment,
   handleViewProfile,
   handleEditComment,
@@ -27,6 +25,7 @@ const Post = ({
   const { currentUser, isLoggedIn } = authProps;
   const { setCurrentView } = viewProps;
   const { fetchSinglePost } = postsProps;
+  const [newComment, setNewComment] = useState('');
 
   const handleDeletePostClick = () => {
     if (window.confirm('Are you sure you want to delete this post?')) {
@@ -157,12 +156,19 @@ const Post = ({
               placeholder="Write a comment..."
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleComment(post.id)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleComment(post.id, newComment, setNewComment);
+                }
+              }}
               className="comment-input"
             />
             <button
               className="comment-btn"
-              onClick={() => handleComment(post.id)}
+              onClick={() => {
+                handleComment(post.id, newComment);
+                setNewComment('');
+              }}
               disabled={!newComment.trim()}
             >
               Post

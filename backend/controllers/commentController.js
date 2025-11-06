@@ -1,6 +1,7 @@
-const Comment = require('../models/Comment');
+yconst Comment = require('../models/Comment');
 const mongoose = require('mongoose');
 const Post = require('../models/Post');
+const { body, validationResult } = require('express-validator');
 const logger = require('../utils/logger');
 
 // @desc    Get comments for a post
@@ -31,47 +32,57 @@ const getComments = async (req, res, next) => {
 // @desc    Create new comment
 // @route   POST /api/comments
 // @access  Private
-const createComment = async (req, res, next) => {
-  try {
-    const { content, postId, parentCommentId } = req.body;
-
-    // Check if post exists
-    const post = await Post.findById(postId);
-    if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
-    }
-
-    // If replying to a comment, check if parent exists
-    if (parentCommentId) {
-      const parentComment = await Comment.findById(parentCommentId);
-      if (!parentComment) {
-        return res.status(404).json({ message: 'Parent comment not found' });
+const createComment = [
+  body('content').isLength({ min: 1, max: 1000 }).trim().escape(),
+  body('postId').isMongoId(),
+  body('parentCommentId').optional().isMongoId(),
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
       }
+
+      const { content, postId, parentCommentId } = req.body;
+
+      // Check if post exists
+      const post = await Post.findById(postId);
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+
+      // If replying to a comment, check if parent exists
+      if (parentCommentId) {
+        const parentComment = await Comment.findById(parentCommentId);
+        if (!parentComment) {
+          return res.status(404).json({ message: 'Parent comment not found' });
+        }
+      }
+
+      const comment = await Comment.create({
+        content,
+        author: req.user._id,
+        post: postId,
+        parentComment: parentCommentId || null
+      });
+
+      await comment.populate('author', 'username firstName lastName avatar');
+
+      // Update post's comment count
+      await Post.findByIdAndUpdate(postId, { $inc: { commentsCount: 1 } });
+
+      logger.info(`Comment created on post ${postId} by ${req.user.username}`);
+
+      res.status(201).json({
+        success: true,
+        data: comment
+      });
+    } catch (error) {
+      logger.error('Error creating comment:', error);
+      next(error);
     }
-
-    const comment = await Comment.create({
-      content,
-      author: req.user._id,
-      post: postId,
-      parentComment: parentCommentId || null
-    });
-
-    await comment.populate('author', 'username firstName lastName avatar');
-
-    // Update post's comment count
-    await Post.findByIdAndUpdate(postId, { $inc: { commentsCount: 1 } });
-
-    logger.info(`Comment created on post ${postId} by ${req.user.username}`);
-
-    res.status(201).json({
-      success: true,
-      data: comment
-    });
-  } catch (error) {
-    logger.error('Error creating comment:', error);
-    next(error);
   }
-};
+];
 
 // @desc    Update comment
 // @route   PUT /api/comments/:id

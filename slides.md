@@ -3,8 +3,8 @@
 ## Slide 1: Title Slide
 - **Title:** Social Lobby: Complete Social Media Platform
 - **Subtitle:** Week 4: Final Polish, Deployment & Presentation
-- **Presenter:** [Your Name]
-- **Date:** November 6, 2024
+- **Presenter:** Marcilio Bezerra Barboza
+- **Date:** November 3, 2025
 - **Deployed Links:**
   - Frontend: https://social-lobby.vercel.app
   - Backend: https://social-lobby.onrender.com

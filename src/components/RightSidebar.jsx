@@ -4,7 +4,7 @@ import { useSocialLobbyContext } from '../SocialLobbyContext';
 const RightSidebar = () => {
   const { dataProps, viewProps, authProps } = useSocialLobbyContext();
   const { handleOpenChat, setCurrentView } = viewProps;
-  const { users, setFilterTopic } = dataProps;
+  const { users } = dataProps;
   const { currentUser } = authProps;
 
   const trendingTopics = ['#ReactJS', '#NodeJS', '#WebDev', '#SocialLobby', '#FinalProject', '#JavaScript', '#Python', '#AI', '#MachineLearning'];
@@ -47,7 +47,7 @@ const RightSidebar = () => {
         <h3>Trending for you</h3>
         <div className="trending-list">
           {trendingTopics.map(topic => (
-            <div key={topic} className="trend-item" onClick={() => { setFilterTopic && setFilterTopic(topic); setCurrentView('feed'); }}>
+            <div key={topic} className="trend-item" onClick={() => { window.open(`https://trends.google.com/trends/explore?q=${encodeURIComponent(topic)}`, '_blank'); }}>
               <a href="#" className="trend-link">{topic}</a>
               <span className="trend-count">{Math.floor(Math.random() * 10) + 1}k posts</span>
             </div>

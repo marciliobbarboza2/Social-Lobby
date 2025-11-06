@@ -1,6 +1,7 @@
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 const mongoose = require('mongoose');
+const { body, param, validationResult } = require('express-validator');
 const logger = require('../utils/logger');
 
 // @desc    Get all published posts
@@ -84,9 +85,24 @@ const getPost = async (req, res, next) => {
 // @desc    Create new post
 // @route   POST /api/posts
 // @access  Private
-const createPost = async (req, res, next) => {
-  try {
-    const { title, content, excerpt, featuredImage, video, category, tags, status } = req.body;
+const createPost = [
+  body('title').isLength({ min: 1, max: 200 }).trim().escape(),
+  body('content').isLength({ min: 1, max: 10000 }).trim(),
+  body('excerpt').optional().isLength({ max: 500 }).trim().escape(),
+  body('featuredImage').optional().isURL(),
+  body('video').optional().isURL(),
+  body('category').optional().isLength({ min: 1, max: 50 }).trim().escape(),
+  body('tags').optional().isArray({ max: 10 }),
+  body('tags.*').optional().isLength({ min: 1, max: 30 }).trim().escape(),
+  body('status').optional().isIn(['draft', 'published']),
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { title, content, excerpt, featuredImage, video, category, tags, status } = req.body;
 
     const post = await Post.create({
       title,
@@ -112,46 +128,64 @@ const createPost = async (req, res, next) => {
     logger.error('Error creating post:', error);
     next(error);
   }
-};
+  }
+];
 
 // @desc    Update post
 // @route   PUT /api/posts/:id
 // @access  Private
-const updatePost = async (req, res, next) => {
-  try {
-    const post = await Post.findOne({ slug: req.params.id });
-
-    if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
-    }
-
-    // Check ownership
-    if (post.author.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Not authorized to update this post' });
-    }
-
-    const fieldsToUpdate = ['title', 'content', 'excerpt', 'featuredImage', 'video', 'category', 'tags', 'status'];
-
-    fieldsToUpdate.forEach(field => {
-      if (req.body[field] !== undefined) {
-        post[field] = req.body[field];
+const updatePost = [
+  param('id').isLength({ min: 1 }).trim().escape(),
+  body('title').optional().isLength({ min: 1, max: 200 }).trim().escape(),
+  body('content').optional().isLength({ min: 1 }).trim(),
+  body('excerpt').optional().isLength({ max: 500 }).trim().escape(),
+  body('featuredImage').optional().isURL(),
+  body('video').optional().isURL(),
+  body('category').optional().isLength({ min: 1, max: 50 }).trim().escape(),
+  body('tags').optional().isArray({ max: 10 }),
+  body('tags.*').optional().isLength({ min: 1, max: 30 }).trim().escape(),
+  body('status').optional().isIn(['draft', 'published']),
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
       }
-    });
 
-    await post.save();
-    await post.populate('author', 'username firstName lastName avatar');
+      const post = await Post.findOne({ slug: req.params.id });
 
-    logger.info(`Post updated: ${post.title}`);
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
 
-    res.json({
-      success: true,
-      post: post
-    });
-  } catch (error) {
-    logger.error('Error updating post:', error);
-    next(error);
+      // Check ownership
+      if (post.author.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+        return res.status(403).json({ message: 'Not authorized to update this post' });
+      }
+
+      const fieldsToUpdate = ['title', 'content', 'excerpt', 'featuredImage', 'video', 'category', 'tags', 'status'];
+
+      fieldsToUpdate.forEach(field => {
+        if (req.body[field] !== undefined) {
+          post[field] = req.body[field];
+        }
+      });
+
+      await post.save();
+      await post.populate('author', 'username firstName lastName avatar');
+
+      logger.info(`Post updated: ${post.title}`);
+
+      res.json({
+        success: true,
+        post: post
+      });
+    } catch (error) {
+      logger.error('Error updating post:', error);
+      next(error);
+    }
   }
-};
+];
 
 // @desc    Delete post
 // @route   DELETE /api/posts/:id

@@ -29,14 +29,21 @@ module.exports = (io) => {
 
     // Handle chat messages
     socket.on('chatMessage', (data) => {
-      // Broadcast to all connected clients (for now)
-      // In a real app, you'd want to send to specific rooms/channels
-      io.emit('chatMessage', {
+      // Create a unique room for the conversation between sender and recipient
+      const roomId = [data.senderId, data.recipientId].sort().join('-');
+
+      // Join the room
+      socket.join(roomId);
+
+      // Emit to the specific room instead of broadcasting to all
+      io.to(roomId).emit('chatMessage', {
         type: 'chatMessage',
         ...data,
         userId: socket.userId,
         timestamp: new Date()
       });
+
+      logger.info(`Chat message sent from ${data.senderId} to ${data.recipientId} in room ${roomId}`);
     });
   });
 };
