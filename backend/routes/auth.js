@@ -17,8 +17,18 @@ const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
 const verifyToken = require('../middleware/verifyToken');
 const logger = require('../utils/logger');
+const { RateLimiterMongo } = require('rate-limiter-flexible');
 
 const router = express.Router();
+
+// Rate limiter for login attempts
+const loginLimiter = new RateLimiterMongo({
+  storeClient: require('mongoose').connection,
+  keyPrefix: 'login_fail',
+  points: 5, // Number of attempts
+  duration: 60 * 60, // Store number of attempts for 1 hour
+  blockDuration: 60 * 15 // Block for 15 minutes
+});
 
 // @desc    Register user
 // @route   POST /api/auth/register
@@ -91,6 +101,17 @@ router.post('/login', [
   body('password').exists()
 ], async (req, res, next) => {
   try {
+    await loginLimiter.consume(req.ip);
+  } catch (rlRejected) {
+    if (rlRejected instanceof Error) {
+      return next(rlRejected);
+    }
+    return res.status(429).json({
+      message: 'Too many login attempts. Please try again later.',
+      nextValidRequestAt: new Date(Date.now() + rlRejected.msBeforeNext)
+    });
+  }
+  try {
     // Check validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -132,7 +153,8 @@ router.post('/login', [
     res.json({
       success: true,
       token,
-      user: user.getPublicProfile()
+      user: user.getPublicProfile(),
+      csrfToken: req.csrfToken()
     });
   } catch (error) {
     logger.error('Login error:', error);

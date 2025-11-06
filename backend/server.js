@@ -25,19 +25,16 @@ if (missingEnvVars.length > 0) {
 
 const app = express();
 
-// Security middleware
-app.use(helmet());
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.'
-});
-app.use(limiter);
+// Import security configurations
+const { limiter, userLimiter, helmetConfig, csrfProtection, corsConfig } = require('./config/security');
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Security middleware
+app.use(helmet(helmetConfig));
+app.use(limiter);
+app.use(cors(corsConfig));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(csrfProtection);
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -69,12 +66,19 @@ const commentRoutes = require('./routes/comments');
 const userRoutes = require('./routes/users');
 const paymentRoutes = require('./routes/payment');
 
-// API Routes
+// CSRF token endpoint (must come before CSRF protection)
+app.get('/api/csrf-token', (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
+
+// Public routes (no CSRF or user rate limiting)
 app.use('/api/auth', authRoutes);
-app.use('/api/posts', postRoutes);
-app.use('/api/comments', commentRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/payment', paymentRoutes);
+
+// Protected routes with CSRF and user rate limiting
+app.use('/api/posts', userLimiter, postRoutes);
+app.use('/api/comments', userLimiter, commentRoutes);
+app.use('/api/users', userLimiter, userRoutes);
+app.use('/api/payment', userLimiter, paymentRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

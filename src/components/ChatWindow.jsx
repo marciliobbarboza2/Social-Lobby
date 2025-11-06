@@ -35,10 +35,17 @@ const ChatWindow = ({ friend, onClose, style }) => {
 
   return (
     <div className={`chat-window ${isMinimized ? 'minimized' : ''}`} style={style}>
-      <div className="chat-header" onClick={() => setIsMinimized(!isMinimized)}>
-        <img src={friend.avatar} alt={friend.name} className="chat-avatar" />
-        <h3>{friend.name}</h3>
-        <button className="close-btn" onClick={(e) => { e.stopPropagation(); onClose(); }}>×</button>
+      <div
+        className="chat-header"
+        role="button"
+        tabIndex={0}
+        onClick={() => setIsMinimized(!isMinimized)}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setIsMinimized(!isMinimized); }}
+        aria-label={isMinimized ? `Expand chat with ${friend.name}` : `Minimize chat with ${friend.name}`}
+      >
+        <img src={friend?.avatar} alt={friend?.name || 'Chat'} className="chat-avatar" />
+        <h3>{friend?.name}</h3>
+        <button type="button" className="close-btn" onClick={(e) => { e.stopPropagation(); onClose(); }} aria-label="Close chat">×</button>
       </div>
       {!isMinimized && (
         <>
@@ -51,8 +58,15 @@ const ChatWindow = ({ friend, onClose, style }) => {
             ))}
           </div>
           <div className="chat-input">
-            <input type="text" placeholder="Type a message..." value={newMessage} onChange={(e) => setNewMessage(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()} />
-            <button onClick={handleSendMessage}>Send</button>
+            <input
+              type="text"
+              placeholder="Type a message..."
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+              aria-label="Type a message"
+            />
+            <button type="button" className="send-button" onClick={handleSendMessage} aria-label="Send message">Send</button>
           </div>
         </>
       )}

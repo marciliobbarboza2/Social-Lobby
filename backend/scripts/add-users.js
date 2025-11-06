@@ -6,26 +6,26 @@ const MONGO = process.env.MONGODB_URI || 'mongodb://localhost:27017/socialobby';
 
 const usersToAdd = [
   {
-    email: 'Admin@socialobby.com',
-    username: 'admin',
-    password: 'admin123',
+    email: process.env.ADMIN_EMAIL || 'admin@socialobby.com',
+    username: process.env.ADMIN_USERNAME || 'admin',
+    password: process.env.ADMIN_PASSWORD,
     firstName: 'Site',
     lastName: 'Admin',
     role: 'admin'
   },
   {
-    email: 'marciliobbarboza@gmail.com',
-    username: 'marciliobbarboza',
-    password: 'marciliobbarboza',
-    firstName: 'Marcilio',
+    email: process.env.DEVELOPER_EMAIL,
+    username: process.env.DEVELOPER_USERNAME || 'developer',
+    password: process.env.DEVELOPER_PASSWORD,
+    firstName: 'Developer',
     lastName: 'Barboza',
     role: 'admin'
   },
   // users a, b, c, d
-  { email: 'usera@socialobby.com', username: 'usera', password: 'password123', firstName: 'User', lastName: 'UserA' },
-  { email: 'userb@socialobby.com', username: 'userb', password: 'password123', firstName: 'User', lastName: 'UserB' },
-  { email: 'userc@socialobby.com', username: 'userc', password: 'password123', firstName: 'User', lastName: 'UserC' },
-  { email: 'userd@socialobby.com', username: 'userd', password: 'password123', firstName: 'User', lastName: 'UserD' }
+  { email: 'usera@socialobby.com', username: 'usera', password: process.env.DEFAULT_USER_PASSWORD, firstName: 'User', lastName: 'UserA' },
+  { email: 'userb@socialobby.com', username: 'userb', password: process.env.DEFAULT_USER_PASSWORD, firstName: 'User', lastName: 'UserB' },
+  { email: 'userc@socialobby.com', username: 'userc', password: process.env.DEFAULT_USER_PASSWORD, firstName: 'User', lastName: 'UserC' },
+  { email: 'userd@socialobby.com', username: 'userd', password: process.env.DEFAULT_USER_PASSWORD, firstName: 'User', lastName: 'UserD' }
 ];
 
 const upsertUser = async (u) => {
