@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { mapFetchedPosts, mapFetchedComments } from './utils/mappers';
 import { posts as postsData } from './data/posts';
+import { API_BASE_URL } from './constants';
 
 /**
  * Custom hook for managing user authentication.
@@ -24,7 +25,7 @@ export const useAuth = () => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-      fetch('http://localhost:5000/api/auth/me', {
+      fetch(`${API_BASE_URL}/api/auth/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
         },
@@ -64,7 +65,7 @@ export const useAuth = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -103,7 +104,7 @@ export const useAuth = () => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        await fetch('http://localhost:5000/api/auth/logout', {
+        await fetch(`${API_BASE_URL}/api/auth/logout`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -131,7 +132,7 @@ export const useAuth = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/users/me', {
+      const response = await fetch(`${API_BASE_URL}/api/users/me`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -203,7 +204,7 @@ export const usePosts = (initialPosts, currentUser) => {
     setError(null);
     try {
       const token = localStorage.getItem('token');
-      const url = `http://localhost:5000/api/posts?page=${pageToFetch}&limit=${limit}`;
+      const url = `${API_BASE_URL}/api/posts?page=${pageToFetch}&limit=${limit}`;
       const response = await fetch(url, {
         headers: token ? { 'Authorization': `Bearer ${token}` } : {}
       });
@@ -250,7 +251,7 @@ export const usePosts = (initialPosts, currentUser) => {
   const checkForNewPosts = async () => {
     try {
       const token = localStorage.getItem('token');
-      const url = `http://localhost:5000/api/posts?page=1&limit=${Math.max(limit, 5)}`;
+      const url = `${API_BASE_URL}/api/posts?page=1&limit=${Math.max(limit, 5)}`;
       const response = await fetch(url, {
         headers: token ? { 'Authorization': `Bearer ${token}` } : {}
       });
@@ -284,7 +285,7 @@ export const usePosts = (initialPosts, currentUser) => {
     try {
       const targetPost = posts.find(p => p.id === postId);
       const slugOrId = targetPost?.slug || postId;
-      const response = await fetch(`http://localhost:5000/api/posts/${slugOrId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/posts/${slugOrId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -344,7 +345,7 @@ export const usePosts = (initialPosts, currentUser) => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-        const response = await fetch(`http://localhost:5000/api/comments/${commentId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/comments/${commentId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify({ content: editContent }),
@@ -403,7 +404,7 @@ export const usePosts = (initialPosts, currentUser) => {
     try {
       const targetPost = original || posts.find(p => p.id === postId);
       const slugOrId = targetPost?.slug || postId;
-      const response = await fetch(`http://localhost:5000/api/posts/${slugOrId}/like`, {
+      const response = await fetch(`${API_BASE_URL}/api/posts/${slugOrId}/like`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -445,8 +446,8 @@ export const usePosts = (initialPosts, currentUser) => {
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
     try {
-      console.log('🟢 Sending POST to http://localhost:5000/api/posts...');
-      const response = await fetch('http://localhost:5000/api/posts', {
+      console.log(`🟢 Sending POST to ${API_BASE_URL}/api/posts...`);
+      const response = await fetch(`${API_BASE_URL}/api/posts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -494,7 +495,7 @@ export const usePosts = (initialPosts, currentUser) => {
       try {
         const token = localStorage.getItem('token');
         if (token) {
-          const response = await fetch(`http://localhost:5000/api/comments/post/${postId}`, {
+          const response = await fetch(`${API_BASE_URL}/api/comments/post/${postId}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -522,7 +523,7 @@ export const usePosts = (initialPosts, currentUser) => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-        const response = await fetch('http://localhost:5000/api/comments', {
+        const response = await fetch(`${API_BASE_URL}/api/comments`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

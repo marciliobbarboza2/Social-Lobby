@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { io } from 'socket.io-client';
+import { API_BASE_URL } from '../constants';
 
 // Socket.IO-based chat hook to match backend server
 const useWebSocket = (token) => {
@@ -18,7 +19,7 @@ const useWebSocket = (token) => {
   useEffect(() => {
     if (!token) return;
 
-    const socket = io('http://localhost:5000', {
+    const socket = io(API_BASE_URL, {
       transports: ['websocket'],
       query: { token }
     });

@@ -1,9 +1,10 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import Comment from './Comment';
-import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const Post = ({
   post,
+  isLoggedIn,
   handleEditPost,
   handleDeletePost,
   editingPost,
@@ -22,34 +23,77 @@ const Post = ({
   handleDeleteComment,
   editingComment,
   handleSaveComment,
+  onHide,
+  onSaved,
+  onToast,
+  currentUser, // Add currentUser prop
 }) => {
-  const { authProps, viewProps, postsProps } = useSocialLobbyContext();
-  const { currentUser, isLoggedIn } = authProps;
-  const { setCurrentView } = viewProps;
-  const { fetchSinglePost } = postsProps;
+  // reactions picker removed (simplified Like UX)
+  const [showMenu, setShowMenu] = useState(false);
+  const [showAllComments, setShowAllComments] = useState(false);
 
-  const handleDeletePostClick = () => {
-    if (window.confirm('Are you sure you want to delete this post?')) {
-      handleDeletePost(post.id);
-    }
-  };
+  const likesArray = Array.isArray(post.likes) ? post.likes : (typeof post.likes === 'number' ? Array(post.likes).fill(0) : []);
+  const likeCount = Array.isArray(post.likes) ? post.likes.length : (typeof post.likes === 'number' ? post.likes : 0);
+  const likedIds = likesArray.map(u => typeof u === 'string' ? u : u?._id);
+  const isLiked = post.isLikedByCurrentUser || (isLoggedIn && likedIds.includes?.(post.currentUserId));
+  
+  // Check if current user is the post author
+  const isPostAuthor = currentUser && post.authorId && (post.authorId === currentUser._id || post.author === currentUser.username);
 
+  const visibleComments = showAllComments ? post.comments : post.comments.slice(0, 2);
+  const hasMoreComments = post.comments.length > 2 && !showAllComments;
   return (
     <article className="post">
       <div className="post-header">
         <div className="post-author">
-          <img src={post.avatar} alt={post.author} className="author-avatar" onClick={() => handleViewProfile(post.authorObject)} style={{cursor: 'pointer', borderRadius: '50%'}} />
+          <img 
+            src={post.avatar} 
+            alt={`${post.author}'s avatar`} 
+            className="author-avatar" 
+            onClick={() => handleViewProfile(post.author)} 
+            style={{cursor: 'pointer'}}
+            role="button"
+            tabIndex={0}
+            onKeyPress={(e) => e.key === 'Enter' && handleViewProfile(post.author)}
+            aria-label={`View ${post.author}'s profile`}
+          />
           <div className="author-info">
-            <h4 className="author-name" onClick={() => handleViewProfile(post.authorObject)} style={{cursor: 'pointer'}}>{post.author}</h4>
+            <h4 
+              className="author-name" 
+              onClick={() => handleViewProfile(post.author)} 
+              style={{cursor: 'pointer'}}
+              role="button"
+              tabIndex={0}
+              onKeyPress={(e) => e.key === 'Enter' && handleViewProfile(post.author)}
+            >
+              {post.author}
+            </h4>
             <span className="post-time">{post.time}</span>
           </div>
         </div>
         <div className="post-options">
-          {currentUser?._id === post.authorId && (
-            <>
-              <button className="edit-btn" onClick={() => handleEditPost(post.id, post.content)}>✏️ Edit</button>
-              <button className="delete-btn" onClick={handleDeletePostClick}>🗑️ Delete</button>
-            </>
+          <button 
+            className="more-btn" 
+            onClick={() => setShowMenu(v => !v)}
+            aria-label="Post options"
+            aria-expanded={showMenu}
+            aria-haspopup="true"
+          >
+            ⋯
+          </button>
+          {showMenu && (
+            <div className="post-menu" onMouseLeave={() => setShowMenu(false)}>
+              {isLoggedIn && isPostAuthor && (
+                <>
+                  <button className="menu-item" onClick={() => { handleEditPost(post.id, post.content); setShowMenu(false); }}>✏️ Edit</button>
+                  <button className="menu-item" onClick={() => { handleDeletePost(post.id); setShowMenu(false); }}>🗑️ Delete</button>
+                </>
+              )}
+              <button className="menu-item" onClick={() => { onSaved && onSaved(post); setShowMenu(false); }}>⭐ Save post</button>
+              <button className="menu-item" onClick={() => { onHide && onHide(post.id); setShowMenu(false); }}>🙈 Hide post</button>
+              <button className="menu-item" onClick={() => { navigator.clipboard?.writeText(`${window.location.origin}/post/${post.slug || post.id}`); onToast && onToast('Link copied', 'success'); setShowMenu(false); }}>🔗 Copy link</button>
+              <button className="menu-item" onClick={() => { alert('Thanks for the report. We will review this post.'); setShowMenu(false); }}>🚩 Report post</button>
+            </div>
           )}
         </div>
       </div>
@@ -70,7 +114,33 @@ const Post = ({
         ) : (
           <p>{post.content}</p>
         )}
-        {post.image && (
+        {post.media && post.media.length > 0 && (
+          <div className="post-media-gallery">
+            {post.media.map((item, idx) => (
+              <div key={idx} className="post-media-item">
+                {item.type === 'image' ? (
+                  <img 
+                    src={item.url} 
+                    alt={item.alt || 'Post media'} 
+                    className="post-media-image"
+                    loading="lazy"
+                  />
+                ) : item.type === 'video' ? (
+                  <video 
+                    src={item.url} 
+                    poster={item.poster}
+                    controls 
+                    className="post-media-video"
+                    preload="metadata"
+                  >
+                    Your browser does not support video playback.
+                  </video>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        )}
+        {!post.media && post.image && (
           <div className="post-image">
             <img src={post.image} alt="Post image" className="post-image-img" />
           </div>
@@ -79,69 +149,38 @@ const Post = ({
 
       <div className="post-stats">
         <span className="likes-count">
-          👍 {post.likes.length} likes
+          {likeCount > 0 && `👍 ${likeCount} like${likeCount === 1 ? '' : 's'}`}
         </span>
         <span className="comments-count">
-          {post.comments.length} comments
+          {post.comments.length > 0 && `${post.comments.length} comment${post.comments.length === 1 ? '' : 's'}`}
         </span>
       </div>
 
       <div className="post-actions">
-        <button className="action-btn" onClick={() => {
-          const postUrl = `${window.location.origin}/post/${post.id}`;
-          const postTitle = `Check out this post by ${post.author}`;
-
-          if (navigator.share) {
-            navigator.share({
-              title: postTitle,
-              text: post.content.substring(0, 100) + (post.content.length > 100 ? '...' : ''),
-              url: postUrl,
-            }).catch(err => {
-              console.error('Error sharing:', err);
-              // Fallback to clipboard
-              navigator.clipboard.writeText(postUrl).then(() => {
-                alert('Post link copied to clipboard!');
-              }).catch(() => {
-                alert('Unable to share or copy link.');
-              });
-            });
-          } else {
-            // Fallback to clipboard
-            navigator.clipboard.writeText(postUrl).then(() => {
-              alert('Post link copied to clipboard!');
-            }).catch(err => {
-              console.error('Failed to copy: ', err);
-              // Fallback for older browsers
-              const textArea = document.createElement('textarea');
-              textArea.value = postUrl;
-              document.body.appendChild(textArea);
-              textArea.select();
-              document.execCommand('copy');
-              document.body.removeChild(textArea);
-              alert('Post link copied to clipboard!');
-            });
-          }
-        }}>🔗 Share</button>
         <button
-          className={`action-btn like-btn ${post.isLikedByCurrentUser ? 'liked' : ''}`}
+          className={`action-btn ${isLiked ? 'liked' : ''}`}
           onClick={() => handleLike(post.id)}
-          title={post.isLikedByCurrentUser ? 'Unlike this post' : 'Like this post'}
+          aria-label={isLiked ? `Unlike post by ${post.author}` : `Like post by ${post.author}`}
+          aria-pressed={isLiked}
         >
-          {post.isLikedByCurrentUser ? '❤️' : '🤍'}
+          👍 Like
         </button>
         <button
           className="action-btn"
           onClick={() => toggleComments(post.id)}
+          aria-label={`Comment on post by ${post.author}`}
+          aria-expanded={showComments[post.id]}
         >
           💬 Comment
         </button>
-        <button className="action-btn" onClick={() => {
-          fetchSinglePost(post.id);
-          setCurrentView('singlePost');
-          // Update URL for single post
-          window.history.pushState({}, '', `/post/${post.id}`);
-        }}>📤 View</button>
+        <button 
+          className="action-btn"
+          aria-label={`Share post by ${post.author}`}
+        >
+          ↗️ Share
+        </button>
       </div>
+      {/* Reactions picker hidden to keep Like simple for now */}
 
       {showComments[post.id] && (
         <div className="comments-section">
@@ -164,7 +203,7 @@ const Post = ({
             </button>
           </div>
           <div className="comments-list">
-            {post.comments.map(comment => (
+            {visibleComments.map(comment => (
               <Comment
                 key={comment.id}
                 comment={comment}
@@ -177,10 +216,13 @@ const Post = ({
                 handleSaveComment={handleSaveComment}
                 handleCancelEdit={handleCancelEdit}
                 postId={post.id}
-                handleViewProfile={handleViewProfile}
-                postAuthorId={post.authorId}
               />
             ))}
+            {hasMoreComments && (
+              <button className="view-more-comments" onClick={() => setShowAllComments(true)}>
+                View more comments
+              </button>
+            )}
           </div>
         </div>
       )}
