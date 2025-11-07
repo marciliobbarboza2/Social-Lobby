@@ -10,10 +10,11 @@ import Post from './Post'; // Import Post for the profile view
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const MainContent = () => {
-  const { viewProps, dataProps, postsProps } = useSocialLobbyContext();
+  const { viewProps, dataProps, postsProps, authProps } = useSocialLobbyContext();
   const { currentView } = viewProps;
   const { selectedUser, users, groups, events, photos } = dataProps;
   const { posts } = postsProps;
+  const { currentUser } = authProps;
 
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -255,6 +256,7 @@ const MainContent = () => {
                   <Post
                     key={post.id}
                     post={post}
+                    currentUser={currentUser}
                     handleEditPost={postsProps.handleEditPost}
                     handleDeletePost={postsProps.handleDeletePost}
                     editingPost={postsProps.editingPost}

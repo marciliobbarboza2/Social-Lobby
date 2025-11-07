@@ -190,6 +190,7 @@ const Feed = () => {
                   <Post
                     key={post.id}
                     post={post}
+                    currentUser={currentUser}
                     isLoggedIn={!!currentUser}
                     handleEditPost={handleEditPost}
                     handleDeletePost={handleDeletePost}
