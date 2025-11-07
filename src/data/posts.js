@@ -1,8 +1,8 @@
 export const posts = [
     {
       id: 1,
-      author: "Emma Rodriguez",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80",
+      author: "Julia Chen",
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
       time: "2 hours ago",
       content: "Just launched my first React app! 🚀 The journey from idea to deployment is incredible. Grateful for the amazing developer community that helped me along the way. What's your biggest coding achievement this year?",
       likes: ["user2", "user3", "user4"],
@@ -85,7 +85,7 @@ export const posts = [
       content: "Just launched my new marketing campaign! 📈 Spent weeks crafting the perfect strategy, and the results are already showing. Digital marketing is such an exciting field - always evolving, always challenging. What's your favorite marketing tactic?",
       likes: [],
       comments: [
-        { id: 14, author: "Emma Rodriguez", avatar: "https://picsum.photos/seed/emma/30", content: "Congrats! Storytelling campaigns always work best for me 🎯", time: "9h ago", authorId: "user1" },
+        { id: 14, author: "Julia Chen", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=30&h=30&fit=crop&crop=face", content: "Congrats! Storytelling campaigns always work best for me 🎯", time: "9h ago", authorId: "user1" },
         { id: 15, author: "Carlos Mendoza", avatar: "https://picsum.photos/seed/carlos/30", content: "Love seeing successful campaigns! What's the conversion rate?", time: "8h ago", authorId: "user4" }
       ],
       liked: false,
@@ -118,7 +118,7 @@ export const posts = [
       content: "Contributed to an amazing open source project today! 🖥️ The power of collaborative coding is incredible. Every contribution, no matter how small, makes a difference. What's your favorite open source project?",
       likes: [],
       comments: [
-        { id: 18, author: "Emma Rodriguez", avatar: "https://picsum.photos/seed/emma/30", content: "Love seeing women in tech contributing! Which project?", time: "13h ago", authorId: "user1" },
+        { id: 18, author: "Julia Chen", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=30&h=30&fit=crop&crop=face", content: "Love seeing women in tech contributing! Which project?", time: "13h ago", authorId: "user1" },
         { id: 19, author: "Lisa Thompson", avatar: "https://picsum.photos/seed/lisa/30", content: "Open source is the future! Keep up the great work 💻", time: "12h ago", authorId: "user5" }
       ],
       liked: false,
@@ -148,7 +148,7 @@ export const posts = [
       content: "Just finished designing a new brand identity for a local coffee shop! ☕ The challenge was capturing the cozy, community feel while keeping it modern. Love how design can tell a story. What's your favorite local business?",
       likes: ["user1", "user2"],
       comments: [
-        { id: 22, author: "Emma Rodriguez", avatar: "https://picsum.photos/seed/emma/30", content: "Love the branding! So warm and inviting 🎨", time: "17h ago", authorId: "user1" },
+        { id: 22, author: "Julia Chen", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=30&h=30&fit=crop&crop=face", content: "Love the branding! So warm and inviting 🎨", time: "17h ago", authorId: "user1" },
         { id: 23, author: "David Kim", avatar: "https://picsum.photos/seed/david/30", content: "Coffee shops need good design! Where's this located?", time: "16h ago", authorId: "user2" }
       ],
       liked: false,

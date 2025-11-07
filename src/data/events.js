@@ -7,7 +7,7 @@ export const events = [
     time: '9:00 AM - 6:00 PM',
     location: 'San Francisco, CA',
     organizer: 'TechCorp Inc.',
-    attendees: ['Emma Rodriguez', 'David Kim', 'Sophie Anderson', 'Carlos Mendoza'],
+    attendees: ['Julia Chen', 'David Kim', 'Sophie Anderson', 'Carlos Mendoza'],
     going: 150,
     image: 'https://picsum.photos/600/300?random=event1'
   },
@@ -43,7 +43,7 @@ export const events = [
     time: '7:00 PM - 9:00 PM',
     location: 'Austin, TX',
     organizer: 'Startup Hub',
-    attendees: ['Emma Rodriguez', 'Anna Petrov', 'Alex Chen'],
+    attendees: ['Julia Chen', 'Anna Petrov', 'Alex Chen'],
     going: 100,
     image: 'https://picsum.photos/600/300?random=event4'
   },
