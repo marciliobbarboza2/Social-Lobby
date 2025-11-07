@@ -64,22 +64,6 @@ const users = [
     role: 'admin'
   },
   {
-    username: 'emma_rodriguez',
-    email: 'emma@example.com',
-    password: 'password123',
-    firstName: 'Emma',
-    lastName: 'Rodriguez',
-    bio: 'Software developer and tech enthusiast 🚀',
-    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-    coverPhoto: 'https://picsum.photos/800/300?random=emma',
-    city: 'San Francisco',
-    profession: 'Software Developer',
-    location: 'San Francisco, CA',
-    interests: ['Coding', 'React', 'Web Development', 'Open Source'],
-    isOnline: true,
-    role: 'user'
-  },
-  {
     username: 'david_kim',
     email: 'david@example.com',
     password: 'password123',

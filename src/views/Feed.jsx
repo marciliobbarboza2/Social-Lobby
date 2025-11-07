@@ -3,6 +3,7 @@ import Post from '../components/Post';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 import CreatePost from '../components/CreatePost';
 import Stories from '../components/Stories';
+import SearchFilter from '../components/SearchFilter';
 import { FeedSkeleton } from '../components/LoadingSkeleton';
 import Toast from '../Toast';
 import PullToRefresh from 'react-pull-to-refresh';
@@ -45,6 +46,8 @@ const Feed = () => {
   const [savedOnly, setSavedOnly] = useState(false);
   const [savedIds, setSavedIds] = useState(new Set());
   const [toasts, setToasts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterBy, setFilterBy] = useState('all');
 
   // Load saved post ids on mount
   useEffect(() => {
@@ -106,11 +109,42 @@ const Feed = () => {
   };
 
   const basePosts = posts.filter(p => !hiddenPostIds.has(p.id));
+  
+  // Apply search and filter
+  const searchAndFilterPosts = (postsToFilter) => {
+    if (!searchTerm) return postsToFilter;
+    
+    const lowerSearch = searchTerm.toLowerCase();
+    return postsToFilter.filter(post => {
+      switch (filterBy) {
+        case 'title':
+          return post.title?.toLowerCase().includes(lowerSearch);
+        case 'content':
+          return post.content?.toLowerCase().includes(lowerSearch);
+        case 'author':
+          return post.author?.toLowerCase().includes(lowerSearch);
+        case 'all':
+        default:
+          return (
+            post.title?.toLowerCase().includes(lowerSearch) ||
+            post.content?.toLowerCase().includes(lowerSearch) ||
+            post.author?.toLowerCase().includes(lowerSearch)
+          );
+      }
+    });
+  };
+  
+  const searchedPosts = searchAndFilterPosts(basePosts);
   const filteredPosts = filterTopic 
-    ? basePosts.filter(post => post.content.toLowerCase().includes(filterTopic.toLowerCase())) 
-    : basePosts;
+    ? searchedPosts.filter(post => post.content.toLowerCase().includes(filterTopic.toLowerCase())) 
+    : searchedPosts;
   const savedFiltered = savedOnly ? filteredPosts.filter(p => savedIds.has(p.id)) : filteredPosts;
   const sortedPosts = getSortedPosts(savedFiltered);
+
+  const handleSearch = (term, filter) => {
+    setSearchTerm(term);
+    setFilterBy(filter);
+  };
 
   return (
     <main className="socialobby-content">
@@ -119,6 +153,16 @@ const Feed = () => {
       
       {/* Create Post Section */}
       <CreatePost />
+
+      {/* Search and Filter */}
+      <SearchFilter onSearch={handleSearch} />
+
+      {/* Search Results Info */}
+      {searchTerm && (
+        <div className="search-results-info">
+          Found <strong>{sortedPosts.length}</strong> {sortedPosts.length === 1 ? 'post' : 'posts'} matching "{searchTerm}"
+        </div>
+      )}
 
       {/* New posts banner */}
       {newCount > 0 && (
