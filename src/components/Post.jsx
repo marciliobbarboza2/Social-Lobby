@@ -40,6 +40,13 @@ const Post = ({
   // Check if current user is the post author
   const isPostAuthor = currentUser && post.authorId && (post.authorId === currentUser._id || post.author === currentUser.username);
 
+  const handleAuthorClick = () => {
+    // Try to pass authorId first, then fall back to author name
+    const userIdentifier = post.authorId || post.author;
+    console.log('🔥 [Post] Author clicked, passing identifier:', userIdentifier);
+    handleViewProfile(userIdentifier);
+  };
+
   const visibleComments = showAllComments ? post.comments : post.comments.slice(0, 2);
   const hasMoreComments = post.comments.length > 2 && !showAllComments;
   return (
@@ -50,11 +57,11 @@ const Post = ({
             src={post.avatar} 
             alt={`${post.author}'s avatar`} 
             className="author-avatar" 
-            onClick={() => handleViewProfile(post.author)} 
+            onClick={handleAuthorClick}
             style={{cursor: 'pointer'}}
             role="button"
             tabIndex={0}
-            onKeyPress={(e) => e.key === 'Enter' && handleViewProfile(post.author)}
+            onKeyPress={(e) => e.key === 'Enter' && handleAuthorClick()}
             aria-label={`View ${post.author}'s profile`}
             onError={(e) => {
               console.log(`[Post] Avatar failed for ${post.author}:`, post.avatar);
@@ -65,11 +72,11 @@ const Post = ({
           <div className="author-info">
             <h4 
               className="author-name" 
-              onClick={() => handleViewProfile(post.author)} 
+              onClick={handleAuthorClick}
               style={{cursor: 'pointer'}}
               role="button"
               tabIndex={0}
-              onKeyPress={(e) => e.key === 'Enter' && handleViewProfile(post.author)}
+              onKeyPress={(e) => e.key === 'Enter' && handleAuthorClick()}
             >
               {post.author}
             </h4>

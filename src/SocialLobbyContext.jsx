@@ -67,10 +67,13 @@ export const SocialLobbyProvider = ({ children }) => {
   // --- DERIVED STATE & HANDLERS ---
 
   const handleViewProfileClick = async (userOrName) => {
+    console.log('🔍 [Profile Click] Clicked on:', userOrName);
     let userToView = handleViewProfile(userOrName);
+    console.log('🔍 [Profile Click] Found user:', userToView);
 
     // If user not found in static data, try to fetch from backend
     if (!userToView && typeof userOrName === 'object' && userOrName._id) {
+      console.log('🔍 [Profile Click] Fetching from backend for ID:', userOrName._id);
       // Fetch user profile from backend
       try {
         const response = await fetch(`http://localhost:5000/api/users/${userOrName._id}`);
@@ -78,6 +81,7 @@ export const SocialLobbyProvider = ({ children }) => {
           const data = await response.json();
           if (data.success) {
             userToView = data.data;
+            console.log('🔍 [Profile Click] Backend user found:', userToView);
           }
         }
       } catch (error) {
@@ -86,8 +90,11 @@ export const SocialLobbyProvider = ({ children }) => {
     }
 
     if (userToView) {
+      console.log('🔍 [Profile Click] Setting selected user and navigating to profile');
       setSelectedUser(userToView);
       setCurrentView('profile');
+    } else {
+      console.log('🔍 [Profile Click] No user found, cannot navigate to profile');
     }
   };
 

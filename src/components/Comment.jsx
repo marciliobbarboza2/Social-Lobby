@@ -26,17 +26,26 @@ const Comment = ({
     }
   };
 
+  const handleCommentAuthorClick = () => {
+    if (!handleViewProfile) return;
+    
+    // Try to use authorId first, then authorObject, then author name
+    const userIdentifier = comment.authorId || comment.authorObject || comment.author;
+    console.log('💬 [Comment] Author clicked, passing identifier:', userIdentifier);
+    handleViewProfile(userIdentifier);
+  };
+
   return (
     <div key={comment.id} className="comment">
       <img 
         src={comment.avatar} 
         alt={`${comment.author}'s avatar`} 
         className="comment-avatar" 
-        onClick={() => handleViewProfile && handleViewProfile(comment.authorObject || comment.author)} 
+        onClick={handleCommentAuthorClick}
         style={{cursor: 'pointer', borderRadius: '50%'}}
         role="button"
         tabIndex={0}
-        onKeyPress={(e) => e.key === 'Enter' && handleViewProfile && handleViewProfile(comment.authorObject || comment.author)}
+        onKeyPress={(e) => e.key === 'Enter' && handleCommentAuthorClick()}
         aria-label={`View ${comment.author}'s profile`}
       />
       <div className="comment-content">

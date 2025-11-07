@@ -325,6 +325,9 @@ export const usePosts = (initialPosts, currentUser) => {
   };
 
   const handleSaveComment = async (postId, commentId) => {
+    console.log('✏️ handleSaveComment called for postId:', postId, 'commentId:', commentId);
+    console.log('✏️ editContent:', editContent);
+    
     // Optimistically update UI
     const originalPosts = posts;
     setPosts(posts.map(post =>
@@ -342,6 +345,7 @@ export const usePosts = (initialPosts, currentUser) => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
+        console.log('✏️ Making API call to update comment...');
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
@@ -352,14 +356,18 @@ export const usePosts = (initialPosts, currentUser) => {
           signal: controller.signal
         });
 
+        console.log('✏️ API response status:', response.status);
+
         if (!response.ok) {
           // Revert on failure
-          console.error('Failed to save comment');
+          console.error('✏️ Failed to save comment - reverting');
           setPosts(originalPosts);
         } else {
           // Update with server response if needed
           const data = await response.json();
+          console.log('✏️ API response data:', data);
           if (data.success) {
+            console.log('✏️ Successfully updated comment');
             // Update with the returned comment data
             setPosts(posts.map(post =>
               post.id === postId
@@ -375,7 +383,7 @@ export const usePosts = (initialPosts, currentUser) => {
         }
         clearTimeout(timeoutId);
       } catch (error) {
-        console.error('Error saving comment:', error);
+        console.error('✏️ Error saving comment:', error);
         setPosts(originalPosts);
       }
     }
@@ -484,7 +492,11 @@ export const usePosts = (initialPosts, currentUser) => {
   };
 
   const toggleComments = async (postId) => {
+    console.log('💬 toggleComments called for postId:', postId);
+    
     const newShowState = !showComments[postId];
+    console.log('💬 Toggling comments to:', newShowState);
+    
     setShowComments(prev => ({
       ...prev,
       [postId]: newShowState
@@ -495,21 +507,31 @@ export const usePosts = (initialPosts, currentUser) => {
       try {
         const token = localStorage.getItem('token');
         if (token) {
+          console.log('💬 Fetching comments from API...');
           const response = await fetch(`${API_BASE_URL}/api/comments/post/${postId}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
           });
+          
+          console.log('💬 API response status:', response.status);
           const data = await response.json();
+          console.log('💬 API response data:', data);
+          
           if (data.success) {
             const mappedComments = mapFetchedComments(data);
-            setPosts(posts.map(post =>
+            console.log('💬 Mapped comments:', mappedComments);
+            setPosts(prevPosts => prevPosts.map(post =>
               post.id === postId ? { ...post, comments: mappedComments } : post
             ));
+          } else {
+            console.error('💬 Failed to fetch comments:', data.message);
           }
+        } else {
+          console.log('💬 No token found, skipping API fetch');
         }
       } catch (error) {
-        console.error('Error fetching comments:', error);
+        console.error('💬 Error fetching comments:', error);
       }
     }
   };
@@ -517,9 +539,13 @@ export const usePosts = (initialPosts, currentUser) => {
   const handleComment = async (postId) => {
     if (!newComment.trim()) return;
 
+    console.log('🔥 handleComment called for postId:', postId);
+    console.log('🔥 newComment content:', newComment);
+
     const token = localStorage.getItem('token');
     if (token) {
       try {
+        console.log('🔥 Making API call to create comment...');
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
@@ -536,23 +562,29 @@ export const usePosts = (initialPosts, currentUser) => {
           signal: controller.signal
         });
 
+        console.log('🔥 API response status:', response.status);
         const data = await response.json();
+        console.log('🔥 API response data:', data);
 
         if (data.success) {
           // Add the new comment to the post's comments
           const newCommentObj = mapFetchedComments({ data: [data.data] })[0];
+          console.log('🔥 Mapped new comment:', newCommentObj);
           setPosts(posts.map(post =>
             post.id === postId ? { ...post, comments: [...post.comments, newCommentObj] } : post
           ));
           setNewComment('');
           clearTimeout(timeoutId);
           return;
+        } else {
+          console.error('🔥 Comment creation failed:', data.message);
         }
       } catch (error) {
-        console.error('Error creating comment:', error);
+        console.error('🔥 Error creating comment:', error);
       }
     }
 
+    console.log('🔥 Falling back to local comment creation');
     // Fallback to local comment creation
     const newCommentObj = {
       id: Date.now(),
@@ -573,9 +605,11 @@ export const usePosts = (initialPosts, currentUser) => {
   };
 
   const handleDeleteComment = async (postId, commentId) => {
+    console.log('🗑️ handleDeleteComment called for postId:', postId, 'commentId:', commentId);
+    
     const token = localStorage.getItem('token');
     if (!token) {
-      console.error('No authentication token found');
+      console.error('🗑️ No authentication token found');
       return;
     }
 
@@ -583,6 +617,7 @@ export const usePosts = (initialPosts, currentUser) => {
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
     try {
+      console.log('🗑️ Making API call to delete comment...');
       const response = await fetch(`${API_BASE_URL}/api/comments/${commentId}`, {
         method: 'DELETE',
         headers: {
@@ -591,9 +626,12 @@ export const usePosts = (initialPosts, currentUser) => {
         signal: controller.signal
       });
 
+      console.log('🗑️ API response status:', response.status);
       const data = await response.json();
+      console.log('🗑️ API response data:', data);
 
       if (data.success) {
+        console.log('🗑️ Successfully deleted comment, updating state...');
         // Update local state to remove the comment
         setPosts(posts.map(post =>
           post.id === postId
@@ -604,10 +642,10 @@ export const usePosts = (initialPosts, currentUser) => {
             : post
         ));
       } else {
-        console.error('Failed to delete comment:', data.message);
+        console.error('🗑️ Failed to delete comment:', data.message);
       }
     } catch (error) {
-      console.error('Error deleting comment:', error);
+      console.error('🗑️ Error deleting comment:', error);
     } finally {
       clearTimeout(timeoutId);
     }
@@ -707,15 +745,27 @@ export const useData = (initialUsers, initialGroups, initialStories, initialEven
   // const [error, setError] = useState(null); // Assuming no errors for static data
 
   const handleViewProfile = (userOrName) => {
+    console.log('🔍 [useHooks] handleViewProfile called with:', userOrName);
     let user;
     if (typeof userOrName === 'string') {
-      user = users.find(u => u.name === userOrName);
+      console.log('🔍 [useHooks] Searching for user by name:', userOrName);
+      // Search by name, username, or email
+      user = users.find(u => 
+        u.name === userOrName || 
+        u.username === userOrName || 
+        u.email === userOrName ||
+        u._id === userOrName
+      );
     } else {
+      console.log('🔍 [useHooks] Using user object directly:', userOrName);
       user = userOrName;
     }
-    if (user && user.username) {
+    console.log('🔍 [useHooks] Found user:', user);
+    if (user && (user.username || user._id)) {
+      console.log('🔍 [useHooks] Returning user with username/id:', user.username || user._id);
       return user;
     }
+    console.log('🔍 [useHooks] No valid user found, returning null');
     return null;
   };
 
