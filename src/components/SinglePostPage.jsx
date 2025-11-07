@@ -5,7 +5,7 @@ import NotFoundPage from './NotFoundPage';
 
 const SinglePostPage = () => {
   const { postsProps } = useSocialLobbyContext();
-  const { singlePost, singlePostLoading, handleLike, handleComment, handleDeletePost, handleDeleteComment } = postsProps;
+  const { singlePost, singlePostLoading } = postsProps;
 
   if (singlePostLoading) {
     return <div>Loading post...</div>;

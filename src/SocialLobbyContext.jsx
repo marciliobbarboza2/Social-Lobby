@@ -32,7 +32,7 @@ export const SocialLobbyProvider = ({ children }) => {
   const { currentUser, isLoggedIn } = authProps;
 
   const viewProps = useView();
-  const { setCurrentView, setShowLogin, setShowStoryModal, setShowChat } = viewProps;
+  const { setCurrentView, setShowLogin, setShowStoryModal } = viewProps;
 
   const dataProps = useData(initialUsers, initialGroups, initialStories, initialEvents, initialNotifications, currentUser, authProps.setCurrentUser);
   const { handleViewProfile, setSelectedUser, setSelectedStory } = dataProps;

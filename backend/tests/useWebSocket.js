@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+// Converted to CommonJS to satisfy backend ESLint config
+const { useState, useEffect, useRef, useCallback } = require('react');
 
 /**
  * A custom hook to manage a WebSocket connection.
@@ -81,4 +82,4 @@ const useWebSocket = (token, eventHandlers = {}) => {
   return { messages, sendMessage, isConnected };
 };
 
-export default useWebSocket;
+module.exports = useWebSocket;
