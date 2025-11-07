@@ -792,6 +792,38 @@
   margin-right: 12px;
 }
 
+/* Messenger-style panel */
+.messenger-panel { padding-top: 4px; }
+.messenger-header { display: flex; align-items: center; justify-content: space-between; }
+.messenger-actions { display: inline-flex; gap: 6px; }
+.icon-btn { background: #f3f4f6; border: 1px solid #e5e7eb; color: #111827; border-radius: 8px; padding: 6px 8px; font-size: 14px; }
+.icon-btn:hover { background: #e5e7eb; border-color: #d1d5db; }
+.messenger-search { width: 100%; margin: 10px 0; padding: 10px 12px; border-radius: 20px; border: 1.5px solid #cbd5e1; background: #ffffff; color: #111827; font-size: 14px; }
+.messenger-search::placeholder { color: #9aa1a9; }
+.messenger-search:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.18); outline: none; }
+.messenger-list { display: flex; flex-direction: column; gap: 6px; }
+.messenger-contact { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 10px; cursor: pointer; }
+.messenger-contact:hover { background: #f2f3f5; }
+.avatar-wrap { position: relative; }
+.avatar-wrap .user-avatar { width: 36px; height: 36px; border-radius: 999px; border: 1px solid #e5e7eb; }
+.active-dot { position: absolute; right: -1px; bottom: -1px; width: 10px; height: 10px; background: #22c55e; border: 2px solid #ffffff; border-radius: 999px; }
+.messenger-contact-info { display: flex; flex-direction: column; }
+.name-row { display: flex; align-items: center; gap: 6px; }
+.name { font-weight: 700; color: #111827; }
+.subtext { font-size: 12px; color: #6b7280; }
+.messenger-empty { color: #6b7280; font-size: 14px; padding: 12px; text-align: center; }
+
+@media (prefers-color-scheme: dark) {
+  .icon-btn { background: #374151; border-color: #4b5563; color: #e5e7eb; }
+  .icon-btn:hover { background: #4b5563; border-color: #6b7280; }
+  .messenger-search { background: #111827; color: #e5e7eb; border-color: #374151; }
+  .messenger-contact:hover { background: #1f2937; }
+  .avatar-wrap .user-avatar { border-color: #374151; }
+  .active-dot { border-color: #1f2937; }
+  .name { color: #e5e7eb; }
+  .subtext, .messenger-empty { color: #9ca3af; }
+}
+
 .socialobby-right-sidebar .trend-item {
   display: flex;
   justify-content: space-between;

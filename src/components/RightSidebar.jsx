@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const RightSidebar = () => {
@@ -7,12 +7,19 @@ const RightSidebar = () => {
   const { users, setFilterTopic } = dataProps;
   const { currentUser } = authProps;
 
-  const trendingTopics = ['#ReactJS', '#NodeJS', '#WebDev', '#SocialLobby', '#FinalProject', '#JavaScript', '#Python', '#AI', '#MachineLearning'];
+  const trendingTopics = ['#ReactJS', '#NodeJS', '#WebDev', '#SocialLobby', '#FinalProject', '#JavaScript', '#Python', '#OpenSource', '#UXDesign'];
   
   // Get contacts (excluding current user)
-  const contacts = users
+  const contacts = useMemo(() => users
     .filter(user => user._id !== currentUser?._id)
-    .slice(0, 8); // Show up to 8 contacts
+    .slice(0, 20), [users, currentUser?._id]); // more contacts for messenger feel
+
+  const [search, setSearch] = useState('');
+  const filtered = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    if (!term) return contacts;
+    return contacts.filter(u => (u.name || '').toLowerCase().includes(term));
+  }, [search, contacts]);
 
   return (
     <aside className="socialobby-right-sidebar">
@@ -36,16 +43,39 @@ const RightSidebar = () => {
         </div>
       </div>
 
-      <div className="sidebar-section online-friends">
-        <h3>Contacts</h3>
-        <div className="contacts-list">
-          {contacts.map(user => (
-            <div key={user._id} className="contact online" onClick={() => handleOpenChat(user)}>
-              <img src={user.avatar} alt={user.name} className="user-avatar" onClick={() => { dataProps.setSelectedUser(user._id); setCurrentView('profile'); }} style={{cursor: 'pointer', borderRadius: '50%'}} />
-              <span>{user.name.split(' ')[0]}</span>
-              <div className="online-indicator"></div>
+      <div className="sidebar-section messenger-panel">
+        <div className="messenger-header">
+          <h3>Messenger</h3>
+          <div className="messenger-actions">
+            <button className="icon-btn" title="New call" onClick={() => setCurrentView('messages')}>🎥</button>
+            <button className="icon-btn" title="New chat" onClick={() => setCurrentView('messages')}>✉️</button>
+            <button className="icon-btn" title="Options">⋯</button>
+          </div>
+        </div>
+        <input
+          className="messenger-search"
+          placeholder="Search Messenger"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <div className="messenger-list">
+          {filtered.map(user => (
+            <div key={user._id} className="messenger-contact" onClick={() => handleOpenChat(user)}>
+              <div className="avatar-wrap">
+                <img src={user.avatar} alt={user.name} className="user-avatar" />
+                <span className="active-dot" />
+              </div>
+              <div className="messenger-contact-info">
+                <div className="name-row">
+                  <span className="name">{user.name.split(' ')[0]}</span>
+                </div>
+                <div className="subtext">Active now</div>
+              </div>
             </div>
           ))}
+          {filtered.length === 0 && (
+            <div className="messenger-empty">No conversations found</div>
+          )}
         </div>
       </div>
 
