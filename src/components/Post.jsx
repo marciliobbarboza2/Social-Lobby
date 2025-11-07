@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import DOMPurify from 'dompurify';
 import Comment from './Comment';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
@@ -67,7 +68,7 @@ const Post = ({
             </div>
           </div>
         ) : (
-          <p>{post.content}</p>
+          <p>{DOMPurify.sanitize(post.content)}</p>
         )}
         {post.image && (
           <div className="post-image">

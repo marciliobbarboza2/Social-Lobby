@@ -1,6 +1,18 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
+import { 
+  FaSearch, 
+  FaHome, 
+  FaUserFriends, 
+  FaBell, 
+  FaEnvelope, 
+  FaCog, 
+  FaSignOutAlt,
+  FaUser,
+  FaVideo
+} from 'react-icons/fa';
+import './Header.css';
 
 const Header = () => {
   const { authProps, viewProps, dataProps } = useSocialLobbyContext();
@@ -40,72 +52,74 @@ const Header = () => {
   return (
     <header className="socialobby-header">
       <div className="header-left">
-        <h1 className="socialobby-logo" onClick={() => setCurrentView('feed')} style={{cursor: 'pointer'}}>
+        <h1 className="socialobby-logo" onClick={() => setCurrentView('feed')}>
           <span className="logo-icon">🌐</span>
           <span className="logo-text">Socialobby</span>
         </h1>
         <div className="search-bar">
+          <FaSearch className="search-icon" />
           <input
             type="text"
             placeholder="Search Socialobby"
             className="search-input"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={handleSearch}
+            onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(e); }}
+            aria-label="Search Socialobby"
           />
         </div>
       </div>
       <div className="header-center">
-        <button className={`nav-btn ${currentView === 'feed' ? 'active' : ''}`} onClick={() => setCurrentView('feed')} title="Home">
-          🏠
+        <button type="button" className={`nav-btn ${currentView === 'feed' ? 'active' : ''}`} onClick={() => setCurrentView('feed')} title="Home" aria-label="Home">
+          <FaHome size={24} />
         </button>
-        <button className={`nav-btn ${currentView === 'friends' ? 'active' : ''}`} onClick={() => setCurrentView('friends')} title="Friends">
-          👥
+        <button type="button" className={`nav-btn ${currentView === 'friends' ? 'active' : ''}`} onClick={() => setCurrentView('friends')} title="Friends" aria-label="Friends">
+          <FaUserFriends size={24} />
         </button>
-        <button className={`nav-btn ${currentView === 'watch' ? 'active' : ''}`} onClick={() => setCurrentView('feed')} title="Watch">
-          📺
-        </button>
-        <button className={`nav-btn ${currentView === 'marketplace' ? 'active' : ''}`} onClick={() => setCurrentView('feed')} title="Marketplace">
-          🛒
-        </button>
-        <button className={`nav-btn ${currentView === 'groups' ? 'active' : ''}`} onClick={() => setCurrentView('groups')} title="Groups">
-          👪
+        <button type="button" className={`nav-btn ${currentView === 'watch' ? 'active' : ''}`} onClick={() => setCurrentView('watch')} title="Watch" aria-label="Watch">
+          <FaVideo size={24} />
         </button>
       </div>
       <div className="header-right">
-        {currentView === 'profile' && (
-          <button className="header-btn" onClick={() => setCurrentView('feed')}>← Back to Feed</button>
-        )}
         {isLoggedIn ? (
           <>
-            <button className="header-btn" onClick={() => { setSelectedUser(currentUser); setCurrentView('profile'); }} title="Profile">
-              👤 Profile
-            </button>
-
             {/* Notifications Dropdown */}
             <div className="dropdown-container" ref={notificationsRef}>
               <button
-                className="header-btn notification-btn"
+                type="button"
+                className="header-btn"
                 onClick={() => {
                   setShowNotifications(!showNotifications);
                   setShowSettings(false);
                 }}
                 title="Notifications"
+                aria-haspopup="true"
+                aria-expanded={showNotifications}
+                aria-label="Notifications"
               >
-                🔔
-                {notifications.length > 0 && <span className="notification-badge">{notifications.length}</span>}
+                <FaBell size={20} />
+                {notifications?.length > 0 && <span className="notification-badge">{notifications.length}</span>}
               </button>
 
               {showNotifications && (
-                <div className="dropdown-menu notifications-dropdown">
+                <div className="dropdown-menu notifications-dropdown" role="menu">
                   <div className="dropdown-header">
                     <h4>Notifications</h4>
-                    <button onClick={() => setCurrentView('notifications')} className="see-all-btn">See All</button>
+                    <button type="button" onClick={() => setCurrentView('notifications')} className="see-all-btn">See All</button>
                   </div>
                   <div className="dropdown-content">
-                    {notifications.map(notification => (
-                      <div key={notification.id} className="notification-item" onClick={() => setCurrentView('notifications')}>
-                        <img src={notification.avatar} alt="" className="notification-avatar" />
+                    {notifications?.map(notification => (
+                      <div
+                        key={notification.id}
+                        className="notification-item"
+                        onClick={() => setCurrentView('notifications')}
+                        role="menuitem"
+                        tabIndex={0}
+                        onKeyDown={(e) => { if (e.key === 'Enter') setCurrentView('notifications'); }}
+                      >
+                        <div className="notification-icon">
+                          <FaBell size={20} />
+                        </div>
                         <div className="notification-content">
                           <p>{notification.message}</p>
                           <span className="notification-time">{notification.time}</span>
@@ -117,54 +131,65 @@ const Header = () => {
               )}
             </div>
 
+            {/* Messages */}
+            <button type="button" className="header-btn" onClick={() => setCurrentView('messages')} title="Messages" aria-label="Messages">
+              <FaEnvelope size={20} />
+            </button>
+
             {/* Settings Dropdown */}
             <div className="dropdown-container" ref={settingsRef}>
               <button
+                type="button"
                 className="header-btn"
                 onClick={() => {
                   setShowSettings(!showSettings);
                   setShowNotifications(false);
                 }}
                 title="Settings"
+                aria-haspopup="true"
+                aria-expanded={showSettings}
+                aria-label="Settings"
               >
-                ⚙️
+                <FaCog size={20} />
               </button>
 
               {showSettings && (
-                <div className="dropdown-menu settings-dropdown">
+                <div className="dropdown-menu settings-dropdown" role="menu">
+                  <div className="dropdown-header">
+                    <h4>Settings</h4>
+                  </div>
                   <div className="dropdown-content">
-                    <button onClick={() => { setCurrentView('settings'); setShowSettings(false); }} className="dropdown-item">
-                      ⚙️ Settings & Privacy
+                    <button type="button" onClick={() => { setCurrentView('settings'); setShowSettings(false); }} className="dropdown-item" role="menuitem" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') { setCurrentView('settings'); setShowSettings(false); } }}>
+                      <FaCog size={20} />
+                      <span>Settings & Privacy</span>
                     </button>
-                    <button onClick={() => { setSelectedUser(currentUser); setCurrentView('profile'); setShowSettings(false); }} className="dropdown-item">
-                      👤 Profile
+                    <button type="button" onClick={() => { setSelectedUser(currentUser); setCurrentView('profile'); setShowSettings(false); }} className="dropdown-item" role="menuitem" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') { setSelectedUser(currentUser); setCurrentView('profile'); setShowSettings(false); } }}>
+                      <FaUser size={20} />
+                      <span>Profile</span>
                     </button>
-                    <button onClick={() => { setCurrentView('friends'); setShowSettings(false); }} className="dropdown-item">
-                      👥 Friends
-                    </button>
-                    <button onClick={() => { setCurrentView('messages'); setShowSettings(false); }} className="dropdown-item">
-                      💬 Messenger
-                    </button>
-                    <div className="dropdown-divider"></div>
-                    <button onClick={() => { alert('Help & Support clicked'); }} className="dropdown-item">
-                      ❓ Help & Support
-                    </button>
-                    <button onClick={() => { alert('Display & Accessibility clicked'); }} className="dropdown-item">
-                      🌙 Display & Accessibility
+                    <button type="button" onClick={() => { setCurrentView('friends'); setShowSettings(false); }} className="dropdown-item" role="menuitem" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') { setCurrentView('friends'); setShowSettings(false); } }}>
+                      <FaUserFriends size={20} />
+                      <span>Friends</span>
                     </button>
                     <div className="dropdown-divider"></div>
-                    <button onClick={handleLogout} className="dropdown-item logout-item">
-                      🚪 Logout
+                    <button type="button" onClick={handleLogout} className="dropdown-item logout-item" role="menuitem" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') handleLogout(); }}>
+                      <FaSignOutAlt size={20} />
+                      <span>Logout</span>
                     </button>
                   </div>
                 </div>
               )}
             </div>
 
-            <span className="user-info" onClick={() => { setSelectedUser(currentUser); setCurrentView('profile'); }}>
-              <img src={currentUser.avatar} alt={currentUser.name} className="header-avatar" />
-              <span className="user-name">{currentUser.firstName || currentUser.name}</span>
-            </span>
+            <button
+              className="user-info"
+              onClick={() => { setSelectedUser(currentUser); setCurrentView('profile'); }}
+              type="button"
+              aria-label="Open profile"
+            >
+              <img src={currentUser?.avatar} alt={currentUser?.name || 'Profile'} className="header-avatar" />
+              <span className="user-name">{currentUser?.firstName || currentUser?.name}</span>
+            </button>
           </>
         ) : null}
       </div>

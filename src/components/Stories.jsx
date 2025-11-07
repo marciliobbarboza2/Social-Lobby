@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 import { users } from '../data/users';
+import { FaPlus } from 'react-icons/fa';
+import './Stories.css';
 
 const Stories = () => {
   const { dataProps, authProps, viewProps } = useSocialLobbyContext();
@@ -58,12 +60,16 @@ const Stories = () => {
             key={story.id}
             className={`story-item ${story.id === 'current-user' ? 'current-user-story' : ''}`}
             onClick={() => handleStoryClickInternal(story)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleStoryClickInternal(story); }}
+            aria-label={story.id === 'current-user' ? 'Add your story' : `Open ${story.author.split(' ')[0]}'s profile`}
           >
             <div className="story-avatar">
-              <img src={story.avatar} alt={story.author} />
-              <div className="story-ring"></div>
+              <div className="story-ring" aria-hidden="true"></div>
+              <img className="story-img" src={story.avatar} alt={story.author} />
               {story.id === 'current-user' && (
-                <div className="add-story-icon">+</div>
+                <div className="add-story-icon" aria-hidden="true">+</div>
               )}
             </div>
             <span className="story-author">

@@ -28,15 +28,15 @@ if (missingEnvVars.length > 0) {
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176', 'http://localhost:5177', 'http://localhost:5178', 'http://localhost:5179', 'http://localhost:5180', 'http://localhost:5181', 'http://localhost:5182', 'http://localhost:5183', 'http://localhost:5184', 'http://localhost:5185', 'http://localhost:5186', 'http://localhost:3000'],
-    methods: ['GET', 'POST']
-  },
-  allowEIO3: true
-});
 
-require('./socket')(io);
+// Initialize socket.io
+const initSocket = require('./socket/chat');
+const socketServer = initSocket(server);
+
+// Make io available to routes
+app.set('io', socketServer);
+// Initialize WebSocket connection handlers
+require('./socket/chat')(socketServer);
 
 // Security middleware
 app.use(helmet({
@@ -118,6 +118,7 @@ const authRoutes = require('./routes/auth');
 const postRoutes = require('./routes/posts');
 const commentRoutes = require('./routes/comments');
 const userRoutes = require('./routes/users');
+const messageRoutes = require('./routes/messages');
 const paymentRoutes = require('./routes/payment');
 
 // API Routes
@@ -125,6 +126,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/messages', messageRoutes);
 app.use('/api/payment', paymentRoutes);
 
 // Health check endpoint

@@ -1,0 +1,42 @@
+/* App Layout */
+.app-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Main Content Area */
+.content-area {
+  margin-left: 360px; /* Left sidebar width */
+  margin-right: 360px; /* Right sidebar width */
+  min-height: calc(100vh - 56px);
+  padding: 20px;
+  background: #f0f2f5;
+}
+
+/* Chat Container Positioning */
+.chat-container {
+  position: fixed;
+  bottom: 0;
+  right: 380px;
+  display: flex;
+  gap: 16px;
+  padding-right: 16px;
+  z-index: 999;
+}
+
+/* Ensure chat windows don't overlap with content */
+@media (max-width: 1400px) {
+  .chat-container {
+    right: 360px;
+  }
+  
+  .content-area {
+    margin-right: 340px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .chat-container {
+    right: 340px;
+  }
+}

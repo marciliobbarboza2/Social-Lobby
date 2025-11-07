@@ -1,0 +1,129 @@
+/* Stories Section */
+.stories-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.story-item {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.story-item:hover {
+  transform: translateY(-2px);
+  background: #f0f2f5;
+}
+
+.story-avatar {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* gradient ring behind the image */
+.story-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  padding: 3px; /* ring thickness */
+  background: conic-gradient(from 180deg at 50% 50%, #833ab4, #fd1d1d, #fcb045, #833ab4);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), black calc(100% - 6px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 6px), black calc(100% - 6px));
+  pointer-events: none;
+}
+
+.story-img {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #fff;
+  border: 3px solid #fff; /* separates image from ring */
+  position: relative;
+}
+
+.add-story-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #0866ff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid white;
+  color: white;
+  font-size: 20px;
+}
+
+.story-author {
+  font-size: 13px;
+  color: #1c1e21;
+  text-align: center;
+  font-weight: 600;
+  margin: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.story-time {
+  font-size: 12px;
+  color: #65676b;
+  text-align: center;
+  margin: 0;
+}
+
+/* Stories Header */
+.stories-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e4e6eb;
+  margin-bottom: 12px;
+}
+
+.stories-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1c1e21;
+  margin: 0;
+}
+
+.see-all-stories {
+  color: #0866ff;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.see-all-stories:hover {
+  background-color: #f0f2f5;
+}

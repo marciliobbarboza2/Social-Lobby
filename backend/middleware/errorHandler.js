@@ -40,7 +40,8 @@ const errorHandler = (err, req, res, next) => {
   if (res && typeof res.status === 'function') {
     res.status(error.statusCode || 500).json({
       success: false,
-      error: error.message || 'Server Error'
+      error: error.message || 'Server Error',
+      ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
     });
   } else {
     // Fallback if res is not available

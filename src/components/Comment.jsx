@@ -1,4 +1,5 @@
 import React from 'react';
+import DOMPurify from 'dompurify';
 
 const Comment = ({
   comment,
@@ -55,7 +56,7 @@ const Comment = ({
             </div>
           </div>
         ) : (
-          <p className="comment-text" style={{color: 'black'}}>{comment.content}</p>
+          <p className="comment-text" style={{color: 'black'}}>{DOMPurify.sanitize(comment.content)}</p>
         )}
       </div>
     </div>
