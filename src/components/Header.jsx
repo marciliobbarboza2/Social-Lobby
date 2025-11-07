@@ -52,7 +52,16 @@ const Header = ({
             <>
               <button className="header-btn" onClick={() => { setSelectedUser(currentUser); setCurrentView('profile'); }}>👤 Profile</button>
               <span className="user-info">
-                <img src={currentUser.avatar} alt={currentUser.name} className="header-avatar" />
+                <img 
+                  src={currentUser.avatar} 
+                  alt={currentUser.name} 
+                  className="header-avatar"
+                  onError={(e) => {
+                    console.log(`[Header] Avatar failed for ${currentUser.name}:`, currentUser.avatar);
+                    const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&size=40&background=3b82f6&color=fff&bold=true&rounded=true`;
+                    e.target.src = fallbackUrl;
+                  }}
+                />
                 {currentUser.name}
               </span>
               <button className="header-btn" onClick={handleLogout}>Logout</button>

@@ -240,43 +240,90 @@ const MainContent = () => {
           <>
             <div className="profile-cover" style={{backgroundImage: `url(https://picsum.photos/800/300?random=${selectedUser._id || selectedUser.username})`}}>
               <div className="profile-avatar-large">
-                <img src={selectedUser.avatar} alt={selectedUser.firstName + ' ' + selectedUser.lastName || selectedUser.name} />
+                <img 
+                  src={selectedUser.avatar} 
+                  alt={selectedUser.firstName + ' ' + selectedUser.lastName || selectedUser.name}
+                  onError={(e) => {
+                    console.log(`[Profile] Avatar failed for ${selectedUser.name || selectedUser.username}:`, selectedUser.avatar);
+                    const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(selectedUser.name || selectedUser.username)}&size=120&background=3b82f6&color=fff&bold=true&rounded=true`;
+                    console.log(`[Profile] Using fallback:`, fallbackUrl);
+                    e.target.src = fallbackUrl;
+                  }}
+                  onLoad={() => console.log(`[Profile] Avatar loaded for ${selectedUser.name || selectedUser.username}`)}
+                />
               </div>
+              <div className="profile-cover-overlay"></div>
             </div>
             <div className="profile-info">
-              <h2>{selectedUser.firstName && selectedUser.lastName ? `${selectedUser.firstName} ${selectedUser.lastName}` : selectedUser.name}</h2>
-              <p>@{selectedUser.username}</p>
-              <p>{selectedUser.bio || 'No bio available'}</p>
+              <div className="profile-details">
+                <h2>{selectedUser.firstName && selectedUser.lastName ? `${selectedUser.firstName} ${selectedUser.lastName}` : selectedUser.name}</h2>
+                <p className="profile-username">@{selectedUser.username}</p>
+                <p className="profile-bio">{selectedUser.bio || 'Welcome to my profile! 👋'}</p>
+                <div className="profile-stats">
+                  <div className="stat-item">
+                    <span className="stat-number">{posts.filter(post => post.authorId === selectedUser._id || post.authorId === selectedUser.id).length}</span>
+                    <span className="stat-label">Posts</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-number">{Math.floor(Math.random() * 1000) + 100}</span>
+                    <span className="stat-label">Followers</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-number">{Math.floor(Math.random() * 500) + 50}</span>
+                    <span className="stat-label">Following</span>
+                  </div>
+                </div>
+                {selectedUser._id !== currentUser?._id && (
+                  <div className="profile-actions">
+                    <button className="btn-primary profile-action-btn">Follow</button>
+                    <button className="btn-secondary profile-action-btn">Message</button>
+                  </div>
+                )}
+              </div>
             </div>
             <div className="profile-posts">
-              <h3>Posts</h3>
-              {posts
-                .filter(post => post.authorId === selectedUser._id || post.authorId === selectedUser.id)
-                .map(post => (
-                  <Post
-                    key={post.id}
-                    post={post}
-                    currentUser={currentUser}
-                    handleEditPost={postsProps.handleEditPost}
-                    handleDeletePost={postsProps.handleDeletePost}
-                    editingPost={postsProps.editingPost}
-                    editContent={postsProps.editContent}
-                    setEditContent={postsProps.setEditContent}
-                    handleSavePost={postsProps.handleSavePost}
-                    handleCancelEdit={postsProps.handleCancelEdit}
-                    handleLike={postsProps.handleLike}
-                    toggleComments={postsProps.toggleComments}
-                    showComments={postsProps.showComments}
-                    newComment={postsProps.newComment}
-                    setNewComment={postsProps.setNewComment}
-                    handleComment={postsProps.handleComment}
-                    handleViewProfile={dataProps.handleViewProfile}
-                    editingComment={postsProps.editingComment}
-                    handleEditComment={postsProps.handleEditComment}
-                    handleSaveComment={postsProps.handleSaveComment}
-                    handleDeleteComment={postsProps.handleDeleteComment}
-                  />
-                ))}
+              <div className="profile-posts-header">
+                <h3>📝 Posts ({posts.filter(post => post.authorId === selectedUser._id || post.authorId === selectedUser.id).length})</h3>
+              </div>
+              <div className="profile-posts-grid">
+                {posts
+                  .filter(post => post.authorId === selectedUser._id || post.authorId === selectedUser.id)
+                  .length > 0 ? (
+                  posts
+                    .filter(post => post.authorId === selectedUser._id || post.authorId === selectedUser.id)
+                    .map(post => (
+                      <Post
+                        key={post.id}
+                        post={post}
+                        currentUser={currentUser}
+                        handleEditPost={postsProps.handleEditPost}
+                        handleDeletePost={postsProps.handleDeletePost}
+                        editingPost={postsProps.editingPost}
+                        editContent={postsProps.editContent}
+                        setEditContent={postsProps.setEditContent}
+                        handleSavePost={postsProps.handleSavePost}
+                        handleCancelEdit={postsProps.handleCancelEdit}
+                        handleLike={postsProps.handleLike}
+                        toggleComments={postsProps.toggleComments}
+                        showComments={postsProps.showComments}
+                        newComment={postsProps.newComment}
+                        setNewComment={postsProps.setNewComment}
+                        handleComment={postsProps.handleComment}
+                        handleViewProfile={dataProps.handleViewProfile}
+                        editingComment={postsProps.editingComment}
+                        handleEditComment={postsProps.handleEditComment}
+                        handleSaveComment={postsProps.handleSaveComment}
+                        handleDeleteComment={postsProps.handleDeleteComment}
+                      />
+                    ))
+                ) : (
+                  <div className="no-posts-message">
+                    <div className="no-posts-icon">📝</div>
+                    <h4>No posts yet</h4>
+                    <p>This user hasn't shared any posts yet. Check back later!</p>
+                  </div>
+                )}
+              </div>
             </div>
           </>
         )}

@@ -57,7 +57,16 @@ const ChatWindow = ({ friend, onClose, style }) => {
         aria-label={isMinimized ? 'Expand chat window' : 'Minimize chat window'}
       >
         <div className="chat-avatar-container">
-          <img src={friend.avatar} alt={`${friend.name}'s avatar`} className="chat-avatar" />
+          <img 
+            src={friend.avatar} 
+            alt={`${friend.name}'s avatar`} 
+            className="chat-avatar"
+            onError={(e) => {
+              console.log(`[ChatWindow] Avatar failed for ${friend.name}:`, friend.avatar);
+              const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(friend.name)}&size=40&background=3b82f6&color=fff&bold=true&rounded=true`;
+              e.target.src = fallbackUrl;
+            }}
+          />
           {isOnline && <div className="online-indicator-chat" aria-label="Online"></div>}
         </div>
         <h3>{friend.name}</h3>

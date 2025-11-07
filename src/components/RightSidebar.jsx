@@ -62,7 +62,16 @@ const RightSidebar = () => {
           {filtered.map(user => (
             <div key={user._id} className="messenger-contact" onClick={() => handleOpenChat(user)}>
               <div className="avatar-wrap">
-                <img src={user.avatar} alt={user.name} className="user-avatar" />
+                <img 
+                  src={user.avatar} 
+                  alt={user.name} 
+                  className="user-avatar"
+                  onError={(e) => {
+                    console.log(`[RightSidebar] Avatar failed for ${user.name}:`, user.avatar);
+                    const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&size=40&background=3b82f6&color=fff&bold=true&rounded=true`;
+                    e.target.src = fallbackUrl;
+                  }}
+                />
                 <span className="active-dot" />
               </div>
               <div className="messenger-contact-info">

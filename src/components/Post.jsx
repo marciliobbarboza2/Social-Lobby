@@ -56,6 +56,11 @@ const Post = ({
             tabIndex={0}
             onKeyPress={(e) => e.key === 'Enter' && handleViewProfile(post.author)}
             aria-label={`View ${post.author}'s profile`}
+            onError={(e) => {
+              console.log(`[Post] Avatar failed for ${post.author}:`, post.avatar);
+              const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author)}&size=50&background=3b82f6&color=fff&bold=true&rounded=true`;
+              e.target.src = fallbackUrl;
+            }}
           />
           <div className="author-info">
             <h4 
