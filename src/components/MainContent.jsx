@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import HomePage from '../pages/HomePage';
 import Marketplace from '../pages/Marketplace';
+import Friends from '../pages/Friends';
+import Events from '../pages/Events';
+import Groups from '../pages/Groups';
+import Photos from '../pages/Photos';
+import Pages from '../pages/Pages';
 import Post from './Post'; // Import Post for the profile view
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
@@ -19,26 +24,23 @@ const MainContent = () => {
   }
 
   if (currentView === 'friends') {
-    return (
-      <div className="friends-page">
-        <h2>Friends</h2>
-        <div className="friends-grid">
-          {users.filter(user => user._id !== dataProps.currentUser?._id).map(user => (
-            <div key={user._id} className="friend-card" onClick={() => dataProps.handleViewProfile(user)}>
-              <img src={user.avatar} alt={user.name} className="friend-avatar" />
-              <div className="friend-info">
-                <h3>{user.name}</h3>
-                <p>{user.profession}</p>
-                <p>{user.location}</p>
-                <span className={`status ${user.isOnline ? 'online' : 'offline'}`}>
-                  {user.isOnline ? 'Online' : 'Offline'}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    return <Friends />;
+  }
+
+  if (currentView === 'events') {
+    return <Events />;
+  }
+
+  if (currentView === 'groups') {
+    return <Groups />;
+  }
+
+  if (currentView === 'photos') {
+    return <Photos />;
+  }
+
+  if (currentView === 'pages') {
+    return <Pages />;
   }
 
   if (currentView === 'marketplace') {

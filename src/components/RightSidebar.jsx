@@ -25,7 +25,7 @@ const RightSidebar = () => {
     <aside className="socialobby-right-sidebar">
       <div className="sidebar-section sponsored">
         <h3>Sponsored</h3>
-        <div className="sponsored-item">
+        <div className="sponsored-item" style={{ cursor: 'pointer' }} onClick={() => window.open('https://socialobby.com/premium', '_blank')}>
           <img src="https://picsum.photos/seed/sponsored2/80/60" alt="Sponsored" className="sponsored-image" />
           <div className="sponsored-content">
             <h4>Pro Membership</h4>
@@ -37,7 +37,7 @@ const RightSidebar = () => {
 
       <div className="sidebar-section birthday-section">
         <h3>Birthdays</h3>
-        <div className="birthday-item">
+        <div className="birthday-item" onClick={() => setCurrentView('friends')} style={{ cursor: 'pointer' }}>
           <div className="birthday-icon">🎂</div>
           <p><strong>John Doe</strong>'s birthday is today</p>
         </div>
@@ -94,18 +94,46 @@ const RightSidebar = () => {
       <div className="sidebar-section events-section">
         <h3>Upcoming Events</h3>
         <div className="event-preview">
-          <div className="event-item">
+          <div className="event-item" onClick={() => setCurrentView('events')} style={{ cursor: 'pointer' }}>
             <div className="event-date">Dec 25</div>
             <div className="event-info">
               <h4>Christmas Party</h4>
               <p>🎄 Join us for celebrations!</p>
             </div>
           </div>
-          <div className="event-item">
+          <div className="event-item" onClick={() => setCurrentView('events')} style={{ cursor: 'pointer' }}>
             <div className="event-date">Jan 1</div>
             <div className="event-info">
               <h4>New Year Bash</h4>
-              <p>🎉 Welcome 2025!</p>
+              <p>🎉 Welcome 2026!</p>
+            </div>
+          </div>
+        </div>
+        <button className="see-all-btn" onClick={() => setCurrentView('events')} style={{ marginTop: '12px', width: '100%' }}>See All Events</button>
+      </div>
+
+      <div className="sidebar-section">
+        <h3>Notifications</h3>
+        <div className="notifications-preview">
+          <div className="notification-item" onClick={() => setCurrentView('feed')} style={{ cursor: 'pointer' }}>
+            <span className="notification-icon">❤️</span>
+            <div className="notification-content">
+              <p><strong>Emma Rodriguez</strong> liked your post</p>
+              <span className="notification-time">5 minutes ago</span>
+            </div>
+          </div>
+          <div className="notification-item" onClick={() => setCurrentView('feed')} style={{ cursor: 'pointer' }}>
+            <span className="notification-icon">💬</span>
+            <div className="notification-content">
+              <p><strong>David Kim</strong> commented on your post</p>
+              <span className="notification-time">10 minutes ago</span>
+            </div>
+          </div>
+          <div className="notification-item" onClick={() => setCurrentView('feed')} style={{ cursor: 'pointer' }}>
+            <span className="notification-icon">👤</span>
+            <div className="notification-content">
+              <p><strong>Sophie Anderson</strong> started following you</p>
+              <span className="notification-time">1 hour ago</span>
             </div>
           </div>
         </div>
