@@ -1,8 +1,10 @@
+/* Cleaned erroneous pasted text above */
 .login-screen {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Navy blue gradient background */
   background: linear-gradient(180deg, #0f172a 0%, #071133 100%);
   color: #ffffff;
   padding: 24px;
@@ -12,9 +14,9 @@
 .login-container {
   width: 100%;
   max-width: 420px;
-  background: #0b1220;
-  border: 1px solid rgba(255,255,255,0.06);
-  box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   border-radius: 12px;
   padding: 28px;
 }
@@ -22,7 +24,7 @@
 .login-container h1, .login-container h2 {
   font-size: 20px;
   margin: 0 0 12px 0;
-  color: #fff;
+  color: #1c1e21;
 }
 
 .error-message, .error-text {
@@ -37,9 +39,9 @@
 
 .login-input {
   width: 100%;
-  background:#071029;
-  color:#e6eef8;
-  border:1px solid rgba(255,255,255,0.08);
+  background:#ffffff;
+  color:#1c1e21;
+  border:1px solid #ddd;
   padding:10px 12px;
   border-radius:8px;
   font-size:14px;
@@ -47,7 +49,7 @@
   margin-bottom:10px;
 }
 
-.login-input::placeholder { color: rgba(230,238,248,0.5); }
+.login-input::placeholder { color: rgba(0,0,0,0.4); }
 .login-input:focus { box-shadow:0 0 0 4px rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.8); }
 
 .login-btn, .primary-btn {
@@ -65,9 +67,9 @@
 .login-btn[disabled] { opacity:0.7; cursor:not-allowed; }
 .login-btn:focus { outline:3px solid rgba(37,99,235,0.14); }
 
-.switch-mode { margin-top:12px; color:#93c5fd; }
-.link-btn { background:none; border:none; color:#93c5fd; cursor:pointer; }
+.switch-mode { margin-top:12px; color:#1c1e21; }
+.link-btn { background:none; border:none; color:#2563eb; cursor:pointer; text-decoration:underline; }
 
-.forgot-password { display:block; margin-top:10px; color:#93c5fd; }
+.forgot-password { display:block; margin-top:10px; color:#2563eb; }
 
-.create-account-btn { width:100%; margin-top:10px; padding:10px; border-radius:8px; background:#1f2937; color:#fff; border:none; cursor:pointer; }
+.create-account-btn { width:100%; margin-top:10px; padding:10px; border-radius:8px; background:#f3f4f6; color:#1c1e21; border:1px solid #ddd; cursor:pointer; font-weight:600; }
