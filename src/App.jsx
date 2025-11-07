@@ -3,6 +3,7 @@ import Header from './components/Header';
 import LoginScreen from './components/LoginScreen';
 import MainContent from './components/MainContent';
 import Modals from './components/Modals';
+import ChatBar from './components/ChatBar';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { SocialLobbyProvider, useSocialLobbyContext } from './SocialLobbyContext';
@@ -110,6 +111,9 @@ const AppContent = () => {
         setShowStoryModal={setShowStoryModal}
         selectedStory={selectedStory}
       />
+
+      {/* Chat Bar - only show when logged in */}
+      {isLoggedIn && <ChatBar />}
 
     </div>
   );

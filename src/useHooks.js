@@ -502,6 +502,20 @@ export const useView = () => {
   const [showGroups, setShowGroups] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [showStoryModal, setShowStoryModal] = useState(false);
+  
+  // Chat/messaging state (placeholder for WebSocket integration)
+  const [wsMessages, setWsMessages] = useState([]);
+  
+  const sendMessage = (message) => {
+    // For now, add message to local state
+    // TODO: Integrate with WebSocket or API
+    const newMessage = {
+      ...message,
+      id: Date.now(),
+      timestamp: new Date().toISOString()
+    };
+    setWsMessages(prev => [...prev, newMessage]);
+  };
 
   return {
     currentView,
@@ -519,7 +533,9 @@ export const useView = () => {
     showChat,
     setShowChat,
     showStoryModal,
-    setShowStoryModal
+    setShowStoryModal,
+    wsMessages,
+    sendMessage
   };
 };
 
