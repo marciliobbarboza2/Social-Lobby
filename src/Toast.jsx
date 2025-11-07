@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { FaCheckCircle, FaTimesCircle, FaInfoCircle } from 'react-icons/fa';
-import './Toast.css';
+// Toast styles now consolidated in App.css
 
 const Toast = ({ message, type = 'info', onClose, duration = 5000 }) => {
   const [isFadingOut, setIsFadingOut] = useState(false);

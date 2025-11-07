@@ -3074,3 +3074,176 @@
   font-weight: 700;
 }
 
+/* ===================================
+   LOGIN STYLES (Consolidated from Login.css)
+   =================================== */
+.login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #0f172a 0%, #071133 100%);
+  color: #ffffff;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  padding: 28px;
+}
+
+.login-container h1, .login-container h2 {
+  font-size: 20px;
+  margin: 0 0 12px 0;
+  color: #1c1e21;
+}
+
+.error-message, .error-text {
+  background: rgba(220,38,38,0.08);
+  color: #fecaca;
+  border: 1px solid rgba(220,38,38,0.18);
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+.login-input {
+  width: 100%;
+  background:#ffffff;
+  color:#1c1e21;
+  border:1px solid #ddd;
+  padding:10px 12px;
+  border-radius:8px;
+  font-size:14px;
+  outline:none;
+  margin-bottom:10px;
+}
+
+.login-input::placeholder { color: rgba(0,0,0,0.4); }
+.login-input:focus { box-shadow:0 0 0 4px rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.8); }
+
+.login-btn, .primary-btn {
+  width:100%;
+  background:linear-gradient(90deg,#2563eb,#1d4ed8);
+  color:#fff;
+  padding:10px 12px;
+  border-radius:10px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.login-btn[disabled] { opacity:0.7; cursor:not-allowed; }
+.login-btn:focus { outline:3px solid rgba(37,99,235,0.14); }
+
+.switch-mode { margin-top:12px; color:#1c1e21; }
+.link-btn { background:none; border:none; color:#2563eb; cursor:pointer; text-decoration:underline; }
+
+.forgot-password { display:block; margin-top:10px; color:#2563eb; }
+
+.create-account-btn { width:100%; margin-top:10px; padding:10px; border-radius:8px; background:#f3f4f6; color:#1c1e21; border:1px solid #ddd; cursor:pointer; font-weight:600; }
+
+/* ===================================
+   TOAST STYLES (Consolidated from Toast.css)
+   =================================== */
+.toast-container {
+  position: fixed;
+  top: 80px;
+  right: 0;
+  padding-right: 20px;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #2d3748;
+  color: #fff;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateX(100%);
+  animation: slideIn 0.3s forwards;
+  transition: transform 0.3s ease-out;
+  width: fit-content;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.toast.success {
+  background-color: #38a169;
+}
+
+.toast.error {
+  background-color: #e53e3e;
+}
+
+.toast.info {
+  background-color: #3182ce;
+}
+
+.toast.warning {
+  background-color: #d69e2e;
+}
+
+.toast-message {
+  flex: 1;
+  font-weight: 500;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  margin-left: 8px;
+}
+
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.3);
+  animation: progress 3s linear forwards;
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+

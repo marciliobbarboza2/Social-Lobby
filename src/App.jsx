@@ -4,7 +4,7 @@ import LoginScreen from './components/LoginScreen';
 import MainContent from './components/MainContent';
 import Modals from './components/Modals';
 import ChatBar from './components/ChatBar';
-import SettingsPage from './components/SettingsPage';
+import SettingsPage from './pages/SettingsPage';
 import ErrorBoundary from './components/ErrorBoundary';
 import { LoadingSpinner } from './components/LoadingSkeleton';
 import React from 'react';
