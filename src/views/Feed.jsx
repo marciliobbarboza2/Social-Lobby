@@ -3,7 +3,7 @@ import Post from '../components/Post';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 import CreatePost from '../components/CreatePost';
 import Stories from '../components/Stories';
-import PostSkeleton from '../components/PostSkeleton';
+import { FeedSkeleton } from '../components/LoadingSkeleton';
 import Toast from '../Toast';
 import PullToRefresh from 'react-pull-to-refresh';
 
@@ -164,9 +164,7 @@ const Feed = () => {
       <div className="posts-feed">
         <PullToRefresh onRefresh={async () => { await refreshPosts(); setNewCount(0); }}>
         {isLoading ? (
-          <div className="feed-loading">
-            {[...Array(3)].map((_, i) => <PostSkeleton key={i} />)}
-          </div>
+          <FeedSkeleton />
         ) : posts.length === 0 ? (
           <div className="feed-empty-state">
             <div className="empty-icon">📝</div>
@@ -235,9 +233,7 @@ const Feed = () => {
             {/* Infinite scroll sentinel */}
             <div ref={sentinelRef} />
             {isFetching && hasNext && (
-              <div className="feed-loading more">
-                {[...Array(2)].map((_, i) => <PostSkeleton key={`more-${i}`} />)}
-              </div>
+              <FeedSkeleton />
             )}
           </div>
         )}

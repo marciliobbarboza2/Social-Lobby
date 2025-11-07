@@ -5,6 +5,8 @@ import MainContent from './components/MainContent';
 import Modals from './components/Modals';
 import ChatBar from './components/ChatBar';
 import SettingsPage from './components/SettingsPage';
+import ErrorBoundary from './components/ErrorBoundary';
+import { LoadingSpinner } from './components/LoadingSkeleton';
 import React from 'react';
 import { SocialLobbyProvider, useSocialLobbyContext } from './SocialLobbyContext';
 
@@ -36,11 +38,7 @@ const AppContent = () => {
 
   // Show loading screen while checking authentication
   if (isLoading) {
-    return (
-      <div className="loading-screen">
-        <div className="loading-spinner">Loading...</div>
-      </div>
-    );
+    return <LoadingSpinner text="Initializing Social Lobby..." />;
   }
 
   // Show login screen if user is not authenticated
@@ -119,9 +117,11 @@ const AppContent = () => {
 
 function App() {
   return (
-    <SocialLobbyProvider>
-      <AppContent />
-    </SocialLobbyProvider>
+    <ErrorBoundary>
+      <SocialLobbyProvider>
+        <AppContent />
+      </SocialLobbyProvider>
+    </ErrorBoundary>
   );
 }
 
