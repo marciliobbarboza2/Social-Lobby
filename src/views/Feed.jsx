@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Post from '../components/Post';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 import CreatePost from '../components/CreatePost';
 import Stories from '../components/Stories';
+import PostSkeleton from '../components/PostSkeleton';
 
 const Feed = () => {
-  const { dataProps, postsProps, filterTopic, authProps } = useSocialLobbyContext();
+  const { dataProps, postsProps, filterTopic, setFilterTopic, authProps } = useSocialLobbyContext();
   const { handleViewProfile, groupPostsByDate } = dataProps;
   const { currentUser } = authProps;
   const {
     posts,
+    isFetching,
+    hasNext,
+    loadMore,
     editingPost,
     editContent,
     setEditContent,
@@ -31,12 +35,27 @@ const Feed = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState('recent'); // 'recent', 'popular'
+  const [hiddenPostIds, setHiddenPostIds] = useState(new Set());
+  const sentinelRef = useRef(null);
 
   useEffect(() => {
     // Simulate initial loading
     const timer = setTimeout(() => setIsLoading(false), 500);
     return () => clearTimeout(timer);
   }, [posts]);
+
+  // Infinite scroll sentinel
+  useEffect(() => {
+    if (!sentinelRef.current) return;
+    const observer = new IntersectionObserver((entries) => {
+      const first = entries[0];
+      if (first.isIntersecting && hasNext && !isFetching) {
+        loadMore();
+      }
+    }, { rootMargin: '200px' });
+    observer.observe(sentinelRef.current);
+    return () => observer.disconnect();
+  }, [hasNext, isFetching, loadMore]);
 
   const getSortedPosts = (postsToSort) => {
     switch (sortBy) {
@@ -52,9 +71,10 @@ const Feed = () => {
     }
   };
 
+  const basePosts = posts.filter(p => !hiddenPostIds.has(p.id));
   const filteredPosts = filterTopic 
-    ? posts.filter(post => post.content.toLowerCase().includes(filterTopic.toLowerCase())) 
-    : posts;
+    ? basePosts.filter(post => post.content.toLowerCase().includes(filterTopic.toLowerCase())) 
+    : basePosts;
 
   const sortedPosts = getSortedPosts(filteredPosts);
 
@@ -85,6 +105,7 @@ const Feed = () => {
         {filterTopic && (
           <div className="feed-filter-info">
             Filtering by: <strong>{filterTopic}</strong>
+            <button className="clear-filter-btn" onClick={() => setFilterTopic(null)}>Clear</button>
           </div>
         )}
       </div>
@@ -93,8 +114,7 @@ const Feed = () => {
       <div className="posts-feed">
         {isLoading ? (
           <div className="feed-loading">
-            <div className="loading-spinner"></div>
-            <p>Loading posts...</p>
+            {[...Array(3)].map((_, i) => <PostSkeleton key={i} />)}
           </div>
         ) : posts.length === 0 ? (
           <div className="feed-empty-state">
@@ -138,10 +158,18 @@ const Feed = () => {
                     handleEditComment={handleEditComment}
                     handleSaveComment={handleSaveComment}
                     handleDeleteComment={handleDeleteComment}
+                    onHide={(postId) => setHiddenPostIds(prev => new Set(prev).add(postId))}
                   />
                 ))}
               </div>
             ))}
+            {/* Infinite scroll sentinel */}
+            <div ref={sentinelRef} />
+            {isFetching && hasNext && (
+              <div className="feed-loading more">
+                {[...Array(2)].map((_, i) => <PostSkeleton key={`more-${i}`} />)}
+              </div>
+            )}
           </div>
         )}
       </div>

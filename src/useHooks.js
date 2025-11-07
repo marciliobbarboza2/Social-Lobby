@@ -182,39 +182,66 @@ export const usePosts = (initialPosts, currentUser) => {
   const [editContent, setEditContent] = useState('');
   const [newComment, setNewComment] = useState('');
   const [showComments, setShowComments] = useState({});
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+  const [hasNext, setHasNext] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState(null);
 
   // Fetch posts from backend on mount
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (token) {
-          const response = await fetch('http://localhost:5000/api/posts', {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          const data = await response.json();
-          if (data.success) {
-            const mappedPosts = mapFetchedPosts(data, currentUser);
-            setPosts(mappedPosts);
-          } else {
-            // Fallback to static data if backend fails
-            setPosts(postsData);
-          }
-        } else {
-          // Fallback to static data if no token
-          setPosts(postsData);
-        }
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-        // Fallback to static data
-        setPosts(postsData);
-      }
+    const fetchInitial = async () => {
+      await fetchPosts(1);
     };
 
-    fetchPosts();
-  }, [currentUser]);
+    fetchInitial();
+  }, [currentUser]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const fetchPosts = async (pageToFetch) => {
+    if (isFetching) return;
+    setIsFetching(true);
+    setError(null);
+    try {
+      const token = localStorage.getItem('token');
+      const url = `http://localhost:5000/api/posts?page=${pageToFetch}&limit=${limit}`;
+      const response = await fetch(url, {
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
+      const data = await response.json();
+      if (data.success) {
+        const mapped = mapFetchedPosts(data, currentUser);
+        if (pageToFetch === 1) {
+          setPosts(mapped);
+        } else {
+          // append unique by id
+          setPosts(prev => {
+            const existingIds = new Set(prev.map(p => p.id));
+            const toAdd = mapped.filter(p => !existingIds.has(p.id));
+            return [...prev, ...toAdd];
+          });
+        }
+        setHasNext(!!data.pagination?.hasNext);
+        setPage(data.pagination?.currentPage || pageToFetch);
+      } else {
+        // Fallback to static data if backend fails
+        if (pageToFetch === 1) setPosts(postsData);
+        setHasNext(false);
+      }
+    } catch (err) {
+      console.error('Error fetching posts:', err);
+      setError('Failed to load posts');
+      // Fallback to static data on first page
+      if (pageToFetch === 1) setPosts(postsData);
+      setHasNext(false);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  const loadMore = async () => {
+    if (isFetching || !hasNext) return;
+    await fetchPosts(page + 1);
+  };
 
   const handleEditPost = (postId, content) => {
     setEditingPost(postId);
@@ -232,7 +259,9 @@ export const usePosts = (initialPosts, currentUser) => {
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
     try {
-      const response = await fetch(`http://localhost:5000/api/posts/${postId}`, {
+      const targetPost = posts.find(p => p.id === postId);
+      const slugOrId = targetPost?.slug || postId;
+      const response = await fetch(`http://localhost:5000/api/posts/${slugOrId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -328,15 +357,50 @@ export const usePosts = (initialPosts, currentUser) => {
     }
   };
 
-  const handleLike = (postId) => {
-    setPosts(posts.map(p => {
+  const handleLike = async (postId) => {
+    // optimistic toggle
+    let original;
+    setPosts(prev => prev.map(p => {
       if (p.id === postId) {
+        original = p;
         const likesArray = Array.isArray(p.likes) ? p.likes : [];
-        const wasLiked = likesArray.includes(currentUser?._id);
-        return { ...p, likes: wasLiked ? likesArray.filter(id => id !== currentUser?._id) : [...likesArray, currentUser?._id] };
+        const likedIds = likesArray.map(u => typeof u === 'string' ? u : u?._id);
+        const wasLiked = likedIds.includes(currentUser?._id);
+        const newLikes = wasLiked
+          ? likesArray.filter(u => (typeof u === 'string' ? u : u?._id) !== currentUser?._id)
+          : [...likesArray, currentUser?._id];
+        return { ...p, likes: newLikes, isLikedByCurrentUser: !wasLiked };
       }
       return p;
     }));
+
+    const token = localStorage.getItem('token');
+    if (!token) return; // keep optimistic state in local mode
+
+    try {
+      const targetPost = original || posts.find(p => p.id === postId);
+      const slugOrId = targetPost?.slug || postId;
+      const response = await fetch(`http://localhost:5000/api/posts/${slugOrId}/like`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.post) {
+          // update with authoritative likes from server
+          const serverLikes = Array.isArray(data.post.likedBy) ? data.post.likedBy : [];
+          setPosts(prev => prev.map(p => (
+            p.id === postId ? { ...p, likes: serverLikes, isLikedByCurrentUser: serverLikes.some(u => (u?._id) === currentUser?._id) } : p
+          )));
+        }
+      } else {
+        // revert on failure
+        if (original) setPosts(prev => prev.map(p => (p.id === postId ? original : p)));
+      }
+    } catch (e) {
+      console.error('Error toggling like:', e);
+      if (original) setPosts(prev => prev.map(p => (p.id === postId ? original : p)));
+    }
   };
 
   const handlePost = async (post) => {
@@ -519,6 +583,11 @@ export const usePosts = (initialPosts, currentUser) => {
 
   return {
     posts,
+    page,
+    limit,
+    hasNext,
+    isFetching,
+    error,
     editingPost,
     editingComment,
     editContent,
@@ -532,6 +601,7 @@ export const usePosts = (initialPosts, currentUser) => {
     handleEditComment,
     handleSaveComment,
     handleLike,
+    loadMore,
     handlePost,
     toggleComments,
     handleComment,
