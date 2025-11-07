@@ -228,6 +228,9 @@ const Post = ({
                 handleSaveComment={handleSaveComment}
                 handleCancelEdit={handleCancelEdit}
                 postId={post.id}
+                currentUser={currentUser}
+                handleViewProfile={handleViewProfile}
+                postAuthorId={post.authorId}
               />
             ))}
             {hasMoreComments && (

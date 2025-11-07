@@ -54,17 +54,23 @@ const Comment = ({
   };
 
   const handleCommentAuthorClick = () => {
-    if (!handleViewProfile) return;
-    
-    // Try to use authorId first, then authorObject, then author name
-    const userIdentifier = comment.authorId || comment.authorObject || comment.author;
+    if (!handleViewProfile) {
+      console.log('💬 [Comment] handleViewProfile not provided, cannot navigate');
+      return;
+    }
+    // Try authorObject if present, then explicit authorId, then fall back to author string
+    const userIdentifier = comment.authorObject || comment.authorId || comment.author;
     console.log('💬 [Comment] Author clicked, passing identifier:', userIdentifier);
     handleViewProfile(userIdentifier);
   };
 
   // Check if current user can edit/delete this comment
-  const canEdit = isLoggedIn && currentUser && comment.authorId === currentUser._id;
-  const canDelete = isLoggedIn && currentUser && (comment.authorId === currentUser._id || postAuthorId === currentUser._id);
+  const canEdit = isLoggedIn && currentUser && (comment.authorId === currentUser._id || comment.authorObject?._id === currentUser._id);
+  const canDelete = isLoggedIn && currentUser && (
+    comment.authorId === currentUser._id ||
+    comment.authorObject?._id === currentUser._id ||
+    postAuthorId === currentUser._id
+  );
 
   return (
     <div key={comment.id} className="comment">
@@ -86,7 +92,15 @@ const Comment = ({
       />
       <div className="comment-content">
         <div className="comment-header">
-          <span className="comment-author" onClick={handleCommentAuthorClick} style={{cursor: 'pointer'}}>
+          <span
+            className="comment-author"
+            onClick={handleCommentAuthorClick}
+            style={{cursor: 'pointer'}}
+            role="button"
+            tabIndex={0}
+            onKeyPress={(e) => e.key === 'Enter' && handleCommentAuthorClick()}
+            aria-label={`View ${comment.author}'s profile`}
+          >
             {comment.author}
           </span>
           <span className="comment-time">{comment.time}</span>
