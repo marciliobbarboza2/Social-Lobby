@@ -47,14 +47,27 @@ const ChatWindow = ({ friend, onClose, style }) => {
   };
 
   return (
-    <div className={`chat-window ${isMinimized ? 'minimized' : ''}`} style={style}>
-      <div className="chat-header" onClick={() => setIsMinimized(!isMinimized)}>
+    <div className={`chat-window ${isMinimized ? 'minimized' : ''}`} style={style} role="dialog" aria-label={`Chat with ${friend.name}`}>
+      <div 
+        className="chat-header" 
+        onClick={() => setIsMinimized(!isMinimized)}
+        role="button"
+        tabIndex={0}
+        onKeyPress={(e) => e.key === 'Enter' && setIsMinimized(!isMinimized)}
+        aria-label={isMinimized ? 'Expand chat window' : 'Minimize chat window'}
+      >
         <div className="chat-avatar-container">
-          <img src={friend.avatar} alt={friend.name} className="chat-avatar" />
-          {isOnline && <div className="online-indicator-chat"></div>}
+          <img src={friend.avatar} alt={`${friend.name}'s avatar`} className="chat-avatar" />
+          {isOnline && <div className="online-indicator-chat" aria-label="Online"></div>}
         </div>
         <h3>{friend.name}</h3>
-        <button className="close-btn" onClick={(e) => { e.stopPropagation(); onClose(); }}>×</button>
+        <button 
+          className="close-btn" 
+          onClick={(e) => { e.stopPropagation(); onClose(); }}
+          aria-label="Close chat"
+        >
+          ×
+        </button>
       </div>
       {!isMinimized && (
         <>
@@ -67,10 +80,22 @@ const ChatWindow = ({ friend, onClose, style }) => {
             ))}
           </div>
           <div className="chat-input">
-            <input type="text" placeholder="Type a message..." value={newMessage} onChange={handleChange} onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()} />
-            <button onClick={handleSendMessage}>Send</button>
+            <input 
+              type="text" 
+              placeholder="Type a message..." 
+              value={newMessage} 
+              onChange={handleChange} 
+              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              aria-label="Type your message"
+            />
+            <button 
+              onClick={handleSendMessage}
+              aria-label="Send message"
+            >
+              Send
+            </button>
             {typingFrom && typingFrom.senderId === friend._id && typingFrom.recipientId === currentUser._id && (
-              <div className="typing-indicator">Typing...</div>
+              <div className="typing-indicator" aria-live="polite">{friend.name} is typing...</div>
             )}
           </div>
         </>

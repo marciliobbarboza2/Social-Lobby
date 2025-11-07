@@ -28,7 +28,17 @@ const Comment = ({
 
   return (
     <div key={comment.id} className="comment">
-      <img src={comment.avatar} alt={comment.author} className="comment-avatar" onClick={() => handleViewProfile && handleViewProfile(comment.authorObject || comment.author)} style={{cursor: 'pointer', borderRadius: '50%'}} />
+      <img 
+        src={comment.avatar} 
+        alt={`${comment.author}'s avatar`} 
+        className="comment-avatar" 
+        onClick={() => handleViewProfile && handleViewProfile(comment.authorObject || comment.author)} 
+        style={{cursor: 'pointer', borderRadius: '50%'}}
+        role="button"
+        tabIndex={0}
+        onKeyPress={(e) => e.key === 'Enter' && handleViewProfile && handleViewProfile(comment.authorObject || comment.author)}
+        aria-label={`View ${comment.author}'s profile`}
+      />
       <div className="comment-content">
         <div className="comment-header">
           <span className="comment-author">{comment.author}</span>
@@ -36,9 +46,23 @@ const Comment = ({
           {isLoggedIn && currentUser && (comment.authorId === currentUser._id || postAuthorId === currentUser._id) && (
             <div className="comment-actions">
               {comment.authorId === currentUser._id && (
-                <button className="edit-comment-btn" onClick={() => handleEditComment(postId, comment.id, comment.content)} title="Edit comment">✏️</button>
+                <button 
+                  className="edit-comment-btn" 
+                  onClick={() => handleEditComment(postId, comment.id, comment.content)} 
+                  title="Edit comment"
+                  aria-label="Edit comment"
+                >
+                  ✏️
+                </button>
               )}
-              <button className="delete-comment-btn" onClick={handleDeleteClick} title="Delete comment">🗑️</button>
+              <button 
+                className="delete-comment-btn" 
+                onClick={handleDeleteClick} 
+                title="Delete comment"
+                aria-label="Delete comment"
+              >
+                🗑️
+              </button>
             </div>
           )}
         </div>
