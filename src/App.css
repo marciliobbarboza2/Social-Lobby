@@ -897,7 +897,7 @@
 /* Login Screen Styles */
 .login-screen {
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: #0a0e1a;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -905,10 +905,11 @@
 }
 
 .login-container {
-  background-color: #ffffff;
+  background-color: #111827;
   border-radius: 12px;
+  border: 2px solid #1e293b;
   padding: 40px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   width: 100%;
   max-width: 400px;
   text-align: center;
@@ -921,38 +922,48 @@
 .logo-icon-large {
   font-size: 64px;
   margin-bottom: 10px;
+  filter: brightness(1.5);
 }
 
 .logo-text {
   font-size: 28px;
-  font-weight: 700;
-  color: #1c1e21;
+  font-weight: 800;
+  color: #ffffff;
   margin: 0;
+  text-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 .login-container h2 {
-  color: #1c1e21;
+  color: #ffffff;
   margin-bottom: 24px;
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .login-input {
   width: 100%;
   padding: 12px 16px;
   margin-bottom: 12px;
-  border: 1px solid #dddfe2;
+  border: 2px solid #334155;
   border-radius: 8px;
   font-size: 16px;
-  background-color: #ffffff;
-  color: #1c1e21;
+  font-weight: 600;
+  background-color: #1a2332;
+  color: #ffffff;
   box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
 .login-input:focus {
   outline: none;
-  border-color: #1877f2;
-  box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  background-color: #1e293b;
+}
+
+.login-input::placeholder {
+  color: #9ca3af;
+  font-weight: 500;
 }
 
 .name-fields {
@@ -967,54 +978,64 @@
 .login-btn {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
+  background: #3b82f6;
+  color: #ffffff;
+  border: 2px solid #3b82f6;
   border-radius: 8px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   margin-top: 8px;
-  transition: opacity 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
 .login-btn:hover:not(:disabled) {
-  opacity: 0.9;
+  background: #2563eb;
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
 }
 
 .login-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .switch-mode {
   margin-top: 20px;
-  color: #65676b;
+  color: #e5e7eb;
   font-size: 14px;
+  font-weight: 600;
 }
 
 .link-btn {
   background: none;
   border: none;
-  color: #1877f2;
+  color: #60a5fa;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   text-decoration: underline;
+  transition: color 0.2s ease;
 }
 
 .link-btn:hover {
-  color: #166fe5;
+  color: #3b82f6;
 }
 
 .error-message {
   margin-top: 16px;
-  color: #d93025;
+  color: #ffffff;
   font-size: 14px;
-  background-color: #fef2f2;
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #fecaca;
+  font-weight: 700;
+  background-color: #dc2626;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 2px solid #ef4444;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
 }
 
 .avatar-upload {
@@ -1027,7 +1048,8 @@
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto 10px;
-  border: 3px solid #dddfe2;
+  border: 3px solid #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
 .avatar-image {
@@ -1087,17 +1109,21 @@
 
 .avatar-label {
   display: inline-block;
-  padding: 6px 12px;
-  background-color: #f0f2f5;
-  color: #1c1e21;
-  border-radius: 6px;
+  padding: 8px 16px;
+  background-color: #1a2332;
+  color: #ffffff;
+  border: 2px solid #334155;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.2s;
+  font-weight: 700;
+  transition: all 0.2s ease;
 }
 
 .avatar-label:hover {
-  background-color: #e4e6ea;
+  background-color: #1e293b;
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 /* Header Styles */
