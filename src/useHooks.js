@@ -275,8 +275,9 @@ export const usePosts = (initialPosts, currentUser) => {
     // const originalPosts = posts;
     setPosts(posts.map(p => {
       if (p.id === postId) {
-        const wasLiked = p.likes.includes(currentUser._id);
-        return { ...p, likes: wasLiked ? p.likes.filter(id => id !== currentUser._id) : [...p.likes, currentUser._id] };
+        const likesArray = Array.isArray(p.likes) ? p.likes : [];
+        const wasLiked = likesArray.includes(currentUser._id);
+        return { ...p, likes: wasLiked ? likesArray.filter(id => id !== currentUser._id) : [...likesArray, currentUser._id] };
       }
       return p;
     }));
