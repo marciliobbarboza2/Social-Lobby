@@ -13,6 +13,9 @@ export const posts = [
       ],
       liked: false,
       image: null,
+      media: [
+        { type: 'image', url: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&h=400&fit=crop', alt: 'Coding setup' }
+      ],
       authorId: "user1"
     },
     {
@@ -32,6 +35,10 @@ export const posts = [
       image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
       video: null,
       story: null,
+      media: [
+        { type: 'image', url: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop', alt: 'Homemade pizza' },
+        { type: 'video', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4', poster: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop' }
+      ],
       authorId: "user2"
     },
     {
@@ -48,6 +55,9 @@ export const posts = [
       ],
       liked: false,
       image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
+      media: [
+        { type: 'image', url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop', alt: 'Morning park walk' }
+      ],
       authorId: "user3"
     },
     {
@@ -64,6 +74,7 @@ export const posts = [
       ],
       liked: true,
       image: null,
+      media: [],
       authorId: "user4"
     },
     {
@@ -94,6 +105,9 @@ export const posts = [
       ],
       liked: true,
       image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80",
+      media: [
+        { type: 'image', url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop', alt: 'Fitness workout' }
+      ],
       authorId: "user6"
     },
     {

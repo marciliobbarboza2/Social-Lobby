@@ -22,7 +22,7 @@ export const users = [
       gender: 'Female',
       website: 'https://emma.dev',
       languages: ['English', 'Spanish'],
-      interests: ['Programming', 'Open Source', 'AI', 'Web Development', 'UI/UX Design'],
+      interests: ['Programming', 'Open Source', 'Web Development', 'UI/UX Design', 'Cloud Computing'],
       skills: ['JavaScript', 'React', 'Node.js', 'Python', 'MongoDB', 'TypeScript'],
       isOnline: true
     },
@@ -179,7 +179,7 @@ export const users = [
       gender: 'Female',
       website: 'https://annapetrov.dev',
       languages: ['English', 'Russian'],
-      interests: ['Open Source', 'Programming', 'AI', 'Blockchain', 'Community Building'],
+      interests: ['Open Source', 'Programming', 'Blockchain', 'Community Building', 'DevOps'],
       skills: ['JavaScript', 'Python', 'React', 'Node.js', 'Machine Learning']
     },
     {
@@ -245,7 +245,7 @@ export const users = [
       address: '707 Data Ave, Boston, MA',
       phone: '+1 (555) 999-0000',
       city: 'Boston',
-      groups: ['AI & ML Group', 'Data Science Hub', 'Analytics Professionals'],
+      groups: ['ML & Data Group', 'Data Science Hub', 'Analytics Professionals'],
       maritalStatus: 'Married',
       birthday: 'August 16, 1986',
       profession: 'Data Scientist',
@@ -255,9 +255,9 @@ export const users = [
       relationship: 'Married',
       joined: 'October 2017',
       gender: 'Male',
-      website: 'https://alexchen.ai',
+      website: 'https://alexchen.dev',
       languages: ['English', 'Chinese'],
-      interests: ['Machine Learning', 'Data Science', 'AI', 'Statistics', 'Big Data'],
+      interests: ['Machine Learning', 'Data Science', 'Statistics', 'Big Data', 'Analytics'],
       skills: ['Python', 'R', 'Machine Learning', 'Deep Learning', 'Data Visualization', 'SQL']
     },
     {

@@ -2,7 +2,7 @@ export const events = [
   {
     id: 1,
     title: 'Tech Conference 2024',
-    description: 'Annual technology conference featuring the latest in AI and software development.',
+    description: 'Annual technology conference featuring the latest in software development and emerging technologies.',
     date: '2024-01-15',
     time: '9:00 AM - 6:00 PM',
     location: 'San Francisco, CA',
