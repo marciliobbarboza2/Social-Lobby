@@ -46,11 +46,12 @@ export const SocialLobbyProvider = ({ children }) => {
 
   // WebSocket for chat
   const token = localStorage.getItem('token');
-  const { messages: wsMessages, sendMessage, isConnected } = useWebSocket(token);
+  const { messages: wsMessages, sendMessage, isConnected, typingFrom, emitTyping } = useWebSocket(token);
 
   // Chat states
   const [activeChats, setActiveChats] = useState([]);
   const [minimizedChats, setMinimizedChats] = useState(new Set());
+  const [unreadByUser, setUnreadByUser] = useState({}); // { userId: count }
 
   // When user logs in or out, reset the view to the feed
   useEffect(() => {
@@ -129,7 +130,23 @@ export const SocialLobbyProvider = ({ children }) => {
 
   const handleOpenChat = (user) => {
     openChat(user);
+    // Mark as read on open
+    setUnreadByUser((prev) => ({ ...prev, [user._id]: 0 }));
   };
+
+  // Increment unread counts when a message arrives from someone not currently focused
+  useEffect(() => {
+    if (!wsMessages.length || !isLoggedIn) return;
+    const last = wsMessages[wsMessages.length - 1];
+    // If message from other user and chat not minimized? increment unread unless the window is open and not minimized
+    if (last.senderId && currentUser && last.senderId !== currentUser._id) {
+      const isOpen = activeChats.some(c => c._id === last.senderId);
+      const isMin = minimizedChats.has(last.senderId);
+      if (!isOpen || isMin) {
+        setUnreadByUser((prev) => ({ ...prev, [last.senderId]: (prev[last.senderId] || 0) + 1 }));
+      }
+    }
+  }, [wsMessages, isLoggedIn, currentUser, activeChats, minimizedChats]);
 
   // --- PROPS GROUPING ---
 
@@ -144,8 +161,11 @@ export const SocialLobbyProvider = ({ children }) => {
     wsMessages,
     sendMessage,
     isConnected,
+    typingFrom,
+    emitTyping,
     activeChats,
     minimizedChats,
+    unreadByUser,
     openChat,
     closeChat,
     toggleMinimize,

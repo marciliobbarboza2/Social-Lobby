@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
 const ChatWindow = ({ friend, onClose, style }) => {
-  const { authProps, viewProps } = useSocialLobbyContext();
+  const { authProps, chatProps } = useSocialLobbyContext();
   const { currentUser } = authProps;
-  const { wsMessages, sendMessage } = viewProps;
+  const { wsMessages, sendMessage, typingFrom, emitTyping } = chatProps;
   const [newMessage, setNewMessage] = useState('');
   const [isMinimized, setIsMinimized] = useState(false);
   const [localMessages, setLocalMessages] = useState([]);
+  const typingTimeoutRef = useRef(null);
 
   useEffect(() => {
     // Filter messages for this specific chat window
@@ -33,6 +34,15 @@ const ChatWindow = ({ friend, onClose, style }) => {
     setNewMessage('');
   };
 
+  const handleChange = (e) => {
+    setNewMessage(e.target.value);
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    emitTyping({ senderId: currentUser._id, recipientId: friend._id });
+    typingTimeoutRef.current = setTimeout(() => {
+      typingTimeoutRef.current = null; // will auto-clear on hook side
+    }, 1500);
+  };
+
   return (
     <div className={`chat-window ${isMinimized ? 'minimized' : ''}`} style={style}>
       <div className="chat-header" onClick={() => setIsMinimized(!isMinimized)}>
@@ -51,8 +61,11 @@ const ChatWindow = ({ friend, onClose, style }) => {
             ))}
           </div>
           <div className="chat-input">
-            <input type="text" placeholder="Type a message..." value={newMessage} onChange={(e) => setNewMessage(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()} />
+            <input type="text" placeholder="Type a message..." value={newMessage} onChange={handleChange} onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()} />
             <button onClick={handleSendMessage}>Send</button>
+            {typingFrom && typingFrom.senderId === friend._id && typingFrom.recipientId === currentUser._id && (
+              <div className="typing-indicator">Typing...</div>
+            )}
           </div>
         </>
       )}

@@ -1,53 +1,64 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { io } from 'socket.io-client';
 
+// Socket.IO-based chat hook to match backend server
 const useWebSocket = (token) => {
   const [messages, setMessages] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
-  const wsRef = useRef(null);
+  const [typingFrom, setTypingFrom] = useState(null); // { senderId, recipientId, timestamp }
+  const socketRef = useRef(null);
 
   const sendMessage = useCallback((message) => {
-    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify(message));
+    if (socketRef.current) {
+      socketRef.current.emit('chatMessage', message);
     }
   }, []);
 
   useEffect(() => {
     if (!token) return;
 
-    const wsUrl = `ws://localhost:5000?token=${token}`;
-    const ws = new WebSocket(wsUrl);
-    wsRef.current = ws;
+    const socket = io('http://localhost:5000', {
+      transports: ['websocket'],
+      query: { token }
+    });
+    socketRef.current = socket;
 
-    ws.onopen = () => {
-      console.log('WebSocket connected');
+    socket.on('connect', () => {
       setIsConnected(true);
-    };
+    });
 
-    ws.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        // Handle chat messages
-        setMessages(prev => [...prev, data]);
-      } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
-      }
-    };
-
-    ws.onclose = () => {
-      console.log('WebSocket disconnected');
+    socket.on('disconnect', () => {
       setIsConnected(false);
-    };
+    });
 
-    ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
+    socket.on('chatMessage', (data) => {
+      setMessages((prev) => [...prev, data]);
+    });
+
+    socket.on('typing', (data) => {
+      setTypingFrom(data);
+      // auto-clear after 3s if no further typing
+      setTimeout(() => {
+        setTypingFrom((curr) => (curr && curr.senderId === data.senderId ? null : curr));
+      }, 3000);
+    });
+
+    socket.on('connect_error', (err) => {
+      console.error('Socket connect_error:', err.message);
+    });
 
     return () => {
-      ws.close();
+      socket.disconnect();
     };
   }, [token]);
 
-  return { messages, sendMessage, isConnected };
+  const emitTyping = useCallback((payload) => {
+    if (socketRef.current) {
+      socketRef.current.emit('typing', payload);
+    }
+  }, []);
+
+  return { messages, sendMessage, isConnected, typingFrom, emitTyping };
 };
 
 export default useWebSocket;

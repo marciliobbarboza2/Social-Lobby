@@ -5,7 +5,7 @@ import ChatWindow from './ChatWindow';
 const ChatBar = () => {
   const { dataProps, chatProps } = useSocialLobbyContext();
   const { users } = dataProps;
-  const { activeChats, minimizedChats, openChat, closeChat, toggleMinimize } = chatProps;
+  const { activeChats, minimizedChats, openChat, closeChat, toggleMinimize, unreadByUser } = chatProps;
 
   // Get online users for chat suggestions
   const onlineUsers = users.filter(user => user.isOnline).slice(0, 5);
@@ -41,8 +41,9 @@ const ChatBar = () => {
             }}
             title={user.name}
           >
-            {!minimizedChats.has(user._id) && (
-              <div className="chat-notification">•</div>
+            {unreadByUser[user._id] > 0 && (
+              <div className="chat-badge" aria-label={`${unreadByUser[user._id]} unread messages`}>{unreadByUser[user._id]}
+              </div>
             )}
           </div>
         ))}
