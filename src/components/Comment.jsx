@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Comment = ({
   comment,
@@ -15,14 +15,41 @@ const Comment = ({
   handleViewProfile,
   postAuthorId,
 }) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
   const handleDeleteClick = async () => {
-    if (window.confirm('Are you sure you want to delete this comment?')) {
+    if (window.confirm('Are you sure you want to delete this comment? This action cannot be undone.')) {
+      setIsDeleting(true);
       try {
+        console.log('🗑️ [Comment] Starting delete process...');
         await handleDeleteComment(postId, comment.id);
+        console.log('🗑️ [Comment] Delete successful!');
       } catch (error) {
-        console.error('Error deleting comment:', error);
+        console.error('🗑️ [Comment] Delete failed:', error);
         alert('Failed to delete comment. Please try again.');
+      } finally {
+        setIsDeleting(false);
       }
+    }
+  };
+
+  const handleSaveClick = async () => {
+    if (!editContent.trim()) {
+      alert('Comment cannot be empty');
+      return;
+    }
+    
+    setIsSaving(true);
+    try {
+      console.log('✏️ [Comment] Starting save process...');
+      await handleSaveComment(postId, comment.id);
+      console.log('✏️ [Comment] Save successful!');
+    } catch (error) {
+      console.error('✏️ [Comment] Save failed:', error);
+      alert('Failed to save comment. Please try again.');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -34,6 +61,10 @@ const Comment = ({
     console.log('💬 [Comment] Author clicked, passing identifier:', userIdentifier);
     handleViewProfile(userIdentifier);
   };
+
+  // Check if current user can edit/delete this comment
+  const canEdit = isLoggedIn && currentUser && comment.authorId === currentUser._id;
+  const canDelete = isLoggedIn && currentUser && (comment.authorId === currentUser._id || postAuthorId === currentUser._id);
 
   return (
     <div key={comment.id} className="comment">
@@ -47,19 +78,27 @@ const Comment = ({
         tabIndex={0}
         onKeyPress={(e) => e.key === 'Enter' && handleCommentAuthorClick()}
         aria-label={`View ${comment.author}'s profile`}
+        onError={(e) => {
+          console.log(`[Comment] Avatar failed for ${comment.author}:`, comment.avatar);
+          const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(comment.author)}&size=40&background=3b82f6&color=fff&bold=true&rounded=true`;
+          e.target.src = fallbackUrl;
+        }}
       />
       <div className="comment-content">
         <div className="comment-header">
-          <span className="comment-author">{comment.author}</span>
+          <span className="comment-author" onClick={handleCommentAuthorClick} style={{cursor: 'pointer'}}>
+            {comment.author}
+          </span>
           <span className="comment-time">{comment.time}</span>
-          {isLoggedIn && currentUser && (comment.authorId === currentUser._id || postAuthorId === currentUser._id) && (
+          {canDelete && (
             <div className="comment-actions">
-              {comment.authorId === currentUser._id && (
+              {canEdit && (
                 <button 
                   className="edit-comment-btn" 
                   onClick={() => handleEditComment(postId, comment.id, comment.content)} 
                   title="Edit comment"
                   aria-label="Edit comment"
+                  disabled={isDeleting}
                 >
                   ✏️
                 </button>
@@ -69,8 +108,9 @@ const Comment = ({
                 onClick={handleDeleteClick} 
                 title="Delete comment"
                 aria-label="Delete comment"
+                disabled={isDeleting || isSaving}
               >
-                🗑️
+                {isDeleting ? '⏳' : '🗑️'}
               </button>
             </div>
           )}
@@ -81,10 +121,27 @@ const Comment = ({
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
               className="edit-input"
+              placeholder="Edit your comment..."
+              maxLength={500}
             />
             <div className="edit-actions">
-              <button className="save-btn" onClick={() => handleSaveComment(postId, comment.id)}>Save</button>
-              <button className="cancel-btn" onClick={handleCancelEdit}>Cancel</button>
+              <button 
+                className="save-btn" 
+                onClick={handleSaveClick}
+                disabled={isSaving || !editContent.trim()}
+              >
+                {isSaving ? 'Saving...' : 'Save'}
+              </button>
+              <button 
+                className="cancel-btn" 
+                onClick={handleCancelEdit}
+                disabled={isSaving}
+              >
+                Cancel
+              </button>
+            </div>
+            <div className="character-count">
+              {editContent.length}/500
             </div>
           </div>
         ) : (
