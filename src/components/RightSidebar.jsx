@@ -118,14 +118,14 @@ const RightSidebar = () => {
           <div className="notification-item" onClick={() => setCurrentView('feed')} style={{ cursor: 'pointer' }}>
             <span className="notification-icon">❤️</span>
             <div className="notification-content">
-              <p><strong>Emma Rodriguez</strong> liked your post</p>
+              <p><strong>David Kim</strong> liked your post</p>
               <span className="notification-time">5 minutes ago</span>
             </div>
           </div>
           <div className="notification-item" onClick={() => setCurrentView('feed')} style={{ cursor: 'pointer' }}>
             <span className="notification-icon">💬</span>
             <div className="notification-content">
-              <p><strong>David Kim</strong> commented on your post</p>
+              <p><strong>Sophie Anderson</strong> commented on your post</p>
               <span className="notification-time">10 minutes ago</span>
             </div>
           </div>
