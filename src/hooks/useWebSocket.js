@@ -6,6 +6,7 @@ const useWebSocket = (token) => {
   const [messages, setMessages] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
   const [typingFrom, setTypingFrom] = useState(null); // { senderId, recipientId, timestamp }
+  const [onlineUsers, setOnlineUsers] = useState([]); // Array of online user IDs
   const socketRef = useRef(null);
 
   const sendMessage = useCallback((message) => {
@@ -35,6 +36,10 @@ const useWebSocket = (token) => {
       setMessages((prev) => [...prev, data]);
     });
 
+    socket.on('onlineUsers', (userIds) => {
+      setOnlineUsers(userIds);
+    });
+
     socket.on('typing', (data) => {
       setTypingFrom(data);
       // auto-clear after 3s if no further typing
@@ -58,7 +63,7 @@ const useWebSocket = (token) => {
     }
   }, []);
 
-  return { messages, sendMessage, isConnected, typingFrom, emitTyping };
+  return { messages, sendMessage, isConnected, typingFrom, emitTyping, onlineUsers };
 };
 
 export default useWebSocket;

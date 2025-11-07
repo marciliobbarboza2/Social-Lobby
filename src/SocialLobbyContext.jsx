@@ -46,7 +46,7 @@ export const SocialLobbyProvider = ({ children }) => {
 
   // WebSocket for chat
   const token = localStorage.getItem('token');
-  const { messages: wsMessages, sendMessage, isConnected, typingFrom, emitTyping } = useWebSocket(token);
+  const { messages: wsMessages, sendMessage, isConnected, typingFrom, emitTyping, onlineUsers } = useWebSocket(token);
 
   // Chat states
   const [activeChats, setActiveChats] = useState([]);
@@ -163,6 +163,7 @@ export const SocialLobbyProvider = ({ children }) => {
     isConnected,
     typingFrom,
     emitTyping,
+    onlineUsers,
     activeChats,
     minimizedChats,
     unreadByUser,

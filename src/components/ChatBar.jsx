@@ -5,10 +5,10 @@ import ChatWindow from './ChatWindow';
 const ChatBar = () => {
   const { dataProps, chatProps } = useSocialLobbyContext();
   const { users } = dataProps;
-  const { activeChats, minimizedChats, openChat, closeChat, toggleMinimize, unreadByUser } = chatProps;
+  const { activeChats, minimizedChats, openChat, closeChat, toggleMinimize, unreadByUser, onlineUsers: onlineUserIds } = chatProps;
 
-  // Get online users for chat suggestions
-  const onlineUsers = users.filter(user => user.isOnline).slice(0, 5);
+  // Filter users who are actually online based on WebSocket connection
+  const onlineUsers = users.filter(user => onlineUserIds && onlineUserIds.includes(user._id)).slice(0, 5);
 
   return (
     <>

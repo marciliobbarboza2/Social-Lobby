@@ -4,6 +4,11 @@ const jwt = require('jsonwebtoken');
 // Simple in-memory map of userId -> Set of sockets (supports multi-tab)
 const userSockets = new Map();
 
+// Function to get all online user IDs
+const getOnlineUsers = () => {
+  return Array.from(userSockets.keys());
+};
+
 module.exports = (io) => {
   io.on('connection', (socket) => {
     logger.info(`Socket connected: ${socket.id}`);
@@ -18,6 +23,10 @@ module.exports = (io) => {
         const existing = userSockets.get(decoded.id) || new Set();
         existing.add(socket.id);
         userSockets.set(decoded.id, existing);
+        
+        // Broadcast online status update to all clients
+        io.emit('onlineUsers', getOnlineUsers());
+        logger.info(`User ${decoded.id} is now online. Total online: ${userSockets.size}`);
       } catch (error) {
         logger.error('Socket authentication failed:', error);
         socket.disconnect();
@@ -34,7 +43,12 @@ module.exports = (io) => {
       if (socket.userId && userSockets.has(socket.userId)) {
         const set = userSockets.get(socket.userId);
         set.delete(socket.id);
-        if (set.size === 0) userSockets.delete(socket.userId);
+        if (set.size === 0) {
+          userSockets.delete(socket.userId);
+          // Broadcast offline status update to all clients
+          io.emit('onlineUsers', getOnlineUsers());
+          logger.info(`User ${socket.userId} is now offline. Total online: ${userSockets.size}`);
+        }
       }
     });
 

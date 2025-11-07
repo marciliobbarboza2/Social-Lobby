@@ -4,11 +4,14 @@ import { useSocialLobbyContext } from '../SocialLobbyContext';
 const ChatWindow = ({ friend, onClose, style }) => {
   const { authProps, chatProps } = useSocialLobbyContext();
   const { currentUser } = authProps;
-  const { wsMessages, sendMessage, typingFrom, emitTyping } = chatProps;
+  const { wsMessages, sendMessage, typingFrom, emitTyping, onlineUsers } = chatProps;
   const [newMessage, setNewMessage] = useState('');
   const [isMinimized, setIsMinimized] = useState(false);
   const [localMessages, setLocalMessages] = useState([]);
   const typingTimeoutRef = useRef(null);
+
+  // Check if friend is online
+  const isOnline = onlineUsers && onlineUsers.includes(friend._id);
 
   useEffect(() => {
     // Filter messages for this specific chat window
@@ -46,7 +49,10 @@ const ChatWindow = ({ friend, onClose, style }) => {
   return (
     <div className={`chat-window ${isMinimized ? 'minimized' : ''}`} style={style}>
       <div className="chat-header" onClick={() => setIsMinimized(!isMinimized)}>
-        <img src={friend.avatar} alt={friend.name} className="chat-avatar" />
+        <div className="chat-avatar-container">
+          <img src={friend.avatar} alt={friend.name} className="chat-avatar" />
+          {isOnline && <div className="online-indicator-chat"></div>}
+        </div>
         <h3>{friend.name}</h3>
         <button className="close-btn" onClick={(e) => { e.stopPropagation(); onClose(); }}>×</button>
       </div>
