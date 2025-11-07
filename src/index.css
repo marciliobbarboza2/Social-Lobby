@@ -4,16 +4,20 @@
   line-height: 1.6;
   font-weight: 400;
 
-  /* Warm, Inviting Color Scheme */
-  color-scheme: light dark;
+  /* HIGH CONTRAST 3-COLOR SYSTEM */
+  color-scheme: dark;
   
-  /* Light Mode - Soft and Welcoming */
-  --text-primary: #2d3436;
-  --text-secondary: #636e72;
-  --bg-primary: #fafafa;
-  --bg-secondary: #ffffff;
-  --accent-primary: #667eea;
-  --accent-secondary: #764ba2;
+  /* COLOR 1: Deep Blue-Black (Main Background) */
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #111827;
+  
+  /* COLOR 2: Electric Blue (Accents) */
+  --accent-primary: #3b82f6;
+  --accent-secondary: #60a5fa;
+  
+  /* COLOR 3: Pure White (Text) */
+  --text-primary: #ffffff;
+  --text-secondary: #e5e7eb;
   
   color: var(--text-primary);
   background-color: var(--bg-primary);
@@ -25,13 +29,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Dark Mode - Cozy and Easy on the Eyes */
-@media (prefers-color-scheme: dark) {
+/* High Contrast Dark Mode (Default) */
+@media (prefers-color-scheme: dark), (prefers-color-scheme: no-preference) {
   :root {
-    --text-primary: #f5f6fa;
-    --text-secondary: #b2bec3;
-    --bg-primary: #1e272e;
-    --bg-secondary: #2d3436;
+    --text-primary: #ffffff;
+    --text-secondary: #e5e7eb;
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #111827;
     
     color: var(--text-primary);
     background-color: var(--bg-primary);
@@ -40,15 +44,16 @@
   .welcome-card,
   .post-card {
     background: var(--bg-secondary) !important;
-    border-color: #404040 !important;
+    border-color: #1e293b !important;
   }
   
   .post-card:hover {
     border-color: var(--accent-primary) !important;
+    box-shadow: 0 0 16px rgba(59, 130, 246, 0.3) !important;
   }
   
   .post-read-time {
-    background: #404040 !important;
+    background: #1a2332 !important;
     color: var(--text-secondary) !important;
   }
   
@@ -75,13 +80,14 @@ a:hover {
   color: var(--accent-secondary);
 }
 
-/* Body Layout */
+/* Body Layout - High Contrast */
 body {
   margin: 0;
   padding: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-primary, #0a0e1a);
+  color: var(--text-primary, #ffffff);
 }
 
 /* Beautiful Headings */

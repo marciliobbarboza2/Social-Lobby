@@ -3,32 +3,53 @@
    =================================== */
 
 :root {
-  /* --- Background Colors (Black Theme) --- */
-  --color-bg: #000000;
-  --color-bg-muted: #0a0a0a;
-  --color-bg-elevated: #121212;
-  --color-bg-dark: #000000;
-  --color-surface-dark: #0f0f0f;
-  --color-surface-darker: #050505;
+  /* ===================================
+     HIGH CONTRAST 3-COLOR SYSTEM
+     =================================== */
   
-  /* --- Border Colors --- */
-  --color-border-light: #1a1a1a;
-  --color-border-dark: #2a2a2a;
-  --color-border-darker: #333333;
+  /* COLOR 1: Deep Blue-Black (Main Background) */
+  --color-primary-bg: #0a0e1a;
+  --color-surface-bg: #111827;
+  --color-elevated-bg: #1a2332;
+  
+  /* COLOR 2: Electric Blue (Accents & Interactive) */
+  --color-accent: #3b82f6;
+  --color-accent-hover: #2563eb;
+  --color-accent-light: #60a5fa;
+  --color-accent-dark: #1d4ed8;
+  
+  /* COLOR 3: Pure White (Text & High Contrast) */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #e5e7eb;
+  --color-text-muted: #9ca3af;
+  --color-text-dim: #6b7280;
+  
+  /* --- Derived Colors for Consistency --- */
+  --color-bg: #0a0e1a;
+  --color-bg-muted: #111827;
+  --color-bg-elevated: #1a2332;
+  --color-bg-dark: #000000;
+  --color-surface-dark: #0f1419;
+  --color-surface-darker: #050709;
+  
+  /* --- Border Colors (Blue-tinted for cohesion) --- */
+  --color-border-light: #1e293b;
+  --color-border-dark: #334155;
+  --color-border-darker: #475569;
+  --color-border-accent: #3b82f6;
   
   /* --- Text Colors --- */
-  --color-text: #e5e5e5;
-  --color-text-muted: #a0a0a0;
-  --color-text-invert: #000000;
-  --color-text-light: #f5f5f5;
+  --color-text: #ffffff;
+  --color-text-light: #f9fafb;
   --color-text-lighter: #ffffff;
+  --color-text-invert: #0a0e1a;
   
   /* --- Primary Palette --- */
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
-  --color-primary-light: #3b82f6;
-  --color-secondary: #7c3aed;
-  --color-accent: #667eea;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-light: #60a5fa;
+  --color-secondary: #3b82f6;
+  --color-accent: #3b82f6;
   
   /* --- Semantic Colors --- */
   --color-success: #16a34a;
