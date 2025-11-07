@@ -58,8 +58,20 @@ const Header = ({
               <button className="header-btn" onClick={handleLogout}>Logout</button>
             </>
           ) : null}
-          <button className="header-btn">⚙️ Settings</button>
-          <button className="header-btn" onClick={() => setShowNotifications(true)}>🔔 Notifications</button>
+          <button 
+            className="header-btn" 
+            onClick={() => setCurrentView('settings')}
+            aria-label="Settings"
+          >
+            ⚙️ Settings
+          </button>
+          <button 
+            className="header-btn" 
+            onClick={() => setShowNotifications(true)}
+            aria-label="Notifications"
+          >
+            🔔 Notifications
+          </button>
         </div>
       </div>
     </header>

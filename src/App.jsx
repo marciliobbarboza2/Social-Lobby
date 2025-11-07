@@ -4,6 +4,7 @@ import LoginScreen from './components/LoginScreen';
 import MainContent from './components/MainContent';
 import Modals from './components/Modals';
 import ChatBar from './components/ChatBar';
+import SettingsPage from './components/SettingsPage';
 import React from 'react';
 import { SocialLobbyProvider, useSocialLobbyContext } from './SocialLobbyContext';
 
@@ -73,7 +74,11 @@ const AppContent = () => {
       />
 
       {/* Main content area - displays feed, profiles, etc. */}
-      <MainContent />
+      {currentView === 'settings' ? (
+        <SettingsPage currentUser={currentUser} setCurrentView={setCurrentView} />
+      ) : (
+        <MainContent />
+      )}
 
       {/* Modal dialogs for various features */}
       {isLoggedIn && (

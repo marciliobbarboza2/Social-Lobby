@@ -1204,7 +1204,9 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2px solid #3b82f6;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 .search-bar {
@@ -1553,7 +1555,21 @@
 /* High-contrast post header */
 .post-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .post-author { display: flex; align-items: center; gap: 12px; }
-.author-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-accent, #3b82f6); }
+.author-avatar { 
+  width: 44px; 
+  height: 44px; 
+  border-radius: 50%; 
+  object-fit: cover; 
+  border: 2px solid #3b82f6;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+.author-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+  border-color: #60a5fa;
+}
 .author-info { display: flex; flex-direction: column; }
 .author-name { margin: 0; font-size: 15px; font-weight: 700; color: var(--color-text-primary, #ffffff); }
 .post-time { font-size: 12px; color: var(--color-text-muted, #9ca3af); }
@@ -1638,7 +1654,22 @@
 
 .comments-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
 .comment { display: flex; gap: 10px; }
-.comment-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-accent, #3b82f6); }
+.comment-avatar { 
+  width: 36px; 
+  height: 36px; 
+  border-radius: 50%; 
+  object-fit: cover; 
+  border: 2px solid #3b82f6;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  flex-shrink: 0;
+}
+.comment-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+  border-color: #60a5fa;
+}
 .comment-content { 
   background: var(--color-elevated-bg, #1a2332); 
   border: 2px solid var(--color-border-light, #1e293b); 
@@ -1651,16 +1682,29 @@
 .comment-time { font-size: 12px; color: var(--color-text-muted, #9ca3af); font-weight: 600; }
 .comment-actions { margin-left: auto; display: inline-flex; gap: 6px; }
 .edit-comment-btn, .delete-comment-btn { 
-  background: transparent; 
-  border: none; 
-  color: var(--color-text-muted, #9ca3af); 
-  padding: 4px; 
-  border-radius: 6px; 
+  background: #1a2332; 
+  border: 2px solid #334155; 
+  color: #e5e7eb; 
+  padding: 6px 10px; 
+  border-radius: 8px; 
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
   transition: all 0.2s ease;
 }
-.edit-comment-btn:hover, .delete-comment-btn:hover { 
-  background: var(--color-accent, #3b82f6); 
+.edit-comment-btn:hover { 
+  background: #3b82f6; 
+  border-color: #3b82f6;
   color: #ffffff; 
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+}
+.delete-comment-btn:hover { 
+  background: #ef4444; 
+  border-color: #ef4444;
+  color: #ffffff; 
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
 }
 .comment-text { margin: 6px 0 0; color: var(--color-text-secondary, #e5e7eb); line-height: 1.5; }
 
@@ -2369,3 +2413,169 @@
 .chat-window .chat-input button:hover { background: #2563eb; border-color: #2563eb; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5); }
 .typing-indicator { position: absolute; bottom: 52px; left: 14px; font-size: 12px; color: #60a5fa; font-weight: 700; animation: pulseTyping 1.2s infinite ease-in-out; }
 @keyframes pulseTyping { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+
+/* Settings Page - High Contrast Design */
+.settings-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #111827;
+  min-height: calc(100vh - 80px);
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #1e293b;
+}
+
+.settings-header h2 {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.back-btn {
+  background: #1a2332;
+  border: 2px solid #334155;
+  color: #e5e7eb;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.settings-section {
+  background: #1a2332;
+  border: 2px solid #1e293b;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.settings-section h3 {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #334155;
+}
+
+.setting-item {
+  margin-bottom: 20px;
+}
+
+.setting-item:last-child {
+  margin-bottom: 0;
+}
+
+.setting-item label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.setting-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #3b82f6;
+}
+
+.setting-item select {
+  width: 100%;
+  max-width: 300px;
+  background: #111827;
+  border: 2px solid #334155;
+  color: #ffffff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
+
+.setting-item select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.setting-description {
+  color: #9ca3af;
+  font-size: 14px;
+  margin: 8px 0 0 32px;
+  font-weight: 500;
+}
+
+.settings-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #1e293b;
+}
+
+.save-settings-btn {
+  background: #3b82f6;
+  border: 2px solid #3b82f6;
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+}
+
+.save-settings-btn:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+}
+
+.cancel-settings-btn {
+  background: transparent;
+  border: 2px solid #334155;
+  color: #e5e7eb;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-settings-btn:hover {
+  background: #1a2332;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
