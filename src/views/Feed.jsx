@@ -4,6 +4,7 @@ import { useSocialLobbyContext } from '../SocialLobbyContext';
 import CreatePost from '../components/CreatePost';
 import Stories from '../components/Stories';
 import PostSkeleton from '../components/PostSkeleton';
+import PullToRefresh from 'react-pull-to-refresh';
 
 const Feed = () => {
   const { dataProps, postsProps, filterTopic, setFilterTopic, authProps } = useSocialLobbyContext();
@@ -14,6 +15,8 @@ const Feed = () => {
     isFetching,
     hasNext,
     loadMore,
+    refreshPosts,
+    checkForNewPosts,
     editingPost,
     editContent,
     setEditContent,
@@ -37,6 +40,7 @@ const Feed = () => {
   const [sortBy, setSortBy] = useState('recent'); // 'recent', 'popular'
   const [hiddenPostIds, setHiddenPostIds] = useState(new Set());
   const sentinelRef = useRef(null);
+  const [newCount, setNewCount] = useState(0);
 
   useEffect(() => {
     // Simulate initial loading
@@ -56,6 +60,15 @@ const Feed = () => {
     observer.observe(sentinelRef.current);
     return () => observer.disconnect();
   }, [hasNext, isFetching, loadMore]);
+
+  // Poll for new posts every 30s
+  useEffect(() => {
+    const id = setInterval(async () => {
+      const count = await checkForNewPosts();
+      setNewCount(count);
+    }, 30000);
+    return () => clearInterval(id);
+  }, [checkForNewPosts]);
 
   const getSortedPosts = (postsToSort) => {
     switch (sortBy) {
@@ -86,6 +99,13 @@ const Feed = () => {
       {/* Create Post Section */}
       <CreatePost />
 
+      {/* New posts banner */}
+      {newCount > 0 && (
+        <div className="new-posts-banner" onClick={async () => { await refreshPosts(); setNewCount(0); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+          Show {newCount} new post{newCount === 1 ? '' : 's'}
+        </div>
+      )}
+
       {/* Feed Controls */}
       <div className="feed-controls">
         <div className="feed-sort">
@@ -110,8 +130,9 @@ const Feed = () => {
         )}
       </div>
 
-      {/* Posts Feed */}
+      {/* Posts Feed with Pull-To-Refresh */}
       <div className="posts-feed">
+        <PullToRefresh onRefresh={async () => { await refreshPosts(); setNewCount(0); }}>
         {isLoading ? (
           <div className="feed-loading">
             {[...Array(3)].map((_, i) => <PostSkeleton key={i} />)}
@@ -159,6 +180,16 @@ const Feed = () => {
                     handleSaveComment={handleSaveComment}
                     handleDeleteComment={handleDeleteComment}
                     onHide={(postId) => setHiddenPostIds(prev => new Set(prev).add(postId))}
+                      onSaved={(p) => {
+                        try {
+                          const key = 'savedPostIds';
+                          const existing = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+                          if (existing.has(p.id)) existing.delete(p.id); else existing.add(p.id);
+                          localStorage.setItem(key, JSON.stringify(Array.from(existing)));
+                        } catch (err) {
+                          console.error('Failed to update saved posts', err);
+                        }
+                      }}
                   />
                 ))}
               </div>
@@ -172,6 +203,7 @@ const Feed = () => {
             )}
           </div>
         )}
+        </PullToRefresh>
       </div>
     </main>
   );

@@ -243,6 +243,29 @@ export const usePosts = (initialPosts, currentUser) => {
     await fetchPosts(page + 1);
   };
 
+  const refreshPosts = async () => {
+    await fetchPosts(1);
+  };
+
+  const checkForNewPosts = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const url = `http://localhost:5000/api/posts?page=1&limit=${Math.max(limit, 5)}`;
+      const response = await fetch(url, {
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
+      const data = await response.json();
+      if (!data?.success) return 0;
+      const latest = mapFetchedPosts(data, currentUser);
+      if (!latest?.length) return 0;
+      const existingIds = new Set(posts.map(p => p.id));
+      const newOnTop = latest.filter(p => !existingIds.has(p.id));
+      return newOnTop.length;
+    } catch {
+      return 0;
+    }
+  };
+
   const handleEditPost = (postId, content) => {
     setEditingPost(postId);
     setEditContent(content);
@@ -602,6 +625,8 @@ export const usePosts = (initialPosts, currentUser) => {
     handleSaveComment,
     handleLike,
     loadMore,
+    refreshPosts,
+    checkForNewPosts,
     handlePost,
     toggleComments,
     handleComment,
