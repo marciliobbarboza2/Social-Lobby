@@ -4,8 +4,10 @@ const errorHandler = (err, req, res, next) => {
   let error = { ...err };
   error.message = err.message;
 
-  // Log the error for debugging purposes
-  logger.error(err.message, { stack: err.stack });
+  // Don't log CSRF errors as they are expected
+  if (err.code !== 'EBADCSRFTOKEN') {
+    logger.error(err.message, { stack: err.stack });
+  }
 
   // Mongoose bad ObjectId
   if (err.name === 'CastError') {
@@ -41,6 +43,12 @@ const errorHandler = (err, req, res, next) => {
     res.status(error.statusCode || 500).json({
       success: false,
       error: error.message || 'Server Error'
+    });
+  } else if (err.code === 'EBADCSRFTOKEN') {
+    // Handle CSRF token errors
+    res.status(403).json({
+      success: false,
+      error: 'Invalid CSRF token'
     });
   } else {
     // Fallback if res is not available

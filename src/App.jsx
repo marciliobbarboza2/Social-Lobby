@@ -4,6 +4,7 @@ import LoginScreen from './components/LoginScreen';
 import MainContent from './components/MainContent';
 import Modals from './components/Modals';
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { SocialLobbyProvider, useSocialLobbyContext } from './SocialLobbyContext';
 
 /**
@@ -24,6 +25,11 @@ const AppContent = () => {
   // Authentication state and handlers
   const { isLoggedIn, currentUser, loginEmail, setLoginEmail, loginPassword, setLoginPassword, handleLogin, authLoading, authError, setAuthError, handleLogout, handleDeleteAccount } = authProps;
 
+  // Protected route wrapper
+  const ProtectedRoute = ({ children }) => {
+    return isLoggedIn ? children : <Navigate to="/login" />;
+  };
+
   // View state for modals and navigation
   const { showLogin, setShowLogin, showProfile, setShowProfile, showOtherProfile, setShowOtherProfile, showNotifications, setShowNotifications, showGroups, setShowGroups, showStoryModal, setShowStoryModal, setCurrentView, currentView } = viewProps;
 
@@ -32,23 +38,6 @@ const AppContent = () => {
 
 
 
-  // Show login screen if user is not authenticated
-  if (!isLoggedIn) {
-    return (
-      <LoginScreen
-        loginEmail={loginEmail}
-        setLoginEmail={setLoginEmail}
-        loginPassword={loginPassword}
-        setLoginPassword={setLoginPassword}
-        handleLogin={handleLogin}
-        isLoading={authLoading}
-        error={authError}
-        setError={setAuthError}
-      />
-    );
-  }
-
-  // Main authenticated app layout
   return (
     <div className="socialobby-container">
       {/* Application header with navigation and user controls */}
@@ -64,8 +53,35 @@ const AppContent = () => {
         onLogoClick={() => setCurrentView('feed')}
       />
 
-      {/* Main content area - displays feed, profiles, etc. */}
-      <MainContent />
+      {/* Routes */}
+      <Routes>
+        <Route path="/login" element={
+          !isLoggedIn ? (
+            <LoginScreen
+              loginEmail={loginEmail}
+              setLoginEmail={setLoginEmail}
+              loginPassword={loginPassword}
+              setLoginPassword={setLoginPassword}
+              handleLogin={handleLogin}
+              isLoading={authLoading}
+              error={authError}
+              setError={setAuthError}
+            />
+          ) : (
+            <Navigate to="/" />
+          )
+        } />
+        
+        <Route path="/" element={
+          isLoggedIn ? (
+            <MainContent />
+          ) : (
+            <Navigate to="/login" />
+          )
+        } />
+
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
 
       {/* Modal dialogs for various features */}
       <Modals
@@ -101,9 +117,11 @@ const AppContent = () => {
 
 function App() {
   return (
-    <SocialLobbyProvider>
-      <AppContent />
-    </SocialLobbyProvider>
+    <Router>
+      <SocialLobbyProvider>
+        <AppContent />
+      </SocialLobbyProvider>
+    </Router>
   );
 }
 

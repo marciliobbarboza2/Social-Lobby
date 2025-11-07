@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { authService } from '../services/auth.service';
 
 const LoginScreen = ({
   loginEmail,
@@ -62,25 +63,17 @@ const LoginScreen = ({
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          firstName: registerData.firstName,
-          lastName: registerData.lastName,
-          username: registerData.username,
-          email: registerData.email,
-          password: registerData.password
-        })
+      const data = await authService.register({
+        firstName: registerData.firstName,
+        lastName: registerData.lastName,
+        username: registerData.username,
+        email: registerData.email,
+        password: registerData.password
       });
-
-      const data = await response.json();
 
       if (data.success) {
         // Auto-login after successful registration
-        handleLogin(registerData.email, registerData.password);
+        await handleLogin(registerData.email, registerData.password);
         setIsRegistering(false);
         setRegisterData({
           firstName: '',
@@ -93,8 +86,8 @@ const LoginScreen = ({
       } else {
         setError(data.message || 'Registration failed');
       }
-    } catch {
-      setError('Network error. Please try again.');
+    } catch (err) {
+      setError(err.message || 'Network error. Please try again.');
     }
   };
 

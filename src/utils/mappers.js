@@ -2,9 +2,9 @@ export const mapFetchedPosts = (data, currentUser) => {
   return data.map(post => ({
     ...post,
     id: post._id,
-    avatar: post.author.avatar,
-    author: post.author.fullName,
-    authorObject: post.author,
+    avatar: post.author?.avatar || '/default-avatar.png',
+    author: post.author?.fullName || 'Unknown User',
+    authorObject: post.author || {},
     time: post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'now',
     content: post.content,
     likes: post.likes || [],

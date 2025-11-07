@@ -153,8 +153,7 @@ router.post('/login', [
     res.json({
       success: true,
       token,
-      user: user.getPublicProfile(),
-      csrfToken: req.csrfToken()
+      user: user.getPublicProfile()
     });
   } catch (error) {
     logger.error('Login error:', error);
