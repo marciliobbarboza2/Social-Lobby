@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HomePage from '../pages/HomePage';
+import Marketplace from '../pages/Marketplace';
 import Post from './Post'; // Import Post for the profile view
 import { useSocialLobbyContext } from '../SocialLobbyContext';
 
@@ -38,6 +39,10 @@ const MainContent = () => {
         </div>
       </div>
     );
+  }
+
+  if (currentView === 'marketplace') {
+    return <Marketplace />;
   }
 
   if (currentView === 'messages') {

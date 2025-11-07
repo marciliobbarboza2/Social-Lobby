@@ -427,12 +427,17 @@ export const usePosts = (initialPosts, currentUser) => {
   };
 
   const handlePost = async (post) => {
+    console.log('🟢 handlePost called with:', post);
     const { title, content } = post;
-    if (!title.trim() || !content.trim()) return;
+    if (!title.trim() || !content.trim()) {
+      console.warn('⚠️ handlePost: Empty title or content');
+      return;
+    }
 
     const token = localStorage.getItem('token');
+    console.log('🟢 Token exists:', !!token, '| Length:', token?.length);
     if (!token) {
-      console.error('No authentication token found');
+      console.error('❌ No authentication token found');
       return;
     }
 
@@ -440,6 +445,7 @@ export const usePosts = (initialPosts, currentUser) => {
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
     try {
+      console.log('🟢 Sending POST to http://localhost:5000/api/posts...');
       const response = await fetch('http://localhost:5000/api/posts', {
         method: 'POST',
         headers: {
@@ -454,17 +460,23 @@ export const usePosts = (initialPosts, currentUser) => {
         signal: controller.signal
       });
 
+      console.log('🟢 Response status:', response.status);
       const data = await response.json();
+      console.log('🟢 Response data:', data);
 
       if (data.success) {
         // Instead of re-fetching, add the new post to the top of the list
         const newPostData = mapFetchedPosts({data: [data.post]}, currentUser)[0];
         setPosts([newPostData, ...posts]);
+        console.log('✅ Post added to state');
       } else {
-        console.error('Failed to create post:', data.message);
+        console.error('❌ Failed to create post:', data.message);
       }
     } catch (error) {
-      console.error('Error creating post:', error);
+      console.error('❌ Error creating post:', error);
+      if (error.name === 'AbortError') {
+        console.error('Request timeout after 10 seconds');
+      }
     } finally {
       clearTimeout(timeoutId);
     }

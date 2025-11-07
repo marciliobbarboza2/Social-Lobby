@@ -13,18 +13,27 @@ const CreatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title.trim() || !content.trim() || isSubmitting) return;
+    console.log('🔵 CreatePost: handleSubmit called');
+    console.log('🔵 Title:', title, '| Content:', content);
+    console.log('🔵 Token exists:', !!localStorage.getItem('token'));
+    
+    if (!title.trim() || !content.trim() || isSubmitting) {
+      console.warn('⚠️ Form validation failed or already submitting');
+      return;
+    }
 
     setIsSubmitting(true);
     try {
+      console.log('🔵 Calling handlePost...');
       await handlePost({ title, content });
       setTitle('');
       setContent('');
       setIsExpanded(false);
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 3000);
+      console.log('✅ Post created successfully');
     } catch (error) {
-      console.error('Error creating post:', error);
+      console.error('❌ Error creating post:', error);
     } finally {
       setIsSubmitting(false);
     }

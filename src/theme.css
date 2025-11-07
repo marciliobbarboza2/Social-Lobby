@@ -3,25 +3,25 @@
    =================================== */
 
 :root {
-  /* --- Background Colors --- */
-  --color-bg: #f8f9fb;
-  --color-bg-muted: #f0f2f5;
-  --color-bg-elevated: #ffffff;
-  --color-bg-dark: #111827;
-  --color-surface-dark: #1f1f23;
-  --color-surface-darker: #0b1220;
+  /* --- Background Colors (Black Theme) --- */
+  --color-bg: #000000;
+  --color-bg-muted: #0a0a0a;
+  --color-bg-elevated: #121212;
+  --color-bg-dark: #000000;
+  --color-surface-dark: #0f0f0f;
+  --color-surface-darker: #050505;
   
   /* --- Border Colors --- */
-  --color-border-light: #e4e6ea;
-  --color-border-dark: #2e2e33;
-  --color-border-darker: #374151;
+  --color-border-light: #1a1a1a;
+  --color-border-dark: #2a2a2a;
+  --color-border-darker: #333333;
   
   /* --- Text Colors --- */
-  --color-text: #1c1e21;
-  --color-text-muted: #6b7280;
-  --color-text-invert: #ffffff;
-  --color-text-light: #f3f4f6;
-  --color-text-lighter: #e5e7eb;
+  --color-text: #e5e5e5;
+  --color-text-muted: #a0a0a0;
+  --color-text-invert: #000000;
+  --color-text-light: #f5f5f5;
+  --color-text-lighter: #ffffff;
   
   /* --- Primary Palette --- */
   --color-primary: #2563eb;
@@ -43,11 +43,11 @@
   --color-online: #22c55e;
   
   /* --- Effects --- */
-  --color-focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.35);
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --color-focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.5);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.8);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.9);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.95);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.98);
   
   /* --- Transitions --- */
   --transition-fast: 150ms ease;
@@ -73,12 +73,12 @@
 /* Dark Mode Overrides */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #0b1220;
-    --color-bg-muted: #111827;
-    --color-bg-elevated: #1e1e22;
-    --color-text: #f3f4f6;
-    --color-text-muted: #9ca3af;
-    --color-border-light: #2e2e33;
+    --color-bg: #000000;
+    --color-bg-muted: #0a0a0a;
+    --color-bg-elevated: #050505;
+    --color-text: #f5f5f5;
+    --color-text-muted: #d0d0d0;
+    --color-border-light: #1a1a1a;
   }
 }
 
