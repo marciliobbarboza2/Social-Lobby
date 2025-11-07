@@ -697,14 +697,14 @@
 
 /* Left Sidebar */
 .socialobby-sidebar {
-  width: 280px;
+  width: 400px;
+  padding: 20px 16px;
+  position: fixed;
+  left: 0;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
   background-color: #ffffff;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 20px;
-  height: fit-content;
 }
 
 .socialobby-sidebar .sidebar-section h3 {
@@ -751,13 +751,14 @@
 
 /* Right Sidebar */
 .socialobby-right-sidebar {
-  width: 280px;
+  width: 400px;
+  padding: 20px 16px;
+  position: fixed;
+  right: 0;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
   background-color: #ffffff;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 20px;
   height: fit-content;
 }
 
@@ -1462,6 +1463,268 @@
   .feed-empty-state p {
     font-size: 14px;
   }
+}
+
+/* ===================================
+   SIDEBAR ENHANCEMENTS
+   =================================== */
+
+/* Sidebar Sections */
+.sidebar-section {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3436;
+}
+
+/* Online Friends List */
+.online-friends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.online-friend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.online-friend-item:hover {
+  background-color: #f2f3f5;
+}
+
+.friend-avatar-small {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.friend-name {
+  flex: 1;
+  font-size: 14px;
+  color: #2d3436;
+  font-weight: 500;
+}
+
+.online-indicator {
+  width: 8px;
+  height: 8px;
+  background: #2ecc71;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
+/* Sponsored Sections */
+.sponsored-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.sponsored-item:hover {
+  transform: translateY(-2px);
+}
+
+.sponsored-image {
+  width: 80px;
+  height: 60px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.sponsored-content h4 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+}
+
+.sponsored-content p {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  opacity: 0.9;
+  color: white;
+}
+
+.upgrade-btn,
+.learn-more-btn {
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #f5576c;
+}
+
+.upgrade-btn:hover,
+.learn-more-btn:hover {
+  background: white;
+  transform: scale(1.05);
+}
+
+/* Birthday Section */
+.birthday-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  color: white;
+}
+
+.birthday-icon {
+  font-size: 24px;
+}
+
+.birthday-item p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+}
+
+/* Contacts List */
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.contact:hover {
+  background-color: #f2f3f5;
+}
+
+.contact .user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.contact span {
+  flex: 1;
+  font-size: 14px;
+  color: #2d3436;
+  font-weight: 500;
+}
+
+/* Trending Topics */
+.trending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trend-item {
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.trend-item:hover {
+  background-color: #f2f3f5;
+}
+
+.trend-link {
+  color: #667eea;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  display: block;
+}
+
+.trend-link:hover {
+  text-decoration: underline;
+}
+
+.trend-count {
+  display: block;
+  font-size: 12px;
+  color: #636e72;
+  margin-top: 2px;
+}
+
+/* Events Preview */
+.event-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.event-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.event-item:hover {
+  transform: translateX(2px);
+}
+
+.event-date {
+  min-width: 50px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.event-info h4 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+}
+
+.event-info p {
+  margin: 0;
+  font-size: 12px;
+  color: white;
+  opacity: 0.9;
 }
 
 /* ===================================
