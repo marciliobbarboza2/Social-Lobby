@@ -16,6 +16,8 @@ const SocialLobbyContext = createContext(null);
 export const useSocialLobbyContext = () => {
   const context = useContext(SocialLobbyContext);
   if (!context) {
+    console.error('🚨 [Context] useSocialLobbyContext called outside of SocialLobbyProvider');
+    console.error('🚨 [Context] Make sure the component is wrapped in <SocialLobbyProvider>');
     throw new Error('useSocialLobbyContext must be used within a SocialLobbyProvider');
   }
   return context;
