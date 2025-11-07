@@ -64,7 +64,7 @@ const users = [
     role: 'admin'
   },
   {
-    username: 'emma.rodriguez',
+    username: 'emma_rodriguez',
     email: 'emma@example.com',
     password: 'password123',
     firstName: 'Emma',
@@ -80,7 +80,7 @@ const users = [
     role: 'user'
   },
   {
-    username: 'david.kim',
+    username: 'david_kim',
     email: 'david@example.com',
     password: 'password123',
     firstName: 'David',
@@ -96,7 +96,7 @@ const users = [
     role: 'user'
   },
   {
-    username: 'sophie.anderson',
+    username: 'sophie_anderson',
     email: 'sophie@example.com',
     password: 'password123',
     firstName: 'Sophie',
@@ -112,7 +112,7 @@ const users = [
     role: 'user'
   },
   {
-    username: 'carlos.mendoza',
+    username: 'carlos_mendoza',
     email: 'carlos@example.com',
     password: 'password123',
     firstName: 'Carlos',
@@ -128,7 +128,7 @@ const users = [
     role: 'user'
   },
   {
-    username: 'lisa.thompson',
+    username: 'lisa_thompson',
     email: 'lisa@example.com',
     password: 'password123',
     firstName: 'Lisa',
@@ -144,7 +144,7 @@ const users = [
     role: 'user'
   },
   {
-    username: 'mike.johnson',
+    username: 'mike_johnson',
     email: 'mike@example.com',
     password: 'password123',
     firstName: 'Mike',
@@ -160,7 +160,7 @@ const users = [
     role: 'user'
   },
   {
-    username: 'anna.petrov',
+    username: 'anna_petrov',
     email: 'anna@example.com',
     password: 'password123',
     firstName: 'Anna',
@@ -176,7 +176,7 @@ const users = [
     role: 'user'
   },
   {
-    username: 'david.lee',
+    username: 'david_lee',
     email: 'davidlee@example.com',
     password: 'password123',
     firstName: 'David',
@@ -192,7 +192,7 @@ const users = [
     role: 'user'
   },
   {
-    username: 'jessica.martinez',
+    username: 'jessica_martinez',
     email: 'jessica@example.com',
     password: 'password123',
     firstName: 'Jessica',
@@ -208,7 +208,7 @@ const users = [
     role: 'user'
   },
   {
-    username: 'alex.chen',
+    username: 'alex_chen',
     email: 'alex@example.com',
     password: 'password123',
     firstName: 'Alex',
@@ -224,7 +224,7 @@ const users = [
     role: 'user'
   },
   {
-    username: 'maya.patel',
+    username: 'maya_patel',
     email: 'maya@example.com',
     password: 'password123',
     firstName: 'Maya',
@@ -240,7 +240,7 @@ const users = [
     role: 'user'
   },
   {
-    username: 'jordan.williams',
+    username: 'jordan_williams',
     email: 'jordan@example.com',
     password: 'password123',
     firstName: 'Jordan',
@@ -302,7 +302,7 @@ const posts = [
     title: 'New personal training program launch 💪',
     content: 'Just launched a new personal training program focused on sustainable fitness! 💪 No quick fixes or fad diets - just science-backed methods for long-term health. Movement is medicine, and I\'m here to help you find what works for YOUR body.',
     excerpt: 'New fitness program with sustainable approach.',
-    category: 'fitness',
+    category: 'health',
     tags: ['Fitness', 'Health', 'Training'],
     status: 'published'
   },
@@ -310,7 +310,7 @@ const posts = [
     title: 'Teaching in the digital age 📚',
     content: 'Teaching in the digital age brings unique challenges and opportunities. 📚 Today my students created amazing multimedia presentations about historical events. Seeing them engaged and excited about learning makes every challenge worthwhile. Education is powerful!',
     excerpt: 'Digital teaching experiences and student engagement.',
-    category: 'education',
+    category: 'other',
     tags: ['Teaching', 'Education', 'Technology'],
     status: 'published'
   },
@@ -318,7 +318,7 @@ const posts = [
     title: 'Seattle street photography 📷',
     content: 'Captured some incredible street photography in downtown Seattle today! 📷 The light was perfect, and the energy of the city was electric. There\'s something magical about freezing a moment in time that will never exist again.',
     excerpt: 'Street photography adventures in Seattle.',
-    category: 'photography',
+    category: 'other',
     tags: ['Photography', 'Art', 'Seattle'],
     status: 'published'
   },
@@ -326,7 +326,7 @@ const posts = [
     title: 'New coffee shop branding project ☕',
     content: 'Working on branding for a new coffee shop and loving every minute! ☕ Creating cohesive visual identities that tell a story is what UX design is all about. From color palettes to user flows, every detail matters.',
     excerpt: 'Coffee shop branding and UX design process.',
-    category: 'design',
+    category: 'other',
     tags: ['UX Design', 'Branding', 'Design'],
     status: 'published'
   },
@@ -342,7 +342,7 @@ const posts = [
     title: 'Climate change research findings 🌍',
     content: 'Climate change is real and happening now. 🌍 Just presented research findings on rising sea levels to policymakers. We need urgent action. What environmental cause are you passionate about?',
     excerpt: 'Climate research and environmental advocacy.',
-    category: 'science',
+    category: 'other',
     tags: ['Climate', 'Environment', 'Science'],
     status: 'published'
   },
@@ -350,7 +350,7 @@ const posts = [
     title: 'New music track dropping soon! 🎵',
     content: 'New track dropping soon! 🎵 Been working on this beat for months. Fusion of electronic and soul music. Can\'t wait to share it with you all. What\'s your favorite music genre?',
     excerpt: 'New music release - electronic and soul fusion.',
-    category: 'music',
+    category: 'other',
     tags: ['Music', 'Production', 'Electronic'],
     status: 'published'
   }
