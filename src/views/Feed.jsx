@@ -4,6 +4,7 @@ import { useSocialLobbyContext } from '../SocialLobbyContext';
 import CreatePost from '../components/CreatePost';
 import Stories from '../components/Stories';
 import PostSkeleton from '../components/PostSkeleton';
+import Toast from '../Toast';
 import PullToRefresh from 'react-pull-to-refresh';
 
 const Feed = () => {
@@ -41,6 +42,26 @@ const Feed = () => {
   const [hiddenPostIds, setHiddenPostIds] = useState(new Set());
   const sentinelRef = useRef(null);
   const [newCount, setNewCount] = useState(0);
+  const [savedOnly, setSavedOnly] = useState(false);
+  const [savedIds, setSavedIds] = useState(new Set());
+  const [toasts, setToasts] = useState([]);
+
+  // Load saved post ids on mount
+  useEffect(() => {
+    try {
+      const key = 'savedPostIds';
+      const list = JSON.parse(localStorage.getItem(key) || '[]');
+      setSavedIds(new Set(list));
+    } catch (err) {
+      console.error('Failed to load saved posts', err);
+    }
+  }, []);
+
+  const pushToast = (message, type = 'success') => {
+    const id = `${Date.now()}-${Math.random()}`;
+    setToasts(prev => [...prev, { id, message, type }]);
+  };
+  const removeToast = (id) => setToasts(prev => prev.filter(t => t.id !== id));
 
   useEffect(() => {
     // Simulate initial loading
@@ -88,8 +109,8 @@ const Feed = () => {
   const filteredPosts = filterTopic 
     ? basePosts.filter(post => post.content.toLowerCase().includes(filterTopic.toLowerCase())) 
     : basePosts;
-
-  const sortedPosts = getSortedPosts(filteredPosts);
+  const savedFiltered = savedOnly ? filteredPosts.filter(p => savedIds.has(p.id)) : filteredPosts;
+  const sortedPosts = getSortedPosts(savedFiltered);
 
   return (
     <main className="socialobby-content">
@@ -128,6 +149,15 @@ const Feed = () => {
             <button className="clear-filter-btn" onClick={() => setFilterTopic(null)}>Clear</button>
           </div>
         )}
+        <div className="feed-sort">
+          <button 
+            className={`sort-btn ${savedOnly ? 'active' : ''}`}
+            onClick={() => setSavedOnly(v => !v)}
+            title="Toggle saved posts filter"
+          >
+            ⭐ Saved
+          </button>
+        </div>
       </div>
 
       {/* Posts Feed with Pull-To-Refresh */}
@@ -179,17 +209,24 @@ const Feed = () => {
                     handleEditComment={handleEditComment}
                     handleSaveComment={handleSaveComment}
                     handleDeleteComment={handleDeleteComment}
-                    onHide={(postId) => setHiddenPostIds(prev => new Set(prev).add(postId))}
-                      onSaved={(p) => {
-                        try {
-                          const key = 'savedPostIds';
-                          const existing = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
-                          if (existing.has(p.id)) existing.delete(p.id); else existing.add(p.id);
-                          localStorage.setItem(key, JSON.stringify(Array.from(existing)));
-                        } catch (err) {
-                          console.error('Failed to update saved posts', err);
-                        }
-                      }}
+                    onHide={(postId) => { setHiddenPostIds(prev => new Set(prev).add(postId)); pushToast('Post hidden', 'info'); }}
+                    onToast={(msg, type) => pushToast(msg, type)}
+                    onSaved={(p) => {
+                      try {
+                        const key = 'savedPostIds';
+                        const existing = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+                        let message = 'Saved post';
+                        if (existing.has(p.id)) { existing.delete(p.id); message = 'Removed from Saved'; }
+                        else { existing.add(p.id); }
+                        const updated = Array.from(existing);
+                        localStorage.setItem(key, JSON.stringify(updated));
+                        setSavedIds(new Set(updated));
+                        pushToast(message, 'success');
+                      } catch (err) {
+                        console.error('Failed to update saved posts', err);
+                        pushToast('Failed to update saved posts', 'error');
+                      }
+                    }}
                   />
                 ))}
               </div>
@@ -205,6 +242,15 @@ const Feed = () => {
         )}
         </PullToRefresh>
       </div>
+
+      {/* Toasts */}
+      {toasts.length > 0 && (
+        <div className="toast-container">
+          {toasts.map(t => (
+            <Toast key={t.id} message={t.message} type={t.type} onClose={() => removeToast(t.id)} duration={3000} />
+          ))}
+        </div>
+      )}
     </main>
   );
 };

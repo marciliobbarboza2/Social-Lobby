@@ -1038,6 +1038,11 @@
 }
 .new-posts-banner:hover { background: #d9ecff; }
 
+/* Saved filter chip aligns with sort buttons */
+.feed-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.feed-sort { display: flex; gap: 8px; }
+.sort-btn.active { background: #1877f2; color: #fff; }
+
 .avatar-input {
   display: none;
 }
