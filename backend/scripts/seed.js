@@ -12,7 +12,8 @@ const users = [
     firstName: 'Marcilio',
     lastName: 'Barboza',
     bio: 'Software developer passionate about creating user-friendly applications and innovative solutions',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
+  // Emma-themed avatar
+  avatar: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
     coverPhoto: 'https://picsum.photos/800/300?random=marciliobbarboza',
     address: '123 Tech St, San Francisco, CA',
     phone: '+1 (555) 111-2222',
@@ -29,7 +30,7 @@ const users = [
     gender: 'Male',
     website: 'https://marciliobbarboza.dev',
     languages: ['English', 'Portuguese'],
-    interests: ['Programming', 'Open Source', 'AI', 'Web Development', 'UI/UX Design'],
+  interests: ['Programming', 'Open Source', 'Technology', 'Web Development', 'UI/UX Design'],
     skills: ['JavaScript', 'React', 'Node.js', 'Python', 'MongoDB', 'TypeScript'],
     isOnline: true,
     role: 'admin'
@@ -41,7 +42,8 @@ const users = [
     firstName: 'Admin',
     lastName: 'User',
     bio: 'System administrator',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
+  // Emma-themed avatar for consistency
+  avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50&q=80',
     coverPhoto: 'https://picsum.photos/800/300?random=admin',
     address: 'System Admin St, System City, SC',
     phone: '+1 (555) 000-0000',
@@ -107,11 +109,11 @@ const posts = [
     status: 'published'
   },
   {
-    title: 'The Future of Artificial Intelligence in Daily Life',
-    content: 'Artificial Intelligence is no longer just a concept from science fiction movies. It\'s becoming an integral part of our daily lives, from voice assistants to smart home devices. This post explores how AI is transforming various aspects of our routine and what we can expect in the coming years.',
-    excerpt: 'How AI is changing our daily lives and what to expect next.',
+    title: 'Smart Home Essentials: Practical Gadgets for Everyday Life',
+    content: 'Smart home tech can make daily routines easier and more comfortable. From lighting schedules to automated thermostats and simple security cameras, here are practical, budget-friendly gadgets you can set up in minutes—no technical background required.',
+    excerpt: 'Simple, affordable smart home gadgets that actually help.',
     category: 'technology',
-    tags: ['AI', 'Technology', 'Future', 'Innovation'],
+    tags: ['Home Tech', 'Gadgets', 'Practical Tips', 'Innovation'],
     status: 'published'
   },
   {
