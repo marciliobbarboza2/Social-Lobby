@@ -21,7 +21,7 @@ const fetchWithRetry = async (url, options, retries = API_CONFIG.RETRY_ATTEMPTS)
     
     return await response.json();
   } catch (error) {
-    if (retries > 0 && !error.name === 'AbortError') {
+    if (retries > 0 && error.name !== 'AbortError') {
       await new Promise(resolve => setTimeout(resolve, API_CONFIG.RETRY_DELAY));
       return fetchWithRetry(url, options, retries - 1);
     }
